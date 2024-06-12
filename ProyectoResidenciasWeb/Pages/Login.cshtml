@@ -1,0 +1,101 @@
+﻿@page
+@model ProyectoResidenciasWeb.Pages.LoginModel
+@{
+}
+<!DOCTYPE html>
+<html class="html-log" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Inicio de Sesión</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Space+Grotesk:wght@300..700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+</head>
+<body class="body-log">
+    <!-- Header con logos y botón de registro -->
+    <header class="header-log">
+        <img src="~/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
+        <div class="header-right">
+            <img src="~/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
+            <!-- <button class="register-button">Registrarse</button> -->
+        </div>
+    </header>
+
+    <!-- Contenedor principal -->
+    <div class="main-container">
+        <!-- Parte de la imagen -->
+        <div class="image-container">
+            <label>Generador de pruebas escritas.</label>
+            <img src="~/images/img1.png" alt="Imagen de Login">
+        </div>
+
+        <!-- Parte del formulario -->
+        <div class="form-container">
+            <h1>Inicia sesión</h1>
+            <label>Por favor, ingresa tus credenciales.</label>
+            <form id="login-form" onsubmit="login(event)">
+                <div class="input-group">
+                    <input type="text" id="nombreUsuario" name="nombreUsuario" required placeholder=" ">
+                    <label for="nombreUsuario">Usuario</label>
+                    <span class="error-message">Error en el nombre de usuario</span>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="contraseña" name="contraseña" required placeholder=" ">
+                    <label for="contraseña">Contraseña</label>
+                    <span class="error-message">Error en la contraseña</span>
+                </div>
+                <div class="forgot-passw">
+                    <a href="#" class="forgot-password">¿Has olvidado tu contraseña?</a>
+                    <button type="submit">Ingresar</button>
+                </div>
+
+                <div class="registrarse">
+                    <label>¿Aún no tienes una cuenta?</label>
+                    <a href="/index.html">Regístrate aquí</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function login(event) {
+            event.preventDefault();
+
+            const nombreUsuario = document.getElementById('nombreUsuario').value;
+            const contraseña = document.getElementById('contraseña').value;
+
+            try {
+                const response = await fetch('https://localhost:7162/api/Usuario/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ nombreUsuario, contraseña })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    sessionStorage.setItem('usuarioId', data.usuario.id);
+                    sessionStorage.setItem('docenteId', data.docente ? data.docente.id : null);
+                    sessionStorage.setItem('tipoUsuario', data.usuario.tipo);
+
+                    if (data.usuario.tipo === 'D') {
+                        window.location.href = 'index';
+                    } else {
+                        alert('Tipo de usuario no autorizado');
+                    }
+                } else {
+                    alert('Usuario o contraseña incorrectos.');
+                }
+            } catch (error) {
+                console.error('Error al iniciar sesión:', error);
+                alert('Ocurrió un error al intentar iniciar sesión. Por favor, intente nuevamente.');
+            }
+        }
+    </script>
+</body>
+</html>

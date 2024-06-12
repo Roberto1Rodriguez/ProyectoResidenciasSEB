@@ -1,0 +1,181 @@
+﻿@page
+@model ProyectoResidenciasWeb.Pages.IndexModel
+@{
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignaturas</title>
+    <style>
+        .column {
+            float: left;
+            width: 50%;
+            padding: 10px;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Asignaturas</h1>
+    <div>
+        <label for="nombre-escuela">Nombre de la Escuela:</label>
+        <input type="text" id="nombre-escuela">
+    </div>
+    <div>
+        <label for="turno">Turno:</label>
+        <input type="text" id="turno">
+    </div>
+    <div>
+        <label for="grado">Grado:</label>
+        <input type="text" id="grado">
+    </div>
+    <div>
+        <label for="seccion">Sección:</label>
+        <input type="text" id="seccion">
+    </div>
+    <div id="nivel-educativo">
+        <button id="primaria-btn">Primaria</button>
+        <button id="secundaria-btn">Secundaria</button>
+    </div>
+
+    <div id="contenedor" class="row hidden">
+        <div id="campos-formativos" class="column hidden">
+            <h2 class="hidden">Campos Formativos</h2>
+            <ul id="campos-formativos-list"></ul>
+        </div>
+
+        <div id="asignaturas" class="column hidden">
+            <h2 class="hidden">Asignaturas</h2>
+            <ul id="asignaturas-list"></ul>
+        </div>
+    </div>
+
+    <button id="volver" class="hidden">Volver</button>
+    <button onclick="window.location.href='agregarAlumno'">Agregar Alumno</button>
+    <button onclick="window.location.href='ListaExamenes'">Lista Examenes</button>
+
+    <script>
+        // Verificar si el usuario está autenticado
+        document.addEventListener('DOMContentLoaded', () => {
+            const usuarioId = sessionStorage.getItem('usuarioId');
+            const nombreUsuario = sessionStorage.getItem('nombreUsuario');
+            const tipoUsuario = sessionStorage.getItem('tipoUsuario');
+            if (!usuarioId || tipoUsuario !== 'D') {
+                // Si no hay usuario autenticado o no es docente, redirigir al login
+                window.location.href = 'login';
+            }
+        });
+
+        // Event listener para los botones de nivel educativo
+        document.getElementById('primaria-btn').addEventListener('click', mostrarCamposFormativos);
+        document.getElementById('secundaria-btn').addEventListener('click', mostrarCamposFormativos);
+
+        // Event listener para el botón de volver
+        document.getElementById('volver').addEventListener('click', volverInicio);
+
+        // Función para mostrar los campos formativos y asignaturas
+        function mostrarCamposFormativos() {
+            document.getElementById('nivel-educativo').classList.add('hidden');
+
+            // Ocultar el botón de volver y el contenedor
+            document.getElementById('volver').classList.add('hidden');
+            document.getElementById('contenedor').classList.add('hidden');
+
+            // Ocultar las asignaturas antes de realizar las solicitudes GET
+            document.getElementById('campos-formativos-list').innerHTML = '';
+            document.getElementById('asignaturas-list').innerHTML = '';
+
+            // Obtener el nivel educativo seleccionado
+            const nivelEducativo = this.textContent;
+
+            // Guardar información de la escuela
+            sessionStorage.setItem('nombreEscuela', document.getElementById('nombre-escuela').value);
+            sessionStorage.setItem('turno', document.getElementById('turno').value);
+            sessionStorage.setItem('grado', document.getElementById('grado').value);
+            sessionStorage.setItem('seccion', document.getElementById('seccion').value);
+            sessionStorage.setItem('nivelEducativo', nivelEducativo);
+
+            // Realizar una solicitud GET para obtener los campos formativos correspondientes al nivel educativo
+            fetch(`https://localhost:7162/api/campoformativo`)
+                .then(response => response.json())
+                .then(camposFormativos => {
+                    const camposFormativosList = document.getElementById('campos-formativos-list');
+                    camposFormativosList.innerHTML = '';
+                    camposFormativos.forEach(camposFormativo => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = camposFormativo.nombre;
+                        listItem.addEventListener('click', () => seleccionarCampoFormativo(camposFormativo.id, camposFormativo.nombre));
+                        camposFormativosList.appendChild(listItem);
+                    });
+
+                    // Mostrar el título de campos formativos y el contenedor después de cargar la información
+                    document.getElementById('campos-formativos').classList.remove('hidden');
+                    document.querySelector('#campos-formativos h2').classList.remove('hidden');
+                    document.getElementById('contenedor').classList.remove('hidden');
+                    document.getElementById('volver').classList.remove('hidden');
+                })
+                .catch(error => {
+                    console.error('Error al obtener los campos formativos:', error);
+                });
+
+            // Realizar una solicitud GET para obtener las asignaturas correspondientes al nivel educativo
+            fetch(`https://localhost:7162/api/asignatura/ByNivel?nivel=${nivelEducativo}`)
+                .then(response => response.json())
+                .then(asignaturas => {
+                    const asignaturasList = document.getElementById('asignaturas-list');
+                    asignaturasList.innerHTML = '';
+                    asignaturas.forEach(asignatura => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = asignatura.nombre;
+                        listItem.addEventListener('click', () => seleccionarAsignatura(asignatura.id, asignatura.nombre));
+                        asignaturasList.appendChild(listItem);
+                    });
+
+                    // Mostrar el título de asignaturas después de cargar la información
+                    document.getElementById('asignaturas').classList.remove('hidden');
+                    document.querySelector('#asignaturas h2').classList.remove('hidden');
+                })
+                .catch(error => {
+                    console.error('Error al obtener las asignaturas:', error);
+                });
+        }
+
+        function seleccionarCampoFormativo(campoFormativoId, campoFormativoNombre) {
+            sessionStorage.setItem('id', campoFormativoId);
+            sessionStorage.setItem('tipo', 'campoFormativo');
+            sessionStorage.setItem('campoFormativo', campoFormativoNombre);
+            window.location.href = 'Preguntas';
+        }
+
+        function seleccionarAsignatura(asignaturaId, asignaturaNombre) {
+            sessionStorage.setItem('id', asignaturaId);
+            sessionStorage.setItem('tipo', 'asignatura');
+            sessionStorage.setItem('asignatura', asignaturaNombre);
+            window.location.href = 'Preguntas';
+        }
+
+        // Función para volver a la selección del nivel educativo
+        function volverInicio() {
+            // Ocultar los campos formativos, asignaturas, y el botón de volver
+            document.getElementById('campos-formativos').classList.add('hidden');
+            document.getElementById('asignaturas').classList.add('hidden');
+            document.getElementById('volver').classList.add('hidden');
+            document.getElementById('contenedor').classList.add('hidden');
+
+            // Mostrar los botones de nivel educativo
+            document.getElementById('nivel-educativo').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

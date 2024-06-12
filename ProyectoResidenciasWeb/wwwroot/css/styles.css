@@ -1,0 +1,569 @@
+/* Reset de estilos básicos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.body-log, .html-log {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: whitesmoke;
+  
+}
+
+body, html{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  
+}
+
+/* Estilos del header */
+.header-log {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color:transparent;
+  
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.logo-izquierda, .logo-derecha {
+  height: 50px;
+}
+
+.logo-derecha{
+  border-radius: 8px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.register-button {
+  margin-left: 10px;
+  padding: 10px 15px;
+  border: none;
+  background-color:#a2d249;
+  color: white;
+  font-size: large;
+  cursor: pointer;
+  border-radius: 15px;
+  
+}
+
+.register-button:hover {
+  background-color:#97c444;
+}
+
+/* Espacio para el header */
+body::before {
+  content: "";
+  display: block;
+  height: 70px; /* Altura del header */
+  width: 100%;
+}
+
+/* Contenedor principal */
+.main-container {
+  display: flex;
+  max-width: 900px;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 40px;
+  overflow: hidden;
+  margin-top: 0px;
+}
+
+.image-container {
+  flex: 1;
+  padding: 40px;
+  background-color: aliceblue;
+  text-align: center;
+}
+
+.image-container label{
+  font-family: "Quicksand", sans-serif;
+  font-weight:bolder;
+  font-size: 2rem;
+  color:#a2d249;
+  
+}
+
+.image-container img {
+  width: 80%;
+  height: 80%;
+  object-fit: cover;
+  border-radius: 30px;
+  
+  
+
+  
+  
+}
+
+h1{
+  font-family: "Quicksand", sans-serif;
+  font-weight:bolder;
+  font-size: 2rem;
+  font-style: normal;
+  
+  margin-bottom: 10px;
+  font-optical-sizing: auto;
+}
+
+.form-container {
+  flex: 1;
+  padding: 40px;
+ 
+  display: flex;
+  flex-direction: column;
+ 
+}
+
+.form-container label {
+  margin-bottom: 30px;
+  color: #999;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  outline: none;
+  background: white;
+  font-size: 1.1rem;
+}
+
+.input-group label {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  color: #999;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  background-color: white;
+  padding: 0 5px;
+  
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 10px;
+  font-size: 12px;
+  color: black;
+}
+
+.input-group .error-message {
+  display: none;
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.forgot-password {
+  color: #70a0e6;
+  text-decoration: none;
+  margin-bottom: 20px;
+  text-align: end;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+  
+}
+
+.forgot-passw{
+  display: flex;
+  flex-direction: column;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  border: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  border-radius: 15px;
+  font-size: large;
+  box-shadow: inset 0 0 0 0 #D80286;
+  -webkit-transition: ease-out 0.4s;
+  -moz-transition: ease-out 0.4s;
+  transition: ease-out 0.4s;
+}
+
+button[type="submit"]:hover,:focus {
+  background-color:#21252b;
+  
+}
+
+.registrarse{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  row-gap: 10px;
+}
+
+.registrarse a{
+  background-color: #70a0e6;
+  width: fit-content;
+  align-self: center;
+  padding: 10px 15px;
+  text-decoration: none;
+  color:black;
+  border-radius: 15px;
+  font-weight: 500;
+}
+
+.registrarse label{
+  margin-bottom: 0;
+  color: black;
+  font-weight: 500;
+  margin-top: 25px;
+}
+
+/*REGISTRO*/
+#crear-passw{
+  width: max-content;
+  background-color: #70a0e6;
+  color: #21252b;
+  font-weight: 500;
+}
+
+.input-group-regis{
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.input-group-regis input{
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #0f0707;
+  border-radius: 15px;
+  outline: none;
+  background: transparent;
+  font-size: 1.1rem;
+
+}
+
+.input-group-regis label{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #999;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  background-color: white;
+  padding: 0 5px;
+}
+
+.input-group-regis input:focus + label,
+.input-group-regis input:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 10px;
+  font-size: 12px;
+  color: black;
+}
+
+.input-group-regis .error-message {
+  display: none;
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.form-container-regis {
+  flex: 1;
+  padding: 40px;
+ 
+  display: flex;
+  flex-direction: column;
+ 
+}
+
+.form-container-regis label {
+  margin-bottom: 25px;
+  color: #999;
+}
+
+.div-btnCrear{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 10px;
+}
+
+/*INDEX*/
+/*h4{
+  font-weight: normal;
+  color: gray;
+  margin-bottom: 30px;
+}*/
+
+.main-container-index{
+  display: flex;
+  
+  
+}
+
+.form-container-index form{
+  margin-top: 20px;
+  flex: 1;
+}
+
+.form-container-index {
+  
+  padding: 20px 40px;
+ 
+  display: flex;
+  flex-direction: column;
+ 
+}
+
+.input-group input[type="seccion"]{
+  text-transform: uppercase;
+}
+
+.datos-group{
+  display: flex;
+  justify-content: space-between;
+  column-gap: 20px;
+}
+
+.index-options{
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-left: 40px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  border-bottom: 1px solid ghostwhite;
+  border-top: 1px solid ghostwhite;
+  column-gap: 15px;
+}
+
+.index-options h3,span{
+  font-family: "Quicksand", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+
+}
+
+.index-options span{
+  font-weight: normal;
+  margin-right: 10px;
+  margin-left: 3px;
+}
+
+.index-options-btns{
+  display: flex;
+  justify-content: space-between;
+  column-gap: 15px;
+}
+
+.index-options button{
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-examenlist{
+  background-color: #dae2ee;
+  color:#4a6a99;
+  font-weight: 500;
+  font-size: medium;
+}
+
+.btn-agg-alumno{
+  background-color: #dfefc0;
+  color:#7a9f37;
+  font-weight: 500;
+  font-size: medium;
+}
+
+/* Estilos del modal */
+.modal {
+  display: none; /* Oculto por defecto */
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Habilitar scroll si es necesario */
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo opaco */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* Centrado vertical y horizontal */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Ancho del modal */
+  max-width: 500px; /* Ancho máximo */
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos del botón de cierre */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+svg{
+  height: min-content;
+ margin-right: 5px;
+}
+svg:hover{
+ stroke:#fe5c4f ;
+ animation: rotate360 2s alternate;
+}
+
+@keyframes rotate360 {
+  0% {
+      transform: rotate(0deg);
+  }
+  50% {
+      transform: rotate(360deg);
+  }
+  100% {
+      transform: rotate(0deg);
+  }
+}
+ 
+
+.btn-nivel-edu{
+
+ display: flex;
+ align-items: center;
+ column-gap: 15px;
+ margin-top: 20px;
+ 
+}
+
+.btn-nivel-edu button{
+  border: none;
+  padding: 15px 20px;
+  border-radius: 15px;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: medium;
+}
+
+#btn-primaria{
+  background-color:#ffb2d3f9;
+  color:#c61261;
+  font-weight: 500;
+  font-size: medium;
+}
+
+#btn-secundaria{
+  background-color:#d3dae6;
+  color:#314665;
+  font-weight: 500;
+  font-size: medium;
+}
+
+.image-container-index{
+  
+  flex: 1;
+  padding: 40px;
+  background-color: aliceblue;
+  text-align: center;
+}
+
+.image-container-index img{
+  width: 50%;
+  height: 50%;
+  object-fit: cover;
+  border-radius: 20px;
+  text-align: center;
+}
+
+
+
+
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .main-container {
+      flex-direction: column;
+  }
+
+  .image-container img {
+    width: 70%;
+    height: 90%;
+    object-fit: cover;
+    border-radius: 30px;
+    background-color: aliceblue;
+   
+  }
+
+  .image-container, .form-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      
+  }
+
+  .form-container{
+    padding-top: 0;
+  }
+}

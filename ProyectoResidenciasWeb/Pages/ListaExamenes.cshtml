@@ -1,0 +1,40 @@
+﻿@page
+@model ProyectoResidenciasWeb.Pages.ListaExamenesModel
+@{
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Exámenes Generados</title>
+</head>
+<body>
+    <h1>Exámenes Generados</h1>
+    <ul id="examenes-list"></ul>
+    <button onclick="window.location.href='index'">Volver</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const docenteId = sessionStorage.getItem('docenteId');
+            const response = await fetch(`https://localhost:7162/api/Examen/examenesPorDocente/${docenteId}`);
+            const examenes = await response.json();
+
+            const examenesList = document.getElementById('examenes-list');
+            examenes.forEach(examen => {
+                const listItem = document.createElement('li');
+  
+
+                listItem.textContent = `Examen (${examen.fecha}) - ${examen.asignatura || examen.campoFormativo} - ${examen.nivelEducativo}`;
+                listItem.addEventListener('click', () => verExamen(examen.id));
+                examenesList.appendChild(listItem);
+            });
+        });
+
+        function verExamen(examenId) {
+            sessionStorage.setItem('examenId', examenId);
+            window.location.href = 'verExamen';
+        }
+    </script>
+</body>
+</html>

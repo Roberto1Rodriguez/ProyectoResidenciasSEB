@@ -1,0 +1,87 @@
+﻿@page
+@model ProyectoResidenciasWeb.Pages.AgregarAlumnoModel
+@{
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Alumno</title>
+</head>
+<body>
+    <h1>Agregar Alumno</h1>
+    <form id="form-alumno" onsubmit="guardarAlumno(event)">
+        <div>
+            <label for="nombre-alumno">Nombre del Alumno:</label>
+            <input type="text" id="nombre-alumno" name="nombre-alumno" required>
+        </div>
+        <div>
+            <label for="nombre-usuario">Nombre de Usuario:</label>
+            <input type="text" id="nombre-usuario" name="nombre-usuario" required>
+        </div>
+        <div>
+            <label for="email-alumno">Email del Alumno:</label>
+            <input type="email" id="email-alumno" name="email-alumno" required>
+        </div>
+        <div>
+            <label for="grado">Grado:</label>
+            <input type="text" id="grado" name="grado" required>
+        </div>
+        <div>
+            <label for="seccion">Sección:</label>
+            <input type="text" id="seccion" name="seccion" required>
+        </div>
+        <div>
+            <label for="contraseña">Contraseña:</label>
+            <input type="password" id="contraseña" name="contraseña" required>
+        </div>
+        <button type="submit">Guardar Alumno</button>
+    </form>
+    <a href="index.html">Volver a Inicio</a>
+
+    <script>
+        async function guardarAlumno(event) {
+            event.preventDefault();
+
+            const docenteId = sessionStorage.getItem('docenteId');
+            const nombre = document.getElementById('nombre-alumno').value;
+            const nombreUsuario = document.getElementById('nombre-usuario').value;
+            const email = document.getElementById('email-alumno').value;
+            const grado = document.getElementById('grado').value;
+            const seccion = document.getElementById('seccion').value;
+            const contraseña = document.getElementById('contraseña').value;
+
+            const alumno = {
+                Nombre: nombre,
+                NombreUsuario: nombreUsuario,
+                Email: email,
+                Contraseña: contraseña,
+                Grado: grado,
+                Seccion: seccion,
+                DocenteId: docenteId
+            };
+
+            try {
+                const response = await fetch('https://localhost:7162/api/alumno/CrearAlumno', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(alumno)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al guardar el alumno');
+                }
+
+                alert('Alumno guardado exitosamente.');
+                document.getElementById('form-alumno').reset();
+            } catch (error) {
+                console.error('Error al guardar el alumno:', error);
+                alert('Hubo un error al guardar el alumno.');
+            }
+        }
+    </script>
+</body>
+</html>
