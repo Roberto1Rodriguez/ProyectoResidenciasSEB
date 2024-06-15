@@ -15,12 +15,43 @@ namespace ProyectoResidenciasApi.Controllers
         Repository<Usuario> repoUsuario;
         Repository<Alumno> repoAlumno;
         Repository<Docente> repoDocente;
+        Repository<Historialexamen> repoHistorialExamen;
+        Repository<Examengenerado> repoExamengenerado;
         public AlumnoController(Sistem21ResidenciasSebContext context)
         {
             this.context = context;
             repoAlumno = new Repository<Alumno>(context);
             repoUsuario = new Repository<Usuario>(context);
             repoDocente = new Repository<Docente>(context);
+            repoHistorialExamen= new Repository<Historialexamen>(context);
+            repoExamengenerado=new Repository<Examengenerado>(context);
+        }
+        [HttpGet("alumno/{usuarioId}")]
+        public IActionResult GetAlumnoPorUsuario(int usuarioId)
+        {
+            var alumno = repoAlumno.Get().FirstOrDefault(a => a.UsuarioId == usuarioId);
+            if (alumno == null)
+            {
+                return NotFound();
+            }
+
+            var historial = repoHistorialExamen.Get().Where(h => h.AlumnoId == alumno.Id).ToList();
+            var examenes = new List<object>();
+
+            foreach (var h in historial)
+            {
+                var examen = repoExamengenerado.Get(h.ExamenGeneradoId);
+                if (examen != null)
+                {
+                    examenes.Add(new
+                    {
+                        Examen = examen,
+                        Calificacion = h.Calificacion
+                    });
+                }
+            }
+
+            return Ok(new { Alumno = alumno, Examenes = examenes });
         }
         [HttpPost("CrearAlumno")]
         public IActionResult CrearConUsuario(AlumnoDto dto)

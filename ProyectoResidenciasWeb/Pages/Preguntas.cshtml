@@ -22,7 +22,14 @@
         <h2 id="tipo-seleccionado"></h2>
         <h3 id="nivel-educativo-seleccionado"></h3>
     </div>
+    <div>
+        <button onclick="filtrarPreguntas('Abierta')">Abiertas</button>
+        <button onclick="filtrarPreguntas('Opción Múltiple')">Opción Múltiple</button>
+        <button onclick="filtrarPreguntas('Falso-Verdadera')">Falso-Verdadera</button>
+        <button onclick="filtrarPreguntas('Lectura Multirreactivos')">Lectura Multirreactivos</button>
+    </div>
     <ul id="preguntas-list"></ul>
+
     <button onclick="abrirConfirmacionModal()">Agregar al Examen</button>
     <button onclick="abrirModal()">Agregar Pregunta</button>
     <button onclick="abrirModalLectura()">Agregar Lectura</button>
@@ -179,12 +186,7 @@
         </div>
     </div>
 
-    <div>
-        <button onclick="filtrarPreguntas('Abierta')">Abiertas</button>
-        <button onclick="filtrarPreguntas('Opción Múltiple')">Opción Múltiple</button>
-        <button onclick="filtrarPreguntas('Falso-Verdadera')">Falso-Verdadera</button>
-        <button onclick="filtrarPreguntas('Lectura Multirreactivos')">Lectura Multirreactivos</button>
-    </div>
+   
     <script>
         let preguntasSeleccionadas = [];
         let preguntas = [];
@@ -813,7 +815,7 @@
             doc.save();
             cargarPreguntas();
         }
-
+        
         // Filtrar preguntas por tipo
         function filtrarPreguntas(tipo) {
             preguntasFiltradas = preguntas.filter(p => p.tipoPregunta === tipo);

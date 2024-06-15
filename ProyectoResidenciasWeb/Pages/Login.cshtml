@@ -85,7 +85,11 @@
 
                     if (data.usuario.tipo === 'D') {
                         window.location.href = 'index';
-                    } else {
+                    }
+                    else if (data.usuario.tipo === 'A') {
+                        window.location.href = 'AlumnoIndex';
+                    }
+                    else {
                         alert('Tipo de usuario no autorizado');
                     }
                 } else {

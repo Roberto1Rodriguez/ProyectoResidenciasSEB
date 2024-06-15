@@ -115,6 +115,7 @@ namespace ProyectoResidenciasApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
     }
 }
 
