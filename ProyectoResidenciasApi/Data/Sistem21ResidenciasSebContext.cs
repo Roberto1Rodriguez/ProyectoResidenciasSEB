@@ -26,6 +26,8 @@ public partial class Sistem21ResidenciasSebContext : DbContext
 
     public virtual DbSet<Examengenerado> Examengenerado { get; set; }
 
+    public virtual DbSet<Examenpregunta> Examenpregunta { get; set; }
+
     public virtual DbSet<Historialexamen> Historialexamen { get; set; }
 
     public virtual DbSet<Lectura> Lectura { get; set; }
@@ -154,6 +156,31 @@ public partial class Sistem21ResidenciasSebContext : DbContext
                 .HasConstraintName("examengenerado_ibfk_1");
         });
 
+        modelBuilder.Entity<Examenpregunta>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("examenpregunta");
+
+            entity.HasIndex(e => e.ExamenGeneradoId, "ExamenGeneradoId");
+
+            entity.HasIndex(e => e.PreguntaId, "PreguntaId");
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.ExamenGeneradoId).HasColumnType("int(11)");
+            entity.Property(e => e.PreguntaId).HasColumnType("int(11)");
+
+            entity.HasOne(d => d.ExamenGenerado).WithMany(p => p.Examenpregunta)
+                .HasForeignKey(d => d.ExamenGeneradoId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ExamenPregunta_ExamenGenerado");
+
+            entity.HasOne(d => d.Pregunta).WithMany(p => p.Examenpregunta)
+                .HasForeignKey(d => d.PreguntaId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ExamenPregunta_Pregunta");
+        });
+
         modelBuilder.Entity<Historialexamen>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -169,6 +196,7 @@ public partial class Sistem21ResidenciasSebContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.AlumnoId).HasColumnType("int(11)");
             entity.Property(e => e.ExamenGeneradoId).HasColumnType("int(11)");
+            entity.Property(e => e.UbicacionRespuestasPdf).HasMaxLength(255);
 
             entity.HasOne(d => d.Alumno).WithMany(p => p.Historialexamen)
                 .HasForeignKey(d => d.AlumnoId)

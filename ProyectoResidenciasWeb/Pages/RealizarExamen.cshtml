@@ -1,0 +1,148 @@
+﻿@page
+@model ProyectoResidenciasWeb.Pages.RealizarExamenModel
+@{
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realizar Examen</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <h1>Realizar Examen</h1>
+    <form id="examen-form">
+        <div id="preguntas-container"></div>
+        <button type="button" onclick="enviarRespuestas()">Enviar Respuestas</button>
+    </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const examenId = sessionStorage.getItem('examenId');
+            const response = await fetch(`https://localhost:7162/api/Examen/ExamenPreguntas/${examenId}`);
+            const data = await response.json();
+            const preguntas = data.preguntas;
+            construirInterfazPreguntas(preguntas);
+        });
+
+        function construirInterfazPreguntas(preguntas) {
+            const container = document.getElementById('preguntas-container');
+            container.innerHTML = '';
+
+            preguntas.forEach((pregunta, index) => {
+                const preguntaDiv = document.createElement('div');
+                preguntaDiv.classList.add('pregunta');
+                preguntaDiv.innerHTML = `<p>${index + 1}. ${pregunta.texto}</p>`;
+
+                switch (pregunta.tipoPregunta) {
+                    case 'Opción Múltiple':
+                        pregunta.respuestas.forEach((respuesta, respIndex) => {
+                            const letra = String.fromCharCode(65 + respIndex); // Generar letras A, B, C, D
+                            preguntaDiv.innerHTML += `
+                                        <input type="radio" name="pregunta_${pregunta.id}" value="${respuesta.id}" data-letra="${letra}" data-texto="${respuesta.texto}">
+                                        <label>${letra}) ${respuesta.texto}</label><br>
+                                    `;
+                        });
+                        break;
+                    case 'Abierta':
+                        preguntaDiv.innerHTML += `
+                                    <textarea name="pregunta_${pregunta.id}" rows="4" cols="50" data-letra="Texto Libre"></textarea>
+                                `;
+                        break;
+                    case 'Falso-Verdadera':
+                        preguntaDiv.innerHTML += `
+                                    <input type="radio" name="pregunta_${pregunta.id}" value="Verdadero" data-letra="Verdadero">
+                                    <label>Verdadero</label><br>
+                                    <input type="radio" name="pregunta_${pregunta.id}" value="Falso" data-letra="Falso">
+                                    <label>Falso</label><br>
+                                `;
+                        break;
+                    case 'Lectura Multirreactivos':
+                        preguntaDiv.innerHTML += `<p><b>Lectura:</b> ${pregunta.lecturaTexto}</p>`;
+                        pregunta.subPreguntas.forEach((subPregunta, subIndex) => {
+                            preguntaDiv.innerHTML += `<p>${index + 1}.${subIndex + 1}. ${subPregunta.texto}</p>`;
+                            subPregunta.respuestas.forEach((respuesta, respIndex) => {
+                                const letra = String.fromCharCode(65 + respIndex); // Generar letras A, B, C, D
+                                preguntaDiv.innerHTML += `
+                                            <input type="radio" name="pregunta_${subPregunta.id}" value="${respuesta.id}" data-letra="${letra}" data-texto="${respuesta.texto}">
+                                            <label>${letra}) ${respuesta.texto}</label><br>
+                                        `;
+                            });
+                        });
+                        break;
+                    default:
+                        break;
+                }
+
+                container.appendChild(preguntaDiv);
+            });
+        }
+
+        async function enviarRespuestas() {
+            const form = document.getElementById('examen-form');
+            const formData = new FormData(form);
+            const respuestas = {};
+
+            for (const [key, value] of formData.entries()) {
+                const preguntaId = key.split('_')[1];
+                const respuestaInput = form.querySelector(`input[name="${key}"][value="${value}"], textarea[name="${key}"]`);
+                const letra = respuestaInput ? respuestaInput.getAttribute('data-letra') : value;
+                const texto = respuestaInput ? (respuestaInput.tagName === 'TEXTAREA' ? respuestaInput.value : respuestaInput.getAttribute('data-texto')) : '';
+
+                if (!respuestas[preguntaId]) {
+                    respuestas[preguntaId] = { letra, texto };
+                } else if (Array.isArray(respuestas[preguntaId])) {
+                    respuestas[preguntaId].push({ letra, texto });
+                } else {
+                    respuestas[preguntaId] = [{ letra, texto }];
+                }
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const nombreAlumno = sessionStorage.getItem('nombreAlumno');
+            const alumnoId = sessionStorage.getItem('alumnoId');
+            const examenId = sessionStorage.getItem('examenId');
+
+            doc.setFontSize(16);
+            doc.text(`Respuestas de ${nombreAlumno}`, 10, 10);
+
+            let yOffset = 20;
+            let preguntaIndex = 1;
+            Object.keys(respuestas).forEach(preguntaId => {
+                const respuesta = respuestas[preguntaId]; // Obtener la respuesta del alumno para esta pregunta
+                const letra = Array.isArray(respuesta) ? respuesta.map(r => r.letra).join(', ') : respuesta.letra;
+                const texto = Array.isArray(respuesta) ? respuesta.map(r => r.texto).join(', ') : respuesta.texto;
+
+                doc.text(`${preguntaIndex}. Pregunta ${preguntaId}`, 10, yOffset);
+                yOffset += 10;
+                doc.text(`Respuesta: ${letra}. ${texto}`, 20, yOffset);
+                yOffset += 10;
+                preguntaIndex++;
+            });
+
+            const pdfBlob = doc.output('blob');
+            const fileName = `Respuestas_${nombreAlumno}_${new Date().toISOString().split('T')[0]}.pdf`;
+            const pdfFormData = new FormData();
+            pdfFormData.append('pdf', pdfBlob, fileName);
+            pdfFormData.append('examenId', examenId);
+            pdfFormData.append('alumnoId', alumnoId);
+
+            fetch('https://localhost:7162/api/Examen/EnviarRespuestas', {
+                method: 'POST',
+                body: pdfFormData
+            }).then(response => {
+                if (response.ok) {
+                    alert('Respuestas enviadas exitosamente.');
+                } else {
+                    alert('Error al enviar las respuestas.');
+                }
+            }).catch(error => {
+                console.error('Error al enviar el PDF al servidor:', error);
+            });
+
+            doc.save();
+        }
+    </script>
+</body>
+</html>

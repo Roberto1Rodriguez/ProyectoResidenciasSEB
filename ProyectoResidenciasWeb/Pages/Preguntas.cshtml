@@ -729,9 +729,11 @@
 
             let yOffset = 80;
             doc.setFontSize(12);
+            const preguntaIds = [];
             preguntasSeleccionadas.forEach((pregunta, index) => {
                 doc.text(`${index + 1}. ${pregunta.texto}`, 10, yOffset);
                 yOffset += 10;
+                preguntaIds.push(pregunta.id);
 
                 if (pregunta.tipo === 'Opción Múltiple' || pregunta.tipo === 'Lectura Multirreactivos') {
                     pregunta.respuestas.forEach((respuesta, respIndex) => {
@@ -798,6 +800,8 @@
             formData.append('campoFormativo', campoFormativo || '');
             formData.append('nivelEducativo', nivelEducativo || '');
             formData.append('fecha', fechaActual); // Añadir la fecha
+          preguntaIds.forEach(id => formData.append('PreguntaIds', id));
+
 
             fetch('https://localhost:7162/api/Examen/GenerarExamen', {
                 method: 'POST',
@@ -815,7 +819,6 @@
             doc.save();
             cargarPreguntas();
         }
-        
         // Filtrar preguntas por tipo
         function filtrarPreguntas(tipo) {
             preguntasFiltradas = preguntas.filter(p => p.tipoPregunta === tipo);

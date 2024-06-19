@@ -7,40 +7,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil del Alumno</title>
-    <style>
-        .examen {
-            margin-bottom: 15px;
-        }
-    </style>
+    <title>Principal del Alumno</title>
 </head>
 <body>
-    <h1>Perfil del Alumno</h1>
-    <div>
-        <h2 id="nombre-alumno"></h2>
+    <h1>Bienvenido</h1>
+    <div id="alumno-info">
+        <p>Nombre: <span id="nombre-alumno"></span></p>
         <p>Grado: <span id="grado-alumno"></span></p>
         <p>Sección: <span id="seccion-alumno"></span></p>
     </div>
     <h2>Exámenes</h2>
-    <div id="examenes-list"></div>
-    <button onclick="window.location.href='login'">Cerrar Sesión</button>
+    <ul id="examenes-list"></ul>
+    <button onclick="window.location.href='login'">Cerrar sesión</button>
 
     <script>
-     
         document.addEventListener('DOMContentLoaded', async () => {
             const usuarioId = sessionStorage.getItem('usuarioId');
             const nombreUsuario = sessionStorage.getItem('nombreUsuario');
             const tipoUsuario = sessionStorage.getItem('tipoUsuario');
             if (!usuarioId || tipoUsuario !== 'A') {
-                // Si no hay usuario autenticado o no es docente, redirigir al login
-                window.location.href = 'login';
+                // Si no hay usuario autenticado o no es alumno, redirigir al login
+                window.location.href = 'login.html';
             }
             const response = await fetch(`https://localhost:7162/api/Alumno/alumno/${usuarioId}`);
             const data = await response.json();
 
-            document.getElementById('nombre-alumno').textContent = data.alumno.nombre;
-            document.getElementById('grado-alumno').textContent = data.alumno.grado;
-            document.getElementById('seccion-alumno').textContent = data.alumno.seccion;
+            const alumnoId = data.alumno.id;
+            const nombreAlumno = data.alumno.nombre;
+            const gradoAlumno = data.alumno.grado;
+            const seccionAlumno = data.alumno.seccion;
+
+            // Guardar información del alumno en sessionStorage
+            sessionStorage.setItem('alumnoId', alumnoId);
+            sessionStorage.setItem('nombreAlumno', nombreAlumno);
+            sessionStorage.setItem('gradoAlumno', gradoAlumno);
+            sessionStorage.setItem('seccionAlumno', seccionAlumno);
+
+            document.getElementById('nombre-alumno').textContent = nombreAlumno;
+            document.getElementById('grado-alumno').textContent = gradoAlumno;
+            document.getElementById('seccion-alumno').textContent = seccionAlumno;
 
             const examenesList = document.getElementById('examenes-list');
             data.examenes.forEach(examenData => {
@@ -51,10 +56,16 @@
                             <h3>Examen de ${examenData.examen.asignatura || examenData.examen.campoFormativo}</h3>
                             <p>Fecha: ${examenData.examen.fecha}</p>
                             <p>Calificación: ${examenData.calificacion !== null ? examenData.calificacion : 'No calificado'}</p>
-                        `;
+                                    <button onclick="realizarExamen(${examenData.examen.id})" ${examenData.calificacion !== null ? 'disabled' : ''}>Responder Examen</button>
+                                `;
                 examenesList.appendChild(examenDiv);
             });
         });
+
+        function realizarExamen(examenId) {
+            sessionStorage.setItem('examenId', examenId);
+            window.location.href = 'realizarExamen';
+        }
     </script>
 </body>
 </html>

@@ -23,6 +23,8 @@ public partial class Pregunta
 
     public virtual Camposformativos? CamposFormativos { get; set; }
 
+    public virtual ICollection<Examenpregunta> Examenpregunta { get; set; } = new List<Examenpregunta>();
+
     public virtual Lectura? Lectura { get; set; }
 
     public virtual ICollection<Respuesta> Respuesta { get; set; } = new List<Respuesta>();

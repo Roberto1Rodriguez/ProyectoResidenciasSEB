@@ -47,6 +47,9 @@
                             <span>${alumno.alumno.nombre} - Calificación:
                             <input type="number" value="${alumno.calificacion || 0}" min="0" max="10" step="0.1" data-alumno-id="${alumno.alumno.id}">
                             </span>
+                                                                <button onclick="descargarRespuestas(${alumno.alumno.id}, '${alumno.alumno.nombre}', ${examenId})" ${alumno.ubicacionRespuestasPDF ? '' : 'disabled'}>Ver Respuestas</button>
+
+                                    
                         `;
                 alumnosList.appendChild(listItem);
             });
@@ -79,6 +82,30 @@
 
             cerrarConfirmacionModal();
             alert('Calificaciones guardadas exitosamente.');
+        }
+
+
+        async function descargarRespuestas(alumnoId, nombreAlumno,examenId) {
+         
+            const url = `https://localhost:7162/api/Examen/DescargarRespuestas?examenId=${examenId}&alumnoId=${alumnoId}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Error al descargar las respuestas.');
+                }
+
+                const blob = await response.blob();
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = `Respuestas_${nombreAlumno.replace(/\s+/g, '_')}_${examenId}.pdf`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (error) {
+                console.error('Error al descargar las respuestas:', error);
+                alert('Error al descargar las respuestas.');
+            }
         }
     </script>
 </body>

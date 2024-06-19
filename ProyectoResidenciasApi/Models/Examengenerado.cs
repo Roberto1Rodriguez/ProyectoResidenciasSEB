@@ -21,5 +21,7 @@ public partial class Examengenerado
 
     public virtual Docente? Docente { get; set; }
 
+    public virtual ICollection<Examenpregunta> Examenpregunta { get; set; } = new List<Examenpregunta>();
+
     public virtual ICollection<Historialexamen> Historialexamen { get; set; } = new List<Historialexamen>();
 }

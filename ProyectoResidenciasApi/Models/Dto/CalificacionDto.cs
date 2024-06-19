@@ -5,5 +5,7 @@
         public int ExamenId { get; set; }
         public int AlumnoId { get; set; }
         public float Calificacion { get; set; }
+        public string? UbicacionRespuestasPDF { get; set; }
+
     }
 }

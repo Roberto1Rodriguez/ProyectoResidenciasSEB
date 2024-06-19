@@ -13,6 +13,8 @@ public partial class Historialexamen
 
     public float? Calificacion { get; set; }
 
+    public string? UbicacionRespuestasPdf { get; set; }
+
     public virtual Alumno? Alumno { get; set; }
 
     public virtual Examengenerado? ExamenGenerado { get; set; }

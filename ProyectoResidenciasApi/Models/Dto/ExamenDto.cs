@@ -14,6 +14,6 @@
 
         public string? Asignatura { get; set; }
         public DateOnly? Fecha { get; set; }
-
+        public List<int> PreguntaIds { get; set; }
     }
 }
