@@ -186,7 +186,7 @@
         </div>
     </div>
 
-   
+
     <script>
         let preguntasSeleccionadas = [];
         let preguntas = [];
@@ -595,6 +595,10 @@
                 const label = document.createElement('label');
                 label.textContent = pregunta.texto;
 
+                if (preguntasSeleccionadas.some(p => p.id === pregunta.id)) {
+                    checkbox.checked = true;
+                }
+
                 listItem.appendChild(checkbox);
                 listItem.appendChild(label);
 
@@ -652,44 +656,28 @@
             }
         }
 
-        async function agregarAlExamen() {
-            const checkboxes = document.querySelectorAll('#preguntas-list input[type="checkbox"]:checked');
-            preguntasSeleccionadas = [];
-
-            for (const checkbox of checkboxes) {
-                const preguntaId = checkbox.value;
-                const preguntaTexto = checkbox.nextElementSibling.textContent;
-                const tipoPregunta = checkbox.getAttribute('data-tipo');
-                const respuestas = [];
-
-                if (tipoPregunta === 'Opción Múltiple' || tipoPregunta === 'Lectura Multirreactivos' || tipoPregunta === 'Falso-Verdadera') {
-                    const respuestasResponse = await fetch(`https://localhost:7162/api/PreguntaRespuesta/RespuestasPorPregunta/${preguntaId}`);
-                    const respuestasData = await respuestasResponse.json();
-
-                    respuestasData.forEach((respuesta, index) => {
-                        const letra = String.fromCharCode(65 + index); // Generar letras A, B, C, D, ...
-                        const esCorrecta = respuesta.esCorrecta;
-
-                        respuestas.push({
-                            letra: letra,
-                            texto: respuesta.texto,
-                            esCorrecta: esCorrecta
-                        });
-                    });
+        function actualizarPreguntasSeleccionadas() {
+            const checkboxes = document.querySelectorAll('#preguntas-list input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                const preguntaId = parseInt(checkbox.value);
+                const pregunta = preguntas.find(p => p.id === preguntaId);
+                if (checkbox.checked) {
+                    if (!preguntasSeleccionadas.some(p => p.id === preguntaId)) {
+                        preguntasSeleccionadas.push(pregunta);
+                    }
+                } else {
+                    preguntasSeleccionadas = preguntasSeleccionadas.filter(p => p.id !== preguntaId);
                 }
+            });
+        }
 
-                preguntasSeleccionadas.push({
-                    id: preguntaId,
-                    texto: preguntaTexto,
-                    tipo: tipoPregunta,
-                    respuestas: respuestas
-                });
-            }
-
+        async function agregarAlExamen() {
+            actualizarPreguntasSeleccionadas();
             alert('Preguntas agregadas al examen.');
         }
 
         function abrirConfirmacionModal() {
+            actualizarPreguntasSeleccionadas();
             document.getElementById('confirmacion-modal').style.display = 'block';
         }
 
@@ -698,10 +686,10 @@
         }
 
         async function confirmarAgregarAlExamen() {
-            await agregarAlExamen();
             cerrarConfirmacionModal();
             generarPDF();
         }
+
         function generarPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -735,13 +723,13 @@
                 yOffset += 10;
                 preguntaIds.push(pregunta.id);
 
-                if (pregunta.tipo === 'Opción Múltiple' || pregunta.tipo === 'Lectura Multirreactivos') {
+                if (pregunta.tipoPregunta === 'Opción Múltiple' || pregunta.tipoPregunta === 'Lectura Multirreactivos') {
                     pregunta.respuestas.forEach((respuesta, respIndex) => {
                         const letra = String.fromCharCode(65 + respIndex); // Generar letras A, B, C, D, ...
                         doc.text(`${letra}) ${respuesta.texto}`, 20, yOffset);
                         yOffset += 10;
                     });
-                } else if (pregunta.tipo === 'Falso-Verdadera') {
+                } else if (pregunta.tipoPregunta === 'Falso-Verdadera') {
                     pregunta.respuestas.forEach((respuesta, respIndex) => {
                         const letra = String.fromCharCode(65 + respIndex); // Generar letras A, B
                         doc.text(`${letra}) ${respuesta.texto}`, 20, yOffset);
@@ -764,7 +752,7 @@
                 doc.text(`${index + 1}. ${pregunta.texto}`, 10, yOffset);
                 yOffset += 10;
 
-                if (pregunta.tipo === 'Opción Múltiple' || pregunta.tipo === 'Lectura Multirreactivos') {
+                if (pregunta.tipoPregunta === 'Opción Múltiple' || pregunta.tipoPregunta === 'Lectura Multirreactivos') {
                     const respuestaCorrecta = pregunta.respuestas.find(respuesta => respuesta.esCorrecta);
                     if (respuestaCorrecta) {
                         const letraCorrecta = pregunta.respuestas.indexOf(respuestaCorrecta); // Encontrar el índice de la respuesta correcta
@@ -772,14 +760,14 @@
                     } else {
                         doc.text('Respuesta Correcta: No definida', 20, yOffset);
                     }
-                } else if (pregunta.tipo === 'Falso-Verdadera') {
+                } else if (pregunta.tipoPregunta === 'Falso-Verdadera') {
                     const respuestaCorrecta = pregunta.respuestas.find(respuesta => respuesta.esCorrecta);
                     if (respuestaCorrecta) {
                         doc.text(`Respuesta Correcta: ${respuestaCorrecta.texto}`, 20, yOffset);
                     } else {
                         doc.text('Respuesta Correcta: No definida', 20, yOffset);
                     }
-                } else if (pregunta.tipo === 'Abierta') {
+                } else if (pregunta.tipoPregunta === 'Abierta') {
                     doc.text('Respuesta Correcta: Criterio del Maestro', 20, yOffset);
                 }
 
@@ -800,8 +788,7 @@
             formData.append('campoFormativo', campoFormativo || '');
             formData.append('nivelEducativo', nivelEducativo || '');
             formData.append('fecha', fechaActual); // Añadir la fecha
-          preguntaIds.forEach(id => formData.append('PreguntaIds', id));
-
+            preguntaIds.forEach(id => formData.append('PreguntaIds', id));
 
             fetch('https://localhost:7162/api/Examen/GenerarExamen', {
                 method: 'POST',
@@ -819,13 +806,13 @@
             doc.save();
             cargarPreguntas();
         }
-        // Filtrar preguntas por tipo
+
         function filtrarPreguntas(tipo) {
+            actualizarPreguntasSeleccionadas();
             preguntasFiltradas = preguntas.filter(p => p.tipoPregunta === tipo);
             mostrarPreguntas();
         }
 
-        // Asegurarse de que las preguntas se carguen correctamente cuando la página se cargue
         document.addEventListener('DOMContentLoaded', () => {
             cargarDatos();
             cargarPreguntas();
