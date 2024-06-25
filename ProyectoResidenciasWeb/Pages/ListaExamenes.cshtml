@@ -8,11 +8,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Exámenes Generados</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="sty">
 </head>
 <body>
-    <h1>Exámenes Generados</h1>
-    <ul id="examenes-list"></ul>
-    <button onclick="window.location.href='index'">Volver</button>
+
+    <header class="header">
+        <img src="/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
+        <div class="header-right">
+            <img src="/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
+
+        </div>
+    </header>
+
+    <div class="examenlist-container">
+        <h1>Exámenes Generados</h1>
+        <ul id="examenes-list"></ul>
+        <button  onclick="window.location.href='index'">Volver</button>
+    </div>
+    
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {

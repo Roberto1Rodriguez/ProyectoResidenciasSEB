@@ -8,13 +8,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Examen</title>
+    <link href="/css/styles.css" rel="stylesheet" />
 </head>
-<body>
+<body class="detalles-ex-body">
     <h1>Detalles del Examen</h1>
     <div id="detalles-examen"></div>
     <h2>Alumnos</h2>
     <ul id="alumnos-list"></ul>
-    <button onclick="window.location.href='listaExamenes'">Volver</button>
+    <button id="volver" class="hidden" onclick="window.location.href='listaExamenes'">Volver</button>
     <button onclick="abrirConfirmacionModal()">Guardar Calificaciones</button>
 
     <!-- Modal Confirmación -->
