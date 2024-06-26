@@ -44,6 +44,8 @@
               </svg></h3>
             </div>
 
+       
+
             <div class="index-options-btns">
                 <button onclick="window.location.href='agregarAlumno'" class="btn-agg-alumno" id="openModalBtn"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-plus" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7a9f37" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -74,30 +76,36 @@
 
 
             <h1>Comenzemos a elaborar el examen!</h1>
-            <label>1. Llena la siguiente informacíon con los datos de tu escuela.</label>
+            <label>Llena la siguiente informacíon con los datos de tu escuela.</label>
         
     
     <form action="#">
 
         <div class="input-group">
-            <label for="nombre-escuela">Nombre de la escuela:</label>
-            <input type="text" id="nombre-escuela">
+            <input type="text" id="nombre-escuela" required placeholder=" ">
+            <label for="nombre-escuela">Nombre de la escuela</label>
+            
         </div>
+
+            
 
         <div class="datos-group">
             <div class="input-group">
+                        <input type="text" id="turno" required placeholder=" ">
                 <label for="turno">Turno:</label>
-                <input type="text" id="turno">
+               
             </div>
 
             <div class="input-group">
+                        <input type="text" id="grado" required placeholder=" ">
                 <label for="grado">Grado:</label>
-                <input type="text" id="grado">
+                
             </div>
 
             <div class="input-group">
+                        <input type="text" id="seccion" required placeholder=" ">
                 <label for="seccion">Sección:</label>
-                <input type="text" id="seccion">
+                
             </div>
 
         </div>
@@ -105,35 +113,107 @@
 
     </form>
 
-    <label>2. Selecciona el nivel educativo.</label>
+    
 
     
     <div id="nivel-educativo" class="btn-nivel-edu">
 
-        <button id="primaria-btn" class="sty-primaria">Primaria</button>
-        <button id="secundaria-btn" class="sty-secundaria">Secundaria</button>
+                <label>Selecciona el nivel educativo.</label>
+
+                <div>
+                    <button id="primaria-btn" class="sty-primaria">Primaria</button>
+                    <button id="secundaria-btn" class="sty-secundaria">Secundaria</button>
+                </div>
+
+       
     </div>
 
-    <div id="contenedor" class="row hidden">
+       
 
-        <div id="campos-formativos" class="column hidden">
-            <h2 class="hidden">Campos Formativos</h2>
-            <ul id="campos-formativos-list"></ul>
-        </div>
+            <div id="contenedor" class="row hidden">
 
-        <div id="asignaturas" class="column hidden">
-            <h2 class="hidden">Asignaturas</h2>
-            <ul id="asignaturas-list"></ul>
-        </div>
+                <label>Selecciona el tipo de examen</label>
 
-    </div>
+                 <div class="tipo-ex-conteiner">
+
+
+                    <div id="campos-formativos" class="column hidden">
+                        <h2 class="hidden">Campos Formativos</h2>
+                        <ul id="campos-formativos-list"></ul>
+                    </div>
+
+                    <div id="asignaturas" class="column hidden">
+                        <h2 class="hidden">Asignaturas</h2>
+                        <ul id="asignaturas-list"></ul>
+                    </div>
+
+                 </div>
+
+            </div>
+
+           
 
     <button id="volver" class="hidden">Volver</button>
     </div>
     </div>
-  
 
+    <!-- Modal agregar alumno-->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Agregar alumno</h2>
+            <form>
+
+                <div class="input-group">
+                    <input type="text" id="nombre" required placeholder=" ">
+                    <label for="nombre">Nombre</label>
+                    <span class="error-message">Error en el nombre</span>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="usuario" required placeholder=" ">
+                    <label for="usuario">Usuario</label>
+                    <span class="error-message">Error en el usuario</span>
+                </div>
+
+                <div class="input-group">
+                    <input type="email" id="correo" required placeholder=" ">
+                    <label for="correo">Correo</label>
+                    <span class="error-message">Error en el correo</span>
+                </div>
+
+                <div class="input-group">
+                    <input type="number" id="grado" required placeholder=" ">
+                    <label for="grado">Grado</label>
+                    <span class="error-message">Error en el grado</span>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="seccion" required placeholder=" ">
+                    <label for="seccion">Sección</label>
+                    <span class="error-message">Error en la seccion</span>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="contraseña" required placeholder=" ">
+                    <label for="contraseña">Contraseña</label>
+                    <span class="error-message">Error en la contraseña</span>
+                </div>
+
+
+                <button type="submit">Guardar registro</button>
+            </form>
+        </div>
+    </div>
+
+    
+
+
+    
+  
+    <script src="script.js"></script>
     <script>
+
         // Verificar si el usuario está autenticado
         document.addEventListener('DOMContentLoaded', () => {
             const usuarioId = sessionStorage.getItem('usuarioId');
@@ -245,5 +325,7 @@
             document.getElementById('nivel-educativo').classList.remove('hidden');
         }
     </script>
+
+    
 </body>
 </html>

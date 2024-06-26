@@ -13,11 +13,16 @@
     align-items: center;
     justify-content: center;
     background-color: whitesmoke;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
 body, html {
     height: 100%;
-    display: flex;
+   /*display: flex;*/
     flex-direction: column;
     justify-content: center;
     background-color: white;
@@ -33,11 +38,7 @@ header {
     align-items: center;
     padding: 10px 20px;
     background-color: transparent;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
+    
 }
 
 .logo-izquierda, .logo-derecha {
@@ -69,17 +70,11 @@ header {
         background-color: #97c444;
     }
 
-/* Espacio para el header */
-body::before {
-    content: "";
-    display: block;
-    height: 70px; /* Altura del header */
-    width: 100%;
-    
-}
+
+
 
 /* Contenedor principal */
-.main-container {
+ .main-container {
     display: flex;
     max-width: 900px;
     width: 100%;
@@ -379,7 +374,12 @@ button[type="submit"] {
     color: #7a9f37;
     font-weight: 500;
     font-size: medium;
+
+
 }
+
+
+
 
 /* Estilos del modal */
 .modal {
@@ -448,7 +448,15 @@ svg {
     display: flex;
     align-items: center;
     column-gap: 15px;
-    margin-top: 20px;
+    margin-top: 10px;
+    align-items:start;
+    flex-direction:column;
+}
+
+.btn-nivel-edu div{
+    display:flex;
+    gap:15px;
+    margin-top:15px;
 }
 
     .btn-nivel-edu button {
@@ -511,7 +519,14 @@ svg {
     margin-top:10px;
 }
 
+.tipo-ex-conteiner{
+    margin-top:15px;
+   
+}
 
+#contenedor{
+    margin-bottom:20px;
+}
 
 .row:after {
     content: "";
@@ -541,7 +556,7 @@ li {
     }
 
 #volver {
-    margin-top: 20px;
+    
     width: min-content;
     padding: 10px 15px;
     border-radius: 10px;
@@ -559,23 +574,42 @@ li {
     justify-content: center;
     padding-left: 40px;
     padding-right: 40px;
+    overflow: auto;
 }
 
+    .examenlist-container > h1 {
+        font-family: "Quicksand", sans-serif;
+        margin-bottom:0px;
+    }
+
+    .examenlist-container > div{
+        display:flex;
+        justify-content:space-between;
+    }
+
+    .examenlist-container > div > button{
+        height:min-content;
+    }
+
+    
+
+
 #examenes-list li {
-    padding: 0px 10px;
+    padding: 5px 10px;
     background-color:antiquewhite;
     border-left: 4px solid #ffac4f;
     border-radius: 3px;
     font-size:small;
+    font-weight:400;
     cursor: pointer;
     border-block-color:antiquewhite;
 }
 
-#examenes-list li:hover{
-    background-color:#ffac4f;
-    transition:ease-in 0.1s;
-    
-}
+    #examenes-list li:hover {
+        background-color: #ffac4f;
+        transition: ease-in 0.1s;
+        border-left: 4px solid #ffac4f;
+    }
 
 /*DETALLES DEL EXAMEN*/
 
@@ -583,9 +617,70 @@ li {
 display:block;
 }
 
+.detalles-ex-conteiner{
+    padding: 10px 25px;
+}
+
+.detalles-ex-conteiner div {
+    display:flex;
+    justify-content:space-between;
+}
+
+    .detalles-ex-conteiner div > button {
+        height: min-content;
+        align-self: center;
+        padding: 5px 10px;
+        border-radius: 6px;
+        border: 1px solid #70a0e6;
+        background-color: #70a0e6;
+        font-weight:500;
+        font-size:1rem;
+    }
+.detalles-ex-conteiner > div > h2{
+    margin-top:20px;
+}
+
 #alumnos-list {
     list-style-type: none;
 }
+
+    #alumnos-list li {
+        padding: 5px 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #alumnos-list li > span > input{
+        border-radius:6px;
+        border:1px solid gray;
+        margin-left:10px;
+        text-align:center;
+        font-weight:500;
+        font-size:medium;
+    }
+
+        #alumnos-list li > button {
+            border-radius: 6px;
+            border: 1px solid transparent;
+            background-color: #dfefc0;
+            padding: 5px 10px;
+            color: #67ad15;
+            font-size:0.9rem;
+        }
+
+        .pyr-conteiner{
+            padding:10px 25px;
+        }
+
+#preguntas-list li {
+    padding: 5px 10px;
+    border: none;
+    border-radius:0px;
+    margin:0;
+    border-block-end: 1px solid gray;
+}
+
+
 
 /* Responsividad */
 @media (max-width: 768px) {

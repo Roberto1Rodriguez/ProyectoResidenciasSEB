@@ -1,3 +1,25 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const settingsIcon = document.getElementById('settingsIcon');
+    const contextMenu = document.getElementById('contextMenu');
+
+    settingsIcon.addEventListener('click', function (event) {
+        event.stopPropagation();
+        contextMenu.style.display = 'block';
+        const rect = settingsIcon.getBoundingClientRect();
+        contextMenu.style.top = `${rect.bottom + window.scrollY}px`;
+        contextMenu.style.left = `${rect.left + window.scrollX}px`;
+    });
+
+    document.addEventListener('click', function () {
+        contextMenu.style.display = 'none';
+    });
+
+    contextMenu.addEventListener('click', function (event) {
+        event.stopPropagation();
+    });
+});
+
+
 // Obtener el modal
 var modal = document.getElementById("myModal");
 
