@@ -12,10 +12,12 @@ namespace ProyectoResidenciasApi.Controllers
     {
         private readonly Sistem21ResidenciasSebContext context;
         Repository<Lectura> repoLectura;
+        Repository<Pregunta> repoPregunta;
         public LecturaController(Sistem21ResidenciasSebContext context)
         {
             this.context = context;
             repoLectura = new Repository<Lectura>(context);
+            repoPregunta=new Repository<Pregunta>(context);
         }
 
         [HttpGet]
@@ -41,6 +43,35 @@ namespace ProyectoResidenciasApi.Controllers
         public IActionResult GetLecturassByAll(int campoFormativoId,int asignaturaId, string nivelEducativo)
         {
             var lecturas = repoLectura.Get().Where(p => p.CamposFormativosId==campoFormativoId && p.AsignaturaId == asignaturaId && p.NivelEducativo == nivelEducativo).ToList();
+            return Ok(lecturas);
+        }
+        [HttpGet("LecturasConPreguntasPorCampoFormativo")]
+        public IActionResult GetLecturasConPreguntasPorCampoFormativo(int campoFormativoId, string nivelEducativo)
+        {
+            var lecturas = repoLectura.Get()
+                .Where(l => l.CamposFormativosId == campoFormativoId && l.NivelEducativo == nivelEducativo)
+                .Select(l => new
+                {
+                    Lectura = l,
+                    Preguntas = repoPregunta.Get().Where(p => p.LecturaId == l.Id).ToList()
+                })
+                .ToList();
+
+            return Ok(lecturas);
+        }
+
+        [HttpGet("LecturasConPreguntasPorAsignatura")]
+        public IActionResult GetLecturasConPreguntasPorAsignatura(int asignaturaId, string nivelEducativo)
+        {
+            var lecturas = repoLectura.Get()
+                .Where(l => l.AsignaturaId == asignaturaId && l.NivelEducativo == nivelEducativo)
+                .Select(l => new
+                {
+                    Lectura = l,
+                    Preguntas = repoPregunta.Get().Where(p => p.LecturaId == l.Id).ToList()
+                })
+                .ToList();
+
             return Ok(lecturas);
         }
         [HttpGet("{id}")]

@@ -38,14 +38,19 @@ namespace ProyectoResidenciasApi.Controllers
             var preguntas = repoPregunta.Get().Where(p => p.CamposFormativosId == campoFormativoId && p.NivelEducativo == nivelEducativo).ToList();
             return Ok(preguntas);
         }
-
+        [HttpGet("PreguntasPorLecturaId")]
+        public IActionResult GetPreguntasPorLecturaId(int lecturaId)
+        {
+            var preguntas = repoPregunta.Get().Where(p => p.LecturaId == lecturaId).ToList();
+            return Ok(preguntas);
+        }
         [HttpGet("PreguntasPorAsignatura")]
         public IActionResult GetPreguntasPorAsignatura(int asignaturaId, string nivelEducativo)
         {
             var preguntas = repoPregunta.Get().Where(p => p.AsignaturaId == asignaturaId && p.NivelEducativo == nivelEducativo).ToList();
             return Ok(preguntas);
         }
-
+      
         [HttpGet("Preguntas/{id}")]
         public IActionResult GetPreguntaById(int id)
         {

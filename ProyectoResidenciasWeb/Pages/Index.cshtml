@@ -150,18 +150,17 @@
                     console.error('Error al obtener las asignaturas:', error);
                 });
         }
-
         function seleccionarCampoFormativo(campoFormativoId, campoFormativoNombre) {
-            sessionStorage.setItem('id', campoFormativoId);
+            sessionStorage.setItem('campoFormativoId', campoFormativoId);
             sessionStorage.setItem('tipo', 'campoFormativo');
-            sessionStorage.setItem('campoFormativo', campoFormativoNombre);
+            sessionStorage.setItem('campoFormativoNombre', campoFormativoNombre);
             window.location.href = 'Preguntas';
         }
 
         function seleccionarAsignatura(asignaturaId, asignaturaNombre) {
-            sessionStorage.setItem('id', asignaturaId);
+            sessionStorage.setItem('asignaturaId', asignaturaId);
             sessionStorage.setItem('tipo', 'asignatura');
-            sessionStorage.setItem('asignatura', asignaturaNombre);
+            sessionStorage.setItem('asignaturaNombre', asignaturaNombre);
             window.location.href = 'Preguntas';
         }
 
