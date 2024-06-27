@@ -789,26 +789,34 @@
             const grado = sessionStorage.getItem('grado');
             const seccion = sessionStorage.getItem('seccion');
             const docenteId = sessionStorage.getItem('docenteId');
-            const asignatura = sessionStorage.getItem('asignatura');
-            const campoFormativo = sessionStorage.getItem('campoFormativo');
+            const asignatura = sessionStorage.getItem('asignaturaNombre');
+            const campoFormativo = sessionStorage.getItem('campoFormativoNombre');
             const nivelEducativo = sessionStorage.getItem('nivelEducativo');
             const fechaActual = new Date().toLocaleString('es-MX', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
 
-            // Generar la página del examen
-            doc.setFontSize(16);
-            doc.text(nombreEscuela, 10, 10);
-            doc.setFontSize(12);
-            doc.text(`Turno: ${turno}`, 10, 20);
-            doc.text(`Grado: ${grado} Sección: ${seccion}`, 10, 30);
-            doc.text(`Asignatura: ${asignatura || 'N/A'}`, 10, 40);
-            doc.text(`Campo Formativo: ${campoFormativo || 'N/A'}`, 10, 50);
-            doc.text(`Fecha: ${fechaActual}`, 10, 60);
-            doc.text('Nombre del Alumno: ___________________________', 10, 70);
+            // Encabezado
+            doc.setFontSize(14);
+            doc.text('SECRETARÍA DE EDUCACIÓN BÁSICA', 105, 10, { align: 'center' });
+            doc.text(nombreEscuela || 'Nombre de la Escuela', 105, 20, { align: 'center' });
 
-            let yOffset = 80;
+            doc.setFontSize(12);
+            doc.text(`SUPERVISIÓN ESCOLAR: ${grado || ''} ${turno || ''} ${seccion || ''}`, 105, 30, { align: 'center' });
+
+            let tituloExamen = 'EXAMEN DE ';
+            if (asignatura) {
+                tituloExamen += asignatura.toUpperCase();
+            } else if (campoFormativo) {
+                tituloExamen += campoFormativo.toUpperCase();
+            }
+            doc.text(tituloExamen, 105, 40, { align: 'center' });
+
+            doc.text(`NOMBRE: ______________________`, 10, 50);
+            doc.text(`GRUPO: __________`, 105, 50);
+            doc.text(`CALIFICACIÓN: __________`, 155, 50);
+
+            let yOffset = 60;
             doc.setFontSize(12);
             const preguntaIds = [];
-
             const lecturasMap = new Map();
 
             const lecturaPromises = preguntasSeleccionadas.map(pregunta => {
@@ -826,22 +834,36 @@
             const preguntasSinLectura = preguntasSeleccionadas.filter(p => p.tipoPregunta !== 'Multireactiva');
             const preguntasConLectura = preguntasSeleccionadas.filter(p => p.tipoPregunta === 'Multireactiva');
 
-            // Agregar preguntas sin lectura primero
+            function checkPageSpace(requiredSpace) {
+                const pageHeight = 297; // Altura de página A4 en mm
+                if (yOffset + requiredSpace > pageHeight - 10) { // 10 mm de margen desde abajo
+                    doc.addPage();
+                    yOffset = 10;
+                }
+            }
+
+            // Instrucciones generales
+            doc.setFontSize(12);
+            doc.text('INSTRUCCIONES: LEE LOS REACTIVOS Y CONTESTA CORRECTAMENTE:', 10, yOffset);
+            yOffset += 10;
+            doc.setFontSize(12);
+
             preguntasSinLectura.forEach((pregunta, index) => {
+                checkPageSpace(30);
                 doc.text(`${index + 1}. ${pregunta.texto}`, 10, yOffset);
                 yOffset += 10;
                 preguntaIds.push(pregunta.id);
 
-                if (pregunta.tipoPregunta === 'Opción Múltiple' || pregunta.tipoPregunta === 'Multireactiva') {
+                if (pregunta.tipoPregunta === 'Opción Múltiple') {
                     pregunta.respuestas.forEach((respuesta, respIndex) => {
-                        const letra = String.fromCharCode(65 + respIndex); // Generar letras A, B, C, D, ...
-                        doc.text(`${letra}) ${respuesta.texto}`, 20, yOffset);
+                        const letra = String.fromCharCode(65 + respIndex);
+                        doc.text(`(${letra}) ${respuesta.texto}`, 20, yOffset);
                         yOffset += 10;
                     });
                 } else if (pregunta.tipoPregunta === 'Falso-Verdadera') {
                     pregunta.respuestas.forEach((respuesta, respIndex) => {
-                        const letra = String.fromCharCode(65 + respIndex); // Generar letras A, B
-                        doc.text(`${letra}) ${respuesta.texto}`, 20, yOffset);
+                        const letra = String.fromCharCode(65 + respIndex);
+                        doc.text(`(${letra}) ${respuesta.texto}`, 20, yOffset);
                         yOffset += 10;
                     });
                 }
@@ -855,19 +877,25 @@
                 const preguntasDeLectura = preguntasConLectura.filter(p => p.lecturaId === lecturaId);
 
                 if (preguntasDeLectura.length > 0) {
+                    checkPageSpace(40);
+                    doc.setFontSize(12);
+                    doc.text('INSTRUCCIONES: LEE DETENIDAMENTE LA LECTURA Y CONTESTA LAS PREGUNTAS:', 10, yOffset);
+                    yOffset += 10;
+                    doc.setFontSize(12);
                     doc.text(lectura.titulo, 10, yOffset);
                     yOffset += 10;
-                    doc.text(lectura.contenido, 10, yOffset);
-                    yOffset += 10;
+                    doc.text(lectura.contenido, 10, yOffset, { maxWidth: 190 });
+                    yOffset += 20;
 
                     preguntasDeLectura.forEach((pregunta, index) => {
+                        checkPageSpace(30);
                         doc.text(`${lecturaIndex}. ${pregunta.texto}`, 10, yOffset);
                         yOffset += 10;
                         preguntaIds.push(pregunta.id);
 
                         pregunta.respuestas.forEach((respuesta, respIndex) => {
-                            const letra = String.fromCharCode(65 + respIndex); // Generar letras A, B, C, D, ...
-                            doc.text(`${letra}) ${respuesta.texto}`, 20, yOffset);
+                            const letra = String.fromCharCode(65 + respIndex);
+                            doc.text(`(${letra}) ${respuesta.texto}`, 20, yOffset);
                             yOffset += 10;
                         });
 
@@ -877,22 +905,21 @@
                 }
             });
 
-            // Agregar nueva página para las respuestas correctas
             doc.addPage();
-
             doc.setFontSize(16);
             doc.text('Respuestas Correctas', 10, 10);
             yOffset = 20;
             doc.setFontSize(12);
 
             preguntasSeleccionadas.forEach((pregunta, index) => {
+                checkPageSpace(20);
                 doc.text(`${index + 1}. ${pregunta.texto}`, 10, yOffset);
                 yOffset += 10;
 
                 if (pregunta.tipoPregunta === 'Opción Múltiple' || pregunta.tipoPregunta === 'Multireactiva') {
                     const respuestaCorrecta = pregunta.respuestas.find(respuesta => respuesta.esCorrecta);
                     if (respuestaCorrecta) {
-                        const letraCorrecta = pregunta.respuestas.indexOf(respuestaCorrecta); // Encontrar el índice de la respuesta correcta
+                        const letraCorrecta = pregunta.respuestas.indexOf(respuestaCorrecta);
                         doc.text(`Respuesta Correcta: ${String.fromCharCode(65 + letraCorrecta)}`, 20, yOffset);
                     } else {
                         doc.text('Respuesta Correcta: No definida', 20, yOffset);
@@ -911,7 +938,6 @@
                 yOffset += 10;
             });
 
-            // Convertir a Blob y enviar al servidor
             const pdfBlob = doc.output('blob');
             const fileName = `Examen_${fechaActual}.pdf`;
             const formData = new FormData();
@@ -924,7 +950,7 @@
             formData.append('asignatura', asignatura || '');
             formData.append('campoFormativo', campoFormativo || '');
             formData.append('nivelEducativo', nivelEducativo || '');
-            formData.append('fecha', fechaActual); // Añadir la fecha
+            formData.append('fecha', fechaActual);
             preguntaIds.forEach(id => formData.append('PreguntaIds', id));
 
             fetch('https://localhost:7162/api/Examen/GenerarExamen', {
@@ -940,9 +966,17 @@
                 console.error('Error al enviar el PDF al servidor:', error);
             });
 
+            preguntasSeleccionadas = [];
+            const checkboxes = document.querySelectorAll('#preguntas-list input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
             doc.save();
             cargarPreguntas();
         }
+
+
         async function filtrarPreguntas(tipo) {
             actualizarPreguntasSeleccionadas();
             preguntasFiltradas = preguntas.filter(p => p.tipoPregunta === tipo);
