@@ -1,4 +1,14 @@
 /* Reset de estilos básicos */
+
+:root {
+    --verde: #a2d249;
+    --light-verde: #dfefc0;
+    --azul: #70a0e6;
+    --celeste: #dae2ee;
+    --naranja: #ffac4f;
+    --rosa: #c61261;
+    --rosita: #ffb4d4;
+}
 * {
     margin: 0;
     padding: 0;
@@ -672,13 +682,46 @@ display:block;
             padding:10px 25px;
         }
 
+            .pyr-conteiner > .buttons-filter {
+                background-color: transparent;
+                padding: 15px 20px;
+                display: flex;
+                border-radius: 50px;
+               border:1px solid gray;
+                gap: 10px;
+                margin: 10px 0px;
+                justify-content:center;
+                
+            }
+
+        .buttons-filter button{
+            padding:10px 15px;
+            border-radius:30px;
+            font-weight:500;
+            border:none;
+          background-color:var(--verde);
+
+        }
+
+        .buttons-filter > button:hover{
+            background-color:black;
+            font-weight:500;
+            color:white;
+        }
+
 #preguntas-list li {
     padding: 5px 10px;
     border: none;
-    border-radius:0px;
+    border-radius:5px;
     margin:0;
-    border-block-end: 1px solid blue;
+    border: 1px solid lightgray;
+    margin-bottom:10px;
 }
+
+    #preguntas-list li:hover {
+        background-color: var(--celeste);
+        border: 1px solid blue;
+    }
 
 
 
