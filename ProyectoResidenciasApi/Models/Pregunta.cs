@@ -19,6 +19,8 @@ public partial class Pregunta
 
     public int? LecturaId { get; set; }
 
+    public ulong? Disponible { get; set; }
+
     public virtual Asignatura? Asignatura { get; set; }
 
     public virtual Camposformativos? CamposFormativos { get; set; }

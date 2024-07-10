@@ -28,21 +28,26 @@ namespace ProyectoResidenciasApi.Controllers
         [HttpGet("Preguntas")]
         public IActionResult GetAllPreguntas()
         {
-            var preguntas = repoPregunta.Get();
+            var preguntas = repoPregunta.Get().Where(p => p.Disponible == 1).ToList();
             return Ok(preguntas);
         }
 
         [HttpGet("PreguntasPorCampoFormativo")]
         public IActionResult GetPreguntasPorCampoFormativo(int campoFormativoId, string nivelEducativo)
         {
-            var preguntas = repoPregunta.Get().Where(p => p.CamposFormativosId == campoFormativoId && p.NivelEducativo == nivelEducativo).ToList();
+            var preguntas = repoPregunta.Get().Where(p => p.CamposFormativosId == campoFormativoId && p.NivelEducativo == nivelEducativo && p.Disponible == 1).ToList();
             return Ok(preguntas);
         }
-
+        [HttpGet("PreguntasPorLecturaId")]
+        public IActionResult GetPreguntasPorLecturaId(int lecturaId)
+        {
+            var preguntas = repoPregunta.Get().Where(p => p.LecturaId == lecturaId && p.Disponible == 1).ToList();
+            return Ok(preguntas);
+        }
         [HttpGet("PreguntasPorAsignatura")]
         public IActionResult GetPreguntasPorAsignatura(int asignaturaId, string nivelEducativo)
         {
-            var preguntas = repoPregunta.Get().Where(p => p.AsignaturaId == asignaturaId && p.NivelEducativo == nivelEducativo).ToList();
+            var preguntas = repoPregunta.Get().Where(p => p.AsignaturaId == asignaturaId && p.NivelEducativo == nivelEducativo && p.Disponible == 1).ToList();
             return Ok(preguntas);
         }
 
@@ -74,6 +79,8 @@ namespace ProyectoResidenciasApi.Controllers
                     TipoPregunta = dto.TipoPregunta,
                     LecturaId = dto.LecturaId,
                     AsignaturaId = dto.AsignaturaId,
+                    Disponible = 1
+
                 };
                 repoPregunta.Insert(pregunta);
                 return Ok(pregunta);
@@ -100,13 +107,13 @@ namespace ProyectoResidenciasApi.Controllers
                 NivelEducativo = preguntaDto.NivelEducativo,
                 TipoPregunta = preguntaDto.TipoPregunta,
                 AsignaturaId = preguntaDto.AsignaturaId,
-                LecturaId = preguntaDto.LecturaId
+                LecturaId = preguntaDto.LecturaId,
+                Disponible = 1
             };
 
             repoPregunta.Update(pregunta);
             return Ok(pregunta);
         }
-
         [HttpDelete("Preguntas/{id}")]
         public IActionResult DeletePregunta(int id)
         {
@@ -116,14 +123,10 @@ namespace ProyectoResidenciasApi.Controllers
                 return NotFound();
             }
 
-            // Eliminar todas las respuestas asociadas a la pregunta
-            var respuestas = _respuestaRepository.Get().Where(r => r.PreguntaId == id).ToList();
-            foreach (var respuesta in respuestas)
-            {
-                _respuestaRepository.Delete(respuesta);
-            }
+            // Baja lógica
+            pregunta.Disponible = 0;  // 0 para indicar no disponible
+            repoPregunta.Update(pregunta);
 
-            repoPregunta.Delete(pregunta);
             return NoContent();
         }
 

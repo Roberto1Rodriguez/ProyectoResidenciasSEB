@@ -38,7 +38,7 @@ public partial class Sistem21ResidenciasSebContext : DbContext
 
     public virtual DbSet<Usuario> Usuario { get; set; }
 
-
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -252,6 +252,9 @@ public partial class Sistem21ResidenciasSebContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.AsignaturaId).HasColumnType("int(11)");
             entity.Property(e => e.CamposFormativosId).HasColumnType("int(11)");
+            entity.Property(e => e.Disponible)
+                .HasDefaultValueSql("b'1'")
+                .HasColumnType("bit(1)");
             entity.Property(e => e.LecturaId).HasColumnType("int(11)");
             entity.Property(e => e.NivelEducativo).HasColumnType("enum('Primaria','Secundaria')");
             entity.Property(e => e.Texto).HasColumnType("text");
