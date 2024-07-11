@@ -9,60 +9,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preguntas y Respuestas</title>
     <link rel="stylesheet" href="/css/styles.css" />
-
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Space+Grotesk:wght@300..700&family=Varela+Round&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
-
 <style>
     #preguntas-list {
         list-style-type: decimal;
         padding-left: 20px;
     }
 </style>
-
 <body>
-
     <header class="header">
         <img src="/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
         <div class="header-right">
             <img src="/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
-
         </div>
     </header>
-
-
     <div class="pyr-conteiner">
-
         <h1>Preguntas y Respuestas</h1>
         <div>
             <h2 id="tipo-seleccionado"></h2>
             <h3 id="nivel-educativo-seleccionado"></h3>
         </div>
         <div class="buttons-filter">
-
             <button onclick="filtrarPreguntas('Abierta')">Abiertas</button>
             <button onclick="filtrarPreguntas('Opción Múltiple')">Opción Múltiple</button>
             <button onclick="filtrarPreguntas('Falso-Verdadera')">Falso-Verdadera</button>
-            <button onclick="filtrarPreguntas('Lectura Multirreactivos')">Lectura Multirreactivos</button>
+            <button onclick="filtrarPreguntas('Multireactiva')">Lectura Multirreactivos</button>
         </div>
-
         <ul id="preguntas-list"></ul>
-
         <button onclick="abrirConfirmacionModal()">Agregar al Examen</button>
         <button onclick="abrirModal()">Agregar Pregunta</button>
         <button onclick="abrirModalLectura()">Agregar Lectura</button>
         <a href="index">Volver a Inicio</a>
-
-
     </div>
-
-    
 
     <!-- Modal Agregar Pregunta -->
     <div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
@@ -95,7 +79,7 @@
                         <option value="Abierta">Abierta</option>
                         <option value="Opción Múltiple">Opción Múltiple</option>
                         <option value="Falso-Verdadera">Falso-Verdadera</option>
-                        <option value="Lectura Multirreactivos">Lectura Multirreactivos</option>
+                        <option value="Multireactiva">Lectura Multirreactivos</option>
                     </select>
                 </div>
                 <div id="pregunta-abierta" style="display:none;">
@@ -215,11 +199,11 @@
         </div>
     </div>
 
-
     <script>
         let preguntasSeleccionadas = [];
         let preguntas = [];
         let preguntasFiltradas = [];
+        let lecturasSeleccionadas = [];
 
         async function cargarDatos() {
             const nivelesEducativos = ['Primaria', 'Secundaria'];
@@ -256,8 +240,6 @@
         async function cargarAsignaturasPorNivel() {
             const nivelEducativo = document.getElementById('nivel-educativo').value;
             const asignaturaSelect = document.getElementById('asignatura');
-
-            // Limpiar el combobox de asignaturas
             asignaturaSelect.innerHTML = '<option value="" disabled selected>Seleccione Asignatura</option>';
 
             if (nivelEducativo) {
@@ -278,12 +260,11 @@
             const lecturaSelect = document.getElementById('lectura');
             lecturaSelect.innerHTML = '<option value="" disabled selected>Seleccione la Lectura</option>';
             if (!nivelEducativo || !campoFormativoId || !asignaturaId) {
-                return; // No cargar lecturas si alguno de los campos no está seleccionado
+                return;
             }
             try {
                 const response = await fetch(`https://localhost:7162/api/Lectura/LecturasByAll?campoFormativoId=${campoFormativoId}&asignaturaId=${asignaturaId}&nivelEducativo=${nivelEducativo}`);
                 const lecturas = await response.json();
-
                 lecturas.forEach(lectura => {
                     const option = document.createElement('option');
                     option.value = lectura.id;
@@ -295,17 +276,15 @@
             }
         }
 
-        // Funciones para el modal de preguntas
         function abrirModal(preguntaId = null) {
             document.getElementById('pregunta-id').value = preguntaId || '';
             if (preguntaId) {
-                // Cargar la pregunta en el modal para editar
                 const pregunta = preguntas.find(p => p.id === parseInt(preguntaId));
                 document.getElementById('nivel-educativo').value = pregunta.nivelEducativo;
                 document.getElementById('campo-formativo').value = pregunta.camposFormativosId;
                 cargarAsignaturasParaEdicion(pregunta.nivelEducativo, pregunta.asignaturaId);
                 document.getElementById('tipo-pregunta').value = pregunta.tipoPregunta;
-                cambiarTipoPregunta(); // Ajustar los campos según el tipo de pregunta
+                cambiarTipoPregunta();
                 switch (pregunta.tipoPregunta) {
                     case 'Abierta':
                         document.getElementById('texto-pregunta-abierta').value = pregunta.texto;
@@ -327,7 +306,7 @@
                             document.querySelector('input[name="correcta-vf"][value="Falso"]').checked = true;
                         }
                         break;
-                    case 'Lectura Multirreactivos':
+                    case 'Multireactiva':
                         document.getElementById('texto-pregunta-lectura').value = pregunta.texto;
                         document.getElementById('lectura').value = pregunta.lecturaId;
                         pregunta.respuestas.forEach((respuesta, index) => {
@@ -339,7 +318,6 @@
                         break;
                 }
             } else {
-                // Limpiar el modal para agregar una nueva pregunta
                 document.getElementById('form-pregunta').reset();
                 cambiarTipoPregunta();
             }
@@ -352,7 +330,6 @@
             cambiarTipoPregunta();
         }
 
-        // Funciones para el modal de lecturas
         function abrirModalLectura() {
             document.getElementById('modal-lectura').style.display = 'block';
         }
@@ -364,13 +341,11 @@
 
         async function guardarLectura(event) {
             event.preventDefault();
-
             const titulo = document.getElementById('titulo-lectura').value;
             const contenido = document.getElementById('contenido-lectura').value;
             const campoFormativoId = document.getElementById('campo-formativo-lectura').value;
             const nivelEducativo = document.getElementById('nivel-educativo-lectura').value;
             const asignaturaId = document.getElementById('asignatura-lectura').value;
-
             const lectura = {
                 Titulo: titulo,
                 Contenido: contenido,
@@ -378,7 +353,6 @@
                 NivelEducativo: nivelEducativo,
                 AsignaturaId: asignaturaId
             };
-
             try {
                 const response = await fetch('https://localhost:7162/api/Lectura/CrearLectura', {
                     method: 'POST',
@@ -387,14 +361,10 @@
                     },
                     body: JSON.stringify(lectura)
                 });
-
                 if (!response.ok) {
                     throw new Error('Error al guardar la lectura');
                 }
-
                 cerrarModalLectura();
-                // Aquí puedes llamar a cargarLecturas() si decides implementar la funcionalidad para mostrar las lecturas
-                // cargarLecturas();
             } catch (error) {
                 console.error('Error al guardar la lectura:', error);
             }
@@ -404,11 +374,9 @@
             const nivelEducativo = document.getElementById('nivel-educativo-lectura').value;
             const asignaturaSelect = document.getElementById('asignatura-lectura');
             asignaturaSelect.innerHTML = '<option value="" disabled selected>Seleccione la Asignatura</option>';
-
             try {
                 const response = await fetch(`https://localhost:7162/api/asignatura/ByNivel?nivel=${nivelEducativo}`);
                 const asignaturas = await response.json();
-
                 asignaturas.forEach(asignatura => {
                     const option = document.createElement('option');
                     option.value = asignatura.id;
@@ -423,7 +391,6 @@
         async function cargarAsignaturasParaEdicion(nivelEducativo, asignaturaId) {
             const asignaturaSelect = document.getElementById('asignatura');
             asignaturaSelect.innerHTML = '<option value="" disabled selected>Seleccione Asignatura</option>';
-
             if (nivelEducativo) {
                 const asignaturas = await fetch(`https://localhost:7162/api/asignatura/ByNivel?nivel=${nivelEducativo}`).then(response => response.json());
                 asignaturas.forEach(asignatura => {
@@ -441,13 +408,10 @@
             document.getElementById('pregunta-abierta').style.display = tipoPregunta === 'Abierta' ? 'block' : 'none';
             document.getElementById('pregunta-multiple').style.display = tipoPregunta === 'Opción Múltiple' ? 'block' : 'none';
             document.getElementById('pregunta-verdadero-falso').style.display = tipoPregunta === 'Falso-Verdadera' ? 'block' : 'none';
-            document.getElementById('pregunta-lectura').style.display = tipoPregunta === 'Lectura Multirreactivos' ? 'block' : 'none';
-
-            // Remueve el atributo required de todos los inputs inicialmente
+            document.getElementById('pregunta-lectura').style.display = tipoPregunta === 'Multireactiva' ? 'block' : 'none';
             document.querySelectorAll('#form-pregunta input, #form-pregunta select').forEach(input => {
                 input.required = false;
             });
-
             switch (tipoPregunta) {
                 case 'Abierta':
                     document.getElementById('texto-pregunta-abierta').required = true;
@@ -463,7 +427,7 @@
                         input.required = true;
                     });
                     break;
-                case 'Lectura Multirreactivos':
+                case 'Multireactiva':
                     document.querySelectorAll('#pregunta-lectura input[type="text"], #pregunta-lectura select').forEach(input => {
                         input.required = true;
                     });
@@ -473,14 +437,12 @@
 
         async function guardarPregunta(event) {
             event.preventDefault();
-
             const tipoPregunta = document.getElementById('tipo-pregunta').value;
             const nivelEducativo = document.getElementById('nivel-educativo').value;
             const campoFormativoId = document.getElementById('campo-formativo').value;
             const asignaturaId = document.getElementById('asignatura').value;
             const preguntaId = document.getElementById('pregunta-id').value;
             let texto;
-
             switch (tipoPregunta) {
                 case 'Abierta':
                     texto = document.getElementById('texto-pregunta-abierta').value;
@@ -491,7 +453,7 @@
                 case 'Falso-Verdadera':
                     texto = document.getElementById('texto-pregunta-verdadero-falso').value;
                     break;
-                case 'Lectura Multirreactivos':
+                case 'Multireactiva':
                     texto = document.getElementById('texto-pregunta-lectura').value;
                     break;
                 default:
@@ -507,7 +469,7 @@
                 AsignaturaId: asignaturaId
             };
 
-            if (tipoPregunta === 'Lectura Multirreactivos') {
+            if (tipoPregunta === 'Multireactiva') {
                 pregunta.LecturaId = document.getElementById('lectura').value;
             }
 
@@ -534,23 +496,19 @@
                     nuevaPregunta = await response.json();
                 }
 
-                if (tipoPregunta === 'Opción Múltiple' || tipoPregunta === 'Lectura Multirreactivos' || tipoPregunta === 'Falso-Verdadera') {
+                if (tipoPregunta === 'Opción Múltiple' || tipoPregunta === 'Multireactiva' || tipoPregunta === 'Falso-Verdadera') {
                     const opciones = tipoPregunta === 'Falso-Verdadera' ? ['Verdadero', 'Falso'] : ['A', 'B', 'C', 'D'];
-
-                    // Eliminar todas las respuestas existentes para la pregunta
                     const respuestasExistentes = await fetch(`https://localhost:7162/api/PreguntaRespuesta/RespuestasPorPregunta/${nuevaPregunta.id}`).then(response => response.json());
                     for (const respuesta of respuestasExistentes) {
                         await fetch(`https://localhost:7162/api/PreguntaRespuesta/Respuestas/${respuesta.id}`, {
                             method: 'DELETE'
                         });
                     }
-
-                    // Agregar las nuevas respuestas
                     for (const opcion of opciones) {
-                        const textoRespuesta = tipoPregunta === 'Falso-Verdadera' ? opcion : document.getElementById(`opcion-${opcion.toLowerCase()}${tipoPregunta === 'Lectura Multirreactivos' ? '-lectura' : ''}`).value;
+                        const textoRespuesta = tipoPregunta === 'Falso-Verdadera' ? opcion : document.getElementById(`opcion-${opcion.toLowerCase()}${tipoPregunta === 'Multireactiva' ? '-lectura' : ''}`).value;
                         let esCorrecta;
-                        if (tipoPregunta === 'Falso-Verdadera' || tipoPregunta === 'Lectura Multirreactivos') {
-                            esCorrecta = document.querySelector(`input[name="correcta${tipoPregunta === 'Lectura Multirreactivos' ? '-lectura' : '-vf'}"]:checked`).value === opcion;
+                        if (tipoPregunta === 'Falso-Verdadera' || tipoPregunta === 'Multireactiva') {
+                            esCorrecta = document.querySelector(`input[name="correcta${tipoPregunta === 'Multireactiva' ? '-lectura' : '-vf'}"]:checked`).value === opcion;
                         } else {
                             esCorrecta = document.querySelector(`input[name="correcta"]:checked`).value === opcion;
                         }
@@ -579,21 +537,20 @@
         }
 
         async function cargarPreguntas() {
-            const id = sessionStorage.getItem('id');
-            const tipo = sessionStorage.getItem('tipo');
+            const campoFormativoId = sessionStorage.getItem('campoFormativoId');
+            const asignaturaId = sessionStorage.getItem('asignaturaId');
             const nivelEducativo = sessionStorage.getItem('nivelEducativo');
-
             let endpoint;
-            let tipoSeleccionadoTexto = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+            let tipoSeleccionadoTexto = "";
 
-            if (tipo === 'campoFormativo') {
-                endpoint = `https://localhost:7162/api/PreguntaRespuesta/PreguntasPorCampoFormativo?campoFormativoId=${id}&nivelEducativo=${nivelEducativo}`;
-                const campoFormativo = await fetch(`https://localhost:7162/api/campoFormativo/${id}`).then(response => response.json());
-                tipoSeleccionadoTexto += ` - ${campoFormativo.nombre}`;
-            } else if (tipo === 'asignatura') {
-                endpoint = `https://localhost:7162/api/PreguntaRespuesta/PreguntasPorAsignatura?asignaturaId=${id}&nivelEducativo=${nivelEducativo}`;
-                const asignatura = await fetch(`https://localhost:7162/api/asignatura/${id}`).then(response => response.json());
-                tipoSeleccionadoTexto += ` - ${asignatura.nombre}`;
+            if (campoFormativoId) {
+                endpoint = `https://localhost:7162/api/PreguntaRespuesta/PreguntasPorCampoFormativo?campoFormativoId=${campoFormativoId}&nivelEducativo=${nivelEducativo}`;
+                const campoFormativo = await fetch(`https://localhost:7162/api/campoFormativo/${campoFormativoId}`).then(response => response.json());
+                tipoSeleccionadoTexto = `Campo Formativo - ${campoFormativo.nombre}`;
+            } else if (asignaturaId) {
+                endpoint = `https://localhost:7162/api/PreguntaRespuesta/PreguntasPorAsignatura?asignaturaId=${asignaturaId}&nivelEducativo=${nivelEducativo}`;
+                const asignatura = await fetch(`https://localhost:7162/api/asignatura/${asignaturaId}`).then(response => response.json());
+                tipoSeleccionadoTexto = `Asignatura - ${asignatura.nombre}`;
             }
 
             document.getElementById('tipo-seleccionado').textContent = tipoSeleccionadoTexto;
@@ -602,7 +559,7 @@
             try {
                 const response = await fetch(endpoint);
                 preguntas = await response.json();
-                preguntasFiltradas = preguntas.filter(p => p.tipoPregunta === 'Opción Múltiple'); // Mostrar por defecto preguntas de opción múltiple
+                preguntasFiltradas = preguntas.filter(p => p.tipoPregunta === 'Opción Múltiple');
                 mostrarPreguntas();
             } catch (error) {
                 console.error('Error al cargar las preguntas:', error);
@@ -613,63 +570,150 @@
             const preguntasList = document.getElementById('preguntas-list');
             preguntasList.innerHTML = '';
 
-            preguntasFiltradas.forEach(pregunta => {
-                const listItem = document.createElement('li');
+            if (preguntasFiltradas.length > 0 && preguntasFiltradas[0].tipoPregunta === 'Multireactiva') {
+                const lecturasMap = new Map();
 
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.value = pregunta.id;
-                checkbox.setAttribute('data-tipo', pregunta.tipoPregunta);
-
-                const label = document.createElement('label');
-                label.textContent = pregunta.texto;
-
-                if (preguntasSeleccionadas.some(p => p.id === pregunta.id)) {
-                    checkbox.checked = true;
-                }
-
-                listItem.appendChild(checkbox);
-                listItem.appendChild(label);
-
-                if (pregunta.tipoPregunta === 'Opción Múltiple' || pregunta.tipoPregunta === 'Lectura Multirreactivos' || pregunta.tipoPregunta === 'Falso-Verdadera') {
-                    const respuestasDiv = document.createElement('div');
-
-                    if (pregunta.respuestas && pregunta.respuestas.length > 0) {
-                        const opcionesRespuesta = pregunta.respuestas.map((respuesta, index) => {
-                            const letra = String.fromCharCode(65 + index); // Generar letras A, B, C, D, ...
-                            return `${letra}) ${respuesta.texto}`;
-                        }).join('<br>');
-                        respuestasDiv.innerHTML = opcionesRespuesta;
-                    } else {
-                        // Fetch responses if they are not preloaded
-                        fetch(`https://localhost:7162/api/PreguntaRespuesta/RespuestasPorPregunta/${pregunta.id}`)
-                            .then(respuestaResponse => respuestaResponse.json())
-                            .then(respuestas => {
-                                pregunta.respuestas = respuestas;
-                                const opcionesRespuesta = respuestas.map((respuesta, index) => {
-                                    const letra = String.fromCharCode(65 + index); // Generar letras A, B, C, D, ...
-                                    return `${letra}) ${respuesta.texto}`;
-                                }).join('<br>');
-                                respuestasDiv.innerHTML = opcionesRespuesta;
+                const lecturaPromises = preguntasFiltradas.map(pregunta => {
+                    if (!lecturasMap.has(pregunta.lecturaId)) {
+                        return fetch(`https://localhost:7162/api/Lectura/${pregunta.lecturaId}`)
+                            .then(response => response.json())
+                            .then(lectura => {
+                                lecturasMap.set(pregunta.lecturaId, {
+                                    titulo: lectura.titulo,
+                                    contenido: lectura.contenido,
+                                    preguntas: []
+                                });
                             });
                     }
+                });
 
-                    listItem.appendChild(respuestasDiv);
-                }
+                Promise.all(lecturaPromises).then(() => {
+                    preguntasFiltradas.forEach(pregunta => {
+                        lecturasMap.get(pregunta.lecturaId).preguntas.push(pregunta);
+                    });
 
-                // Botones de editar y eliminar
-                const editButton = document.createElement('button');
-                editButton.textContent = 'Editar';
-                editButton.onclick = () => abrirModal(pregunta.id);
-                listItem.appendChild(editButton);
+                    lecturasMap.forEach((lectura, lecturaId) => {
+                        const lecturaItem = document.createElement('li');
+                        const lecturaTitulo = document.createElement('strong');
+                        lecturaTitulo.textContent = lectura.titulo;
+                        lecturaItem.appendChild(lecturaTitulo);
+                        preguntasList.appendChild(lecturaItem);
 
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Eliminar';
-                deleteButton.onclick = () => eliminarPregunta(pregunta.id);
-                listItem.appendChild(deleteButton);
+                        lectura.preguntas.forEach(pregunta => {
+                            const listItem = document.createElement('li');
+                            listItem.style.listStyleType = 'none';
 
-                preguntasList.appendChild(listItem);
-            });
+                            const checkbox = document.createElement('input');
+                            checkbox.type = 'checkbox';
+                            checkbox.value = pregunta.id;
+                            checkbox.setAttribute('data-tipo', pregunta.tipoPregunta);
+
+                            const label = document.createElement('label');
+                            label.textContent = pregunta.texto;
+
+                            if (preguntasSeleccionadas.some(p => p.id === pregunta.id)) {
+                                checkbox.checked = true;
+                            }
+
+                            listItem.appendChild(checkbox);
+                            listItem.appendChild(label);
+
+                            if (pregunta.tipoPregunta === 'Opción Múltiple' || pregunta.tipoPregunta === 'Multireactiva' || pregunta.tipoPregunta === 'Falso-Verdadera') {
+                                const respuestasDiv = document.createElement('div');
+
+                                if (pregunta.respuestas && pregunta.respuestas.length > 0) {
+                                    const opcionesRespuesta = pregunta.respuestas.map((respuesta, index) => {
+                                        const letra = String.fromCharCode(65 + index);
+                                        return `${letra}) ${respuesta.texto}`;
+                                    }).join('<br>');
+                                    respuestasDiv.innerHTML = opcionesRespuesta;
+                                } else {
+                                    fetch(`https://localhost:7162/api/PreguntaRespuesta/RespuestasPorPregunta/${pregunta.id}`)
+                                        .then(respuestaResponse => respuestaResponse.json())
+                                        .then(respuestas => {
+                                            pregunta.respuestas = respuestas;
+                                            const opcionesRespuesta = respuestas.map((respuesta, index) => {
+                                                const letra = String.fromCharCode(65 + index);
+                                                return `${letra}) ${respuesta.texto}`;
+                                            }).join('<br>');
+                                            respuestasDiv.innerHTML = opcionesRespuesta;
+                                        });
+                                }
+
+                                listItem.appendChild(respuestasDiv);
+                            }
+
+                            const editButton = document.createElement('button');
+                            editButton.textContent = 'Editar';
+                            editButton.onclick = () => abrirModal(pregunta.id);
+                            listItem.appendChild(editButton);
+
+                            const deleteButton = document.createElement('button');
+                            deleteButton.textContent = 'Eliminar';
+                            deleteButton.onclick = () => eliminarPregunta(pregunta.id);
+                            listItem.appendChild(deleteButton);
+
+                            lecturaItem.appendChild(listItem);
+                        });
+                    });
+                });
+            } else {
+                preguntasFiltradas.forEach(pregunta => {
+                    const listItem = document.createElement('li');
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = pregunta.id;
+                    checkbox.setAttribute('data-tipo', pregunta.tipoPregunta);
+
+                    const label = document.createElement('label');
+                    label.textContent = pregunta.texto;
+
+                    if (preguntasSeleccionadas.some(p => p.id === pregunta.id)) {
+                        checkbox.checked = true;
+                    }
+
+                    listItem.appendChild(checkbox);
+                    listItem.appendChild(label);
+
+                    if (pregunta.tipoPregunta === 'Opción Múltiple' || pregunta.tipoPregunta === 'Multireactiva' || pregunta.tipoPregunta === 'Falso-Verdadera') {
+                        const respuestasDiv = document.createElement('div');
+
+                        if (pregunta.respuestas && pregunta.respuestas.length > 0) {
+                            const opcionesRespuesta = pregunta.respuestas.map((respuesta, index) => {
+                                const letra = String.fromCharCode(65 + index);
+                                return `${letra}) ${respuesta.texto}`;
+                            }).join('<br>');
+                            respuestasDiv.innerHTML = opcionesRespuesta;
+                        } else {
+                            fetch(`https://localhost:7162/api/PreguntaRespuesta/RespuestasPorPregunta/${pregunta.id}`)
+                                .then(respuestaResponse => respuestaResponse.json())
+                                .then(respuestas => {
+                                    pregunta.respuestas = respuestas;
+                                    const opcionesRespuesta = respuestas.map((respuesta, index) => {
+                                        const letra = String.fromCharCode(65 + index);
+                                        return `${letra}) ${respuesta.texto}`;
+                                    }).join('<br>');
+                                    respuestasDiv.innerHTML = opcionesRespuesta;
+                                });
+                        }
+
+                        listItem.appendChild(respuestasDiv);
+                    }
+
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Editar';
+                    editButton.onclick = () => abrirModal(pregunta.id);
+                    listItem.appendChild(editButton);
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Eliminar';
+                    deleteButton.onclick = () => eliminarPregunta(pregunta.id);
+                    listItem.appendChild(deleteButton);
+
+                    preguntasList.appendChild(listItem);
+                });
+            }
         }
 
         async function eliminarPregunta(preguntaId) {
@@ -719,7 +763,7 @@
             generarPDF();
         }
 
-        function generarPDF() {
+        async function generarPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
@@ -728,40 +772,80 @@
             const grado = sessionStorage.getItem('grado');
             const seccion = sessionStorage.getItem('seccion');
             const docenteId = sessionStorage.getItem('docenteId');
-            const asignatura = sessionStorage.getItem('asignatura');
-            const campoFormativo = sessionStorage.getItem('campoFormativo');
+            const asignatura = sessionStorage.getItem('asignaturaNombre');
+            const campoFormativo = sessionStorage.getItem('campoFormativoNombre');
             const nivelEducativo = sessionStorage.getItem('nivelEducativo');
             const fechaActual = new Date().toLocaleString('es-MX', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
 
-            // Generar la página del examen
-            doc.setFontSize(16);
-            doc.text(nombreEscuela, 10, 10);
-            doc.setFontSize(12);
-            doc.text(`Turno: ${turno}`, 10, 20);
-            doc.text(`Grado: ${grado} Sección: ${seccion}`, 10, 30);
-            doc.text(`Asignatura: ${asignatura || 'N/A'}`, 10, 40);
-            doc.text(`Campo Formativo: ${campoFormativo || 'N/A'}`, 10, 50);
-            doc.text(`Fecha: ${fechaActual}`, 10, 60);
-            doc.text('Nombre del Alumno: ___________________________', 10, 70);
+            // Encabezado
+            doc.setFontSize(14);
+            doc.text('SUBSECRETARÍA DE EDUCACIÓN BÁSICA', 105, 10, { align: 'center' });
+            doc.text(nombreEscuela || 'Nombre de la Escuela', 105, 20, { align: 'center' });
 
-            let yOffset = 80;
+            doc.setFontSize(12);
+            doc.text(`SUPERVISIÓN ESCOLAR: ${grado || ''} ${turno || ''} ${seccion || ''}`, 105, 30, { align: 'center' });
+
+            let tituloExamen = 'EXAMEN DE ';
+            if (asignatura) {
+                tituloExamen += asignatura.toUpperCase();
+            } else if (campoFormativo) {
+                tituloExamen += campoFormativo.toUpperCase();
+            }
+            doc.text(tituloExamen, 105, 40, { align: 'center' });
+
+            doc.text(`NOMBRE: ______________________`, 10, 50);
+            doc.text(`GRUPO: __________`, 105, 50);
+            doc.text(`CALIFICACIÓN: __________`, 155, 50);
+
+            let yOffset = 60;
             doc.setFontSize(12);
             const preguntaIds = [];
-            preguntasSeleccionadas.forEach((pregunta, index) => {
+            const lecturasMap = new Map();
+
+            const lecturaPromises = preguntasSeleccionadas.map(pregunta => {
+                if (pregunta.tipoPregunta === 'Multireactiva' && !lecturasMap.has(pregunta.lecturaId)) {
+                    return fetch(`https://localhost:7162/api/Lectura/${pregunta.lecturaId}`)
+                        .then(response => response.json())
+                        .then(lectura => {
+                            lecturasMap.set(pregunta.lecturaId, lectura);
+                        });
+                }
+            });
+
+            await Promise.all(lecturaPromises);
+
+            const preguntasSinLectura = preguntasSeleccionadas.filter(p => p.tipoPregunta !== 'Multireactiva');
+            const preguntasConLectura = preguntasSeleccionadas.filter(p => p.tipoPregunta === 'Multireactiva');
+
+            function checkPageSpace(requiredSpace) {
+                const pageHeight = 297;
+                if (yOffset + requiredSpace > pageHeight - 10) {
+                    doc.addPage();
+                    yOffset = 10;
+                }
+            }
+
+            doc.setFontSize(12);
+            doc.text('INSTRUCCIONES: LEE LOS REACTIVOS Y CONTESTA CORRECTAMENTE:', 10, yOffset);
+            yOffset += 10;
+            doc.setFontSize(12);
+
+            preguntasSinLectura.forEach((pregunta, index) => {
+                checkPageSpace(30);
                 doc.text(`${index + 1}. ${pregunta.texto}`, 10, yOffset);
                 yOffset += 10;
                 preguntaIds.push(pregunta.id);
 
-                if (pregunta.tipoPregunta === 'Opción Múltiple' || pregunta.tipoPregunta === 'Lectura Multirreactivos') {
+                if (pregunta.tipoPregunta === 'Opción Múltiple') {
                     pregunta.respuestas.forEach((respuesta, respIndex) => {
-                        const letra = String.fromCharCode(65 + respIndex); // Generar letras A, B, C, D, ...
-                        doc.text(`${letra}) ${respuesta.texto}`, 20, yOffset);
+                        const letra = String.fromCharCode(65 + respIndex);
+                        doc.text(`(${letra}) ${respuesta.texto}`, 20, yOffset);
                         yOffset += 10;
                     });
                 } else if (pregunta.tipoPregunta === 'Falso-Verdadera') {
                     pregunta.respuestas.forEach((respuesta, respIndex) => {
-                        const letra = String.fromCharCode(65 + respIndex); // Generar letras A, B
-                        doc.text(`${letra}) ${respuesta.texto}`, 20, yOffset);
+                        const letra = String.fromCharCode(65 + respIndex);
+                        doc.text(`(${letra}) ${respuesta.texto}`, 20, yOffset);
                         yOffset += 10;
                     });
                 }
@@ -769,22 +853,54 @@
                 yOffset += 10;
             });
 
-            // Agregar nueva página para las respuestas correctas
-            doc.addPage();
+            let lecturaIndex = preguntasSinLectura.length + 1;
+            lecturasMap.forEach((lectura, lecturaId) => {
+                const preguntasDeLectura = preguntasConLectura.filter(p => p.lecturaId === lecturaId);
 
+                if (preguntasDeLectura.length > 0) {
+                    checkPageSpace(40);
+                    doc.setFontSize(12);
+                    doc.text('INSTRUCCIONES: LEE DETENIDAMENTE LA LECTURA Y CONTESTA LAS PREGUNTAS:', 10, yOffset);
+                    yOffset += 10;
+                    doc.setFontSize(12);
+                    doc.text(lectura.titulo, 10, yOffset);
+                    yOffset += 10;
+                    doc.text(lectura.contenido, 10, yOffset, { maxWidth: 190 });
+                    yOffset += 20;
+
+                    preguntasDeLectura.forEach((pregunta, index) => {
+                        checkPageSpace(30);
+                        doc.text(`${lecturaIndex}. ${pregunta.texto}`, 10, yOffset);
+                        yOffset += 10;
+                        preguntaIds.push(pregunta.id);
+
+                        pregunta.respuestas.forEach((respuesta, respIndex) => {
+                            const letra = String.fromCharCode(65 + respIndex);
+                            doc.text(`(${letra}) ${respuesta.texto}`, 20, yOffset);
+                            yOffset += 10;
+                        });
+
+                        yOffset += 10;
+                        lecturaIndex++;
+                    });
+                }
+            });
+
+            doc.addPage();
             doc.setFontSize(16);
             doc.text('Respuestas Correctas', 10, 10);
             yOffset = 20;
             doc.setFontSize(12);
 
             preguntasSeleccionadas.forEach((pregunta, index) => {
+                checkPageSpace(20);
                 doc.text(`${index + 1}. ${pregunta.texto}`, 10, yOffset);
                 yOffset += 10;
 
-                if (pregunta.tipoPregunta === 'Opción Múltiple' || pregunta.tipoPregunta === 'Lectura Multirreactivos') {
+                if (pregunta.tipoPregunta === 'Opción Múltiple' || pregunta.tipoPregunta === 'Multireactiva') {
                     const respuestaCorrecta = pregunta.respuestas.find(respuesta => respuesta.esCorrecta);
                     if (respuestaCorrecta) {
-                        const letraCorrecta = pregunta.respuestas.indexOf(respuestaCorrecta); // Encontrar el índice de la respuesta correcta
+                        const letraCorrecta = pregunta.respuestas.indexOf(respuestaCorrecta);
                         doc.text(`Respuesta Correcta: ${String.fromCharCode(65 + letraCorrecta)}`, 20, yOffset);
                     } else {
                         doc.text('Respuesta Correcta: No definida', 20, yOffset);
@@ -803,7 +919,6 @@
                 yOffset += 10;
             });
 
-            // Convertir a Blob y enviar al servidor
             const pdfBlob = doc.output('blob');
             const fileName = `Examen_${fechaActual}.pdf`;
             const formData = new FormData();
@@ -816,7 +931,7 @@
             formData.append('asignatura', asignatura || '');
             formData.append('campoFormativo', campoFormativo || '');
             formData.append('nivelEducativo', nivelEducativo || '');
-            formData.append('fecha', fechaActual); // Añadir la fecha
+            formData.append('fecha', fechaActual);
             preguntaIds.forEach(id => formData.append('PreguntaIds', id));
 
             fetch('https://localhost:7162/api/Examen/GenerarExamen', {
@@ -832,11 +947,17 @@
                 console.error('Error al enviar el PDF al servidor:', error);
             });
 
+            preguntasSeleccionadas = [];
+            const checkboxes = document.querySelectorAll('#preguntas-list input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
             doc.save();
             cargarPreguntas();
         }
 
-        function filtrarPreguntas(tipo) {
+        async function filtrarPreguntas(tipo) {
             actualizarPreguntasSeleccionadas();
             preguntasFiltradas = preguntas.filter(p => p.tipoPregunta === tipo);
             mostrarPreguntas();
