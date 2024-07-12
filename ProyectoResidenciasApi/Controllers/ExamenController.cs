@@ -31,6 +31,7 @@ namespace ProyectoResidenciasApi.Controllers
             repoExamenPregunta = new Repository<Examenpregunta>(context);
             repoPregunta = new Repository<Pregunta>(context);
             repoRespuesta = new Repository<Respuesta>(context);
+            repoLectura= new Repository<Lectura>(context);
         }
         [HttpGet("examenesPorDocente/{docenteId}")]
         public IActionResult GetExamenesPorDocente(int docenteId)
@@ -143,8 +144,7 @@ namespace ProyectoResidenciasApi.Controllers
                 p.Texto,
                 p.TipoPregunta,
                 Respuestas = repoRespuesta.Get().Where(r => r.PreguntaId == p.Id).ToList(),
-                LecturaTexto = p.LecturaId.HasValue ? repoLectura.Get(p.LecturaId.Value).Contenido : null,
-                SubPreguntas = p.TipoPregunta == "Lectura Multirreactivos" ? repoPregunta.Get().Where(sp => sp.LecturaId == p.LecturaId).ToList() : null
+                p.LecturaId
             });
 
             return Ok(new { preguntas = preguntaConRespuestas });
