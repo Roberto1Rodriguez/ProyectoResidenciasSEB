@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/ProyectoResidenciasApi/wwwroot/examenes/Examen_10-07-2024.pdf
+/ProyectoResidenciasApi/wwwroot/examenes/Examen_11-07-2024.pdf
