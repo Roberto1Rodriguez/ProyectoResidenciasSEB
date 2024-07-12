@@ -25,78 +25,128 @@
             construirInterfazPreguntas(preguntas);
         });
 
-        function construirInterfazPreguntas(preguntas) {
+        async function construirInterfazPreguntas(preguntas) {
             const container = document.getElementById('preguntas-container');
             container.innerHTML = '';
 
-            preguntas.forEach((pregunta, index) => {
-                const preguntaDiv = document.createElement('div');
-                preguntaDiv.classList.add('pregunta');
-                preguntaDiv.innerHTML = `<p>${index + 1}. ${pregunta.texto}</p>`;
+            // Crear un mapa para agrupar preguntas por LecturaId
+            const lecturaMap = new Map();
 
-                switch (pregunta.tipoPregunta) {
-                    case 'Opción Múltiple':
-                        pregunta.respuestas.forEach((respuesta, respIndex) => {
-                            const letra = String.fromCharCode(65 + respIndex); // Generar letras A, B, C, D
-                            preguntaDiv.innerHTML += `
-                                        <input type="radio" name="pregunta_${pregunta.id}" value="${respuesta.id}" data-letra="${letra}" data-texto="${respuesta.texto}">
-                                        <label>${letra}) ${respuesta.texto}</label><br>
-                                    `;
-                        });
-                        break;
-                    case 'Abierta':
-                        preguntaDiv.innerHTML += `
-                                    <textarea name="pregunta_${pregunta.id}" rows="4" cols="50" data-letra="Texto Libre"></textarea>
-                                `;
-                        break;
-                    case 'Falso-Verdadera':
-                        preguntaDiv.innerHTML += `
-                                    <input type="radio" name="pregunta_${pregunta.id}" value="Verdadero" data-letra="Verdadero">
-                                    <label>Verdadero</label><br>
-                                    <input type="radio" name="pregunta_${pregunta.id}" value="Falso" data-letra="Falso">
-                                    <label>Falso</label><br>
-                                `;
-                        break;
-                    case 'Multireactiva':
-                        preguntaDiv.innerHTML += `<p><b>Lectura:</b> ${pregunta.lecturaTexto}</p>`;
-                        pregunta.subPreguntas.forEach((subPregunta, subIndex) => {
-                            preguntaDiv.innerHTML += `<p>${index + 1}.${subIndex + 1}. ${subPregunta.texto}</p>`;
-                            subPregunta.respuestas.forEach((respuesta, respIndex) => {
+            // Agrupar preguntas por LecturaId
+            preguntas.forEach(pregunta => {
+                if (pregunta.lecturaId) {
+                    if (!lecturaMap.has(pregunta.lecturaId)) {
+                        lecturaMap.set(pregunta.lecturaId, []);
+                    }
+                    lecturaMap.get(pregunta.lecturaId).push(pregunta);
+                } else {
+                    // Preguntas sin lectura asociada
+                    if (!lecturaMap.has(null)) {
+                        lecturaMap.set(null, []);
+                    }
+                    lecturaMap.get(null).push(pregunta);
+                }
+            });
+
+            // Obtener las lecturas
+            const lecturaPromises = [];
+            lecturaMap.forEach((_, lecturaId) => {
+                if (lecturaId !== null) {
+                    lecturaPromises.push(
+                        fetch(`https://localhost:7162/api/Lectura/${lecturaId}`)
+                            .then(response => response.json())
+                            .then(lectura => ({ lecturaId, lectura }))
+                    );
+                }
+            });
+
+            const lecturas = await Promise.all(lecturaPromises);
+
+            // Crear un mapa de lecturas para acceso rápido
+            const lecturasMap = new Map();
+            lecturas.forEach(({ lecturaId, lectura }) => {
+                lecturasMap.set(lecturaId, lectura);
+            });
+
+            // Construir la interfaz
+            let questionIndex = 0;
+            lecturaMap.forEach((preguntas, lecturaId) => {
+                if (lecturaId !== null) {
+                    const lectura = lecturasMap.get(lecturaId);
+                    const lecturaDiv = document.createElement('div');
+                    lecturaDiv.classList.add('lectura');
+                    lecturaDiv.innerHTML = `<p><b>Lectura:</b> ${lectura.titulo}</p><p>${lectura.contenido}</p>`;
+                    container.appendChild(lecturaDiv);
+                }
+
+                preguntas.forEach(pregunta => {
+                    questionIndex++;
+                    const preguntaDiv = document.createElement('div');
+                    preguntaDiv.classList.add('pregunta');
+                    preguntaDiv.innerHTML = `<p>${questionIndex}. ${pregunta.texto}</p>`;
+
+                    switch (pregunta.tipoPregunta) {
+                        case 'Opción Múltiple':
+                            pregunta.respuestas.forEach((respuesta, respIndex) => {
                                 const letra = String.fromCharCode(65 + respIndex); // Generar letras A, B, C, D
                                 preguntaDiv.innerHTML += `
-                                            <input type="radio" name="pregunta_${subPregunta.id}" value="${respuesta.id}" data-letra="${letra}" data-texto="${respuesta.texto}">
+                                            <input type="radio" name="pregunta_${pregunta.id}" value="${respuesta.id}" data-letra="${letra}" data-texto="${respuesta.texto}">
                                             <label>${letra}) ${respuesta.texto}</label><br>
                                         `;
                             });
-                        });
-                        break;
-                    default:
-                        break;
-                }
+                            break;
 
-                container.appendChild(preguntaDiv);
+                        case 'Abierta':
+                            preguntaDiv.innerHTML += `
+                                        <textarea name="pregunta_${pregunta.id}" rows="4" cols="50" data-letra=""></textarea>
+                                    `;
+                            break;
+
+                        case 'Falso-Verdadera':
+                            preguntaDiv.innerHTML += `
+                                        <input type="radio" name="pregunta_${pregunta.id}" value="Verdadero" data-letra="Verdadero">
+                                        <label>Verdadero</label><br>
+                                        <input type="radio" name="pregunta_${pregunta.id}" value="Falso" data-letra="Falso">
+                                        <label>Falso</label><br>
+                                    `;
+                            break;
+
+                        case 'Multireactiva':
+                            // Pregunta multireactiva, ya se añadió la lectura, añadir las preguntas y respuestas
+                            pregunta.respuestas.forEach((respuesta, respIndex) => {
+                                const letra = String.fromCharCode(65 + respIndex); // Generar letras A, B, C, D
+                                preguntaDiv.innerHTML += `
+                                            <input type="radio" name="pregunta_${pregunta.id}" value="${respuesta.id}" data-letra="${letra}" data-texto="${respuesta.texto}">
+                                            <label>${letra}) ${respuesta.texto}</label><br>
+                                        `;
+                            });
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    container.appendChild(preguntaDiv);
+                });
             });
         }
 
         async function enviarRespuestas() {
             const form = document.getElementById('examen-form');
             const formData = new FormData(form);
-            const respuestas = {};
+            const respuestas = [];
+            const preguntas = document.querySelectorAll('.pregunta');
 
-            for (const [key, value] of formData.entries()) {
-                const preguntaId = key.split('_')[1];
-                const respuestaInput = form.querySelector(`input[name="${key}"][value="${value}"], textarea[name="${key}"]`);
-                const letra = respuestaInput ? respuestaInput.getAttribute('data-letra') : value;
+            preguntas.forEach(preguntaDiv => {
+                const preguntaId = preguntaDiv.querySelector('textarea, input[type="radio"]:checked')?.name.split('_')[1];
+                const respuestaInput = preguntaDiv.querySelector('textarea, input[type="radio"]:checked');
+                const letra = respuestaInput ? respuestaInput.getAttribute('data-letra') : '';
                 const texto = respuestaInput ? (respuestaInput.tagName === 'TEXTAREA' ? respuestaInput.value : respuestaInput.getAttribute('data-texto')) : '';
 
-                if (!respuestas[preguntaId]) {
-                    respuestas[preguntaId] = { letra, texto };
-                } else if (Array.isArray(respuestas[preguntaId])) {
-                    respuestas[preguntaId].push({ letra, texto });
-                } else {
-                    respuestas[preguntaId] = [{ letra, texto }];
+                if (preguntaId) {
+                    respuestas.push({ preguntaId, letra, texto });
                 }
-            }
+            });
 
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -109,14 +159,15 @@
 
             let yOffset = 20;
             let preguntaIndex = 1;
-            Object.keys(respuestas).forEach(preguntaId => {
-                const respuesta = respuestas[preguntaId]; // Obtener la respuesta del alumno para esta pregunta
-                const letra = Array.isArray(respuesta) ? respuesta.map(r => r.letra).join(', ') : respuesta.letra;
-                const texto = Array.isArray(respuesta) ? respuesta.map(r => r.texto).join(', ') : respuesta.texto;
-
-                doc.text(`${preguntaIndex}. Pregunta ${preguntaId}`, 10, yOffset);
+            respuestas.forEach(respuesta => {
+                doc.text(`${preguntaIndex}.`, 10, yOffset);
                 yOffset += 10;
-                doc.text(`Respuesta: ${letra}. ${texto}`, 20, yOffset);
+
+                if (respuesta.texto) {
+                    doc.text(`Respuesta: ${respuesta.letra}. ${respuesta.texto}`, 20, yOffset);
+                } else {
+                    doc.text(`Respuesta: ${respuesta.letra}`, 20, yOffset);
+                }
                 yOffset += 10;
                 preguntaIndex++;
             });
@@ -128,18 +179,20 @@
             pdfFormData.append('examenId', examenId);
             pdfFormData.append('alumnoId', alumnoId);
 
-            fetch('https://localhost:7162/api/Examen/EnviarRespuestas', {
-                method: 'POST',
-                body: pdfFormData
-            }).then(response => {
+            try {
+                const response = await fetch('https://localhost:7162/api/Examen/EnviarRespuestas', {
+                    method: 'POST',
+                    body: pdfFormData
+                });
+
                 if (response.ok) {
                     alert('Respuestas enviadas exitosamente.');
                 } else {
                     alert('Error al enviar las respuestas.');
                 }
-            }).catch(error => {
+            } catch (error) {
                 console.error('Error al enviar el PDF al servidor:', error);
-            });
+            }
 
             doc.save();
         }
