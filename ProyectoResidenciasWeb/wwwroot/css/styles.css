@@ -882,7 +882,7 @@ display:block;
    #examen-form > #preguntas-container > .pregunta > p{
       font-size:1.1rem;
       font-weight:500;
-      marg
+      
       
     } 
 
@@ -900,6 +900,20 @@ display:block;
    .pregunta{
        margin-bottom:15px;
    }
+
+
+   /*PERFIL ADMINISTRADOR*/
+   /*INDEX*/
+
+.form-container-admin-index{
+    margin:40px;
+}
+
+    .form-container-admin-index h1 {
+        font-weight:bold;
+        font-size: 1.5rem;
+    }
+
 /* Responsividad */
 @media (max-width: 768px) {
     .main-container {
