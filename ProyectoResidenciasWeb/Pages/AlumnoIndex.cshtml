@@ -16,74 +16,108 @@
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Bienvenido</h1>
 
-    <div id="alumno-info">
+    <!-- Header con logos y botón de registro -->
 
-        <label id="nombre-alumno"></label>
 
-        <div>
-            <label>Grado:</label>
-            <label id="grado-alumno"></label>
+    <header class="alumno-header">
+        <img src="/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
+        <div class="header-right">
+            <img src="/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
+
         </div>
-        
-        <div>
-            <label>Sección:</label>
-            <label id="seccion-alumno"></label>
+    </header>
+
+    <div class="alumno-index-main-conteiner">
+
+        <h2>Perfil Alumno</h2>
+
+        <div id="alumno-info">
+            
+            <div class="bienvenida-alumno">
+                <h3>Hola,</h3>
+
+                <h1 id="nombre-alumno"></h1><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+                    <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                </svg>
+            </div>
+            
+
+            <div>
+  
+                    <label>Grado: <span id="grado-alumno"></span></label>
+
+                    <label>Sección: <span id="seccion-alumno"></span></label>
+
+            </div>
+
+            
+
         </div>
-        
-    </div>
 
-    <h2>Exámenes</h2>
-    <ul id="examenes-list"></ul>
-    <button onclick="window.location.href='login'">Cerrar sesión</button>
+        <h2>Mis examenes</h2>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const usuarioId = sessionStorage.getItem('usuarioId');
-            const nombreUsuario = sessionStorage.getItem('nombreUsuario');
-            const tipoUsuario = sessionStorage.getItem('tipoUsuario');
-            if (!usuarioId || tipoUsuario !== 'A') {
-                // Si no hay usuario autenticado o no es alumno, redirigir al login
-                window.location.href = 'login.html';
-            }
-            const response = await fetch(`https://localhost:7162/api/Alumno/alumno/${usuarioId}`);
-            const data = await response.json();
+        <ul id="examenes-list"></ul>
 
-            const alumnoId = data.alumno.id;
-            const nombreAlumno = data.alumno.nombre;
-            const gradoAlumno = data.alumno.grado;
-            const seccionAlumno = data.alumno.seccion;
+        <button onclick="window.location.href='login'">Cerrar sesión</button>
 
-            // Guardar información del alumno en sessionStorage
-            sessionStorage.setItem('alumnoId', alumnoId);
-            sessionStorage.setItem('nombreAlumno', nombreAlumno);
-            sessionStorage.setItem('gradoAlumno', gradoAlumno);
-            sessionStorage.setItem('seccionAlumno', seccionAlumno);
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const usuarioId = sessionStorage.getItem('usuarioId');
+                const nombreUsuario = sessionStorage.getItem('nombreUsuario');
+                const tipoUsuario = sessionStorage.getItem('tipoUsuario');
+                if (!usuarioId || tipoUsuario !== 'A') {
+                    // Si no hay usuario autenticado o no es alumno, redirigir al login
+                    window.location.href = 'login.html';
+                }
+                const response = await fetch(`https://localhost:7162/api/Alumno/alumno/${usuarioId}`);
+                const data = await response.json();
 
-            document.getElementById('nombre-alumno').textContent = nombreAlumno;
-            document.getElementById('grado-alumno').textContent = gradoAlumno;
-            document.getElementById('seccion-alumno').textContent = seccionAlumno;
+                const alumnoId = data.alumno.id;
+                const nombreAlumno = data.alumno.nombre;
+                const gradoAlumno = data.alumno.grado;
+                const seccionAlumno = data.alumno.seccion;
 
-            const examenesList = document.getElementById('examenes-list');
-            data.examenes.forEach(examenData => {
-                const examenDiv = document.createElement('div');
-                examenDiv.classList.add('examen');
+                // Guardar información del alumno en sessionStorage
+                sessionStorage.setItem('alumnoId', alumnoId);
+                sessionStorage.setItem('nombreAlumno', nombreAlumno);
+                sessionStorage.setItem('gradoAlumno', gradoAlumno);
+                sessionStorage.setItem('seccionAlumno', seccionAlumno);
 
-                examenDiv.innerHTML = `
-                            <h3>Examen de ${examenData.examen.asignatura || examenData.examen.campoFormativo}</h3>
-                            <p>Fecha: ${examenData.examen.fecha}</p>
-                            <p>Calificación: ${examenData.calificacion !== null ? examenData.calificacion : 'No calificado'}</p>
-                                    <button onclick="realizarExamen(${examenData.examen.id})" ${examenData.calificacion !== null ? 'disabled' : ''}>Responder Examen</button>
-                                `;
-                examenesList.appendChild(examenDiv);
+                document.getElementById('nombre-alumno').textContent = nombreAlumno;
+                document.getElementById('grado-alumno').textContent = gradoAlumno;
+                document.getElementById('seccion-alumno').textContent = seccionAlumno;
+
+                const examenesList = document.getElementById('examenes-list');
+                data.examenes.forEach(examenData => {
+                    const examenDiv = document.createElement('div');
+                    examenDiv.classList.add('examen');
+
+                    examenDiv.innerHTML = `
+                                                     <div class="columna nombre-fecha">
+                        <h3 class="nombre-examen">Examen de ${examenData.examen.asignatura || examenData.examen.campoFormativo}</h3>
+                        <p class="fecha-examen">Fecha: ${examenData.examen.fecha}</p>
+                    </div>
+                    <div class="columna calificacion">
+                        <p>${examenData.calificacion !== null ? examenData.calificacion : 'No calificado'}</p>
+                    </div>
+                    <div class="columna boton">
+                        <button class="boton-examen" onclick="realizarExamen(${examenData.examen.id})" ${examenData.calificacion !== null ? 'disabled' : ''}>Responder Examen</button>
+                    </div>
+                `;
+                    examenesList.appendChild(examenDiv);
+                });
             });
-        });
 
-        function realizarExamen(examenId) {
-            sessionStorage.setItem('examenId', examenId);
-            window.location.href = 'realizarExamen';
-        }
-    </script>
+            function realizarExamen(examenId) {
+                sessionStorage.setItem('examenId', examenId);
+                window.location.href = 'realizarExamen';
+            }
+        </script>
+
+    </div>
+    
 </body>
 </html>

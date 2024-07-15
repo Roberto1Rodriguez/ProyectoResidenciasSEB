@@ -8,14 +8,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Realizar Examen</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Space+Grotesk:wght@300..700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-    <h1>Realizar Examen</h1>
-    <form id="examen-form">
-        <div id="preguntas-container"></div>
-        <button type="button" onclick="enviarRespuestas()">Enviar Respuestas</button>
-    </form>
+
+    <!-- Header con logos y botón de registro -->
+
+
+    <header class="header">
+        <img src="/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
+        <div class="header-right">
+            <img src="/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
+
+        </div>
+    </header>
+
+    <div class="realizar-ex-container">
+
+        <h1>Comienza a contestar tu exámen!</h1>
+        <label class="instrucciones">Lee con atención y responde las preguntas correctamente.</label>
+
+        <form id="examen-form">
+            <div id="preguntas-container"></div>
+            <button class="enviar-resp" type="button" onclick="enviarRespuestas()">Enviar Respuestas</button>
+        </form>
+    </div>
+
+
+   
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const examenId = sessionStorage.getItem('examenId');
