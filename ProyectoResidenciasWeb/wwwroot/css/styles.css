@@ -577,6 +577,8 @@ li {
     background-color: #70a0e6;
 }
 
+
+
 /*LISTA DE EXAMENES*/
 
 .examenlist-container {
@@ -779,11 +781,11 @@ display:block;
     margin-bottom:10px;
 }
 
-#alumno-info h3,h1{
+/*#alumno-info h3,h1{
     font-weight:400;
     font-size:1.5rem;
     
-}
+}*/
 
 .alumno-index-main-conteiner > h2{
 
@@ -913,6 +915,19 @@ display:block;
         font-weight:bold;
         font-size: 1.5rem;
     }
+
+/*AGREGAR ALUMNO REGISTRO*/
+.agg-alumno-container {
+    margin:40px;
+      
+}
+.agg-alumno-container > #form-alumno{
+    width:50%;
+    margin-top:25px;
+  
+
+
+}
 
 /* Responsividad */
 @media (max-width: 768px) {

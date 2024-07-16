@@ -1,13 +1,14 @@
 ﻿@page
-@model ProyectoResidenciasWeb.Pages.AgregarAlumnoModel
+@model ProyectoResidenciasWeb.Pages.AgregarDocenteModel
 @{
 }
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Alumno</title>
+    <title>Agregar Docente</title>
     <link rel="stylesheet" href="/css/styles.css" />
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Space+Grotesk:wght@300..700&family=Varela+Round&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,32 +21,32 @@
 </head>
 <body>
 
-     <!-- Header con logos y botón de registro -->
+    <!-- Header con logos y botón de registro -->
 
-    
+
     <header class="header">
         <img src="/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
         <div class="header-right">
             <img src="/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
-             
+
         </div>
-    </header> 
+    </header>
 
 
-   
+
 
     <div class="agg-alumno-container">
 
 
-        <h1>Agregar Alumno</h1>
-        <label class="instrucciones">LLena los campos con la informacion del nuevo alumno.</label>
+        <h1>Agregar Docente</h1>
+        <label class="instrucciones">LLena los campos con la informacion del nuevo Docente</label>
 
         <form id="form-alumno" onsubmit="guardarAlumno(event)">
 
-          
+
             <div class="input-group">
-                <input type="text" id="nombre-alumno" name="nombre-alumno" required placeholder=" ">
-                <label for="nombre-alumno">Nombre</label>
+                <input type="text" id="nombre-docente" name="nombre-docente" required placeholder=" ">
+                <label for="nombre-docente">Nombre</label>
                 <span class="error-message">Error en el nombre</span>
             </div>
 
@@ -59,26 +60,13 @@
 
 
             <div class="input-group">
-                <input type="email" id="email-alumno" name="email-alumno" required placeholder=" ">
-                <label for="email-alumno">Correo</label>
+                <input type="email" id="email-docente" name="email-docente" required placeholder=" ">
+                <label for="email-docente">Correo</label>
                 <span class="error-message">Error en el correo</span>
             </div>
 
 
-            <div class="input-group">
-                <input type="number" id="grado" name="grado" required placeholder=" ">
-                <label for="grado">Grado</label>
-                <span class="error-message">Error en el grado</span>
-            </div>
 
-
-
-
-            <div class="input-group">
-                <input type="text" id="seccion" name="seccion" required placeholder=" ">
-                <label for="seccion">Sección</label>
-                <span class="error-message">Error en la seccion</span>
-            </div>
 
 
             <div class="input-group">
@@ -87,16 +75,16 @@
                 <span class="error-message">Error en la contraseña</span>
             </div>
 
-            <button type="submit">Guardar Alumno</button>
+            <button type="submit">Guardar Docente</button>
             <a href="index.html">Volver a Inicio</a>
 
         </form>
 
-        
+
 
     </div>
 
-   
+
 
     <script>
         async function guardarAlumno(event) {
