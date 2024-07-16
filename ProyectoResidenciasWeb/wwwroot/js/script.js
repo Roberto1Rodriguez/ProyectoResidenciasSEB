@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     settingsIcon.addEventListener('click', function (event) {
         event.stopPropagation();
         contextMenu.style.display = 'block';
-        const rect = settingsIcon.getBoundingClientRect();
+        const rect = icon.getBoundingClientRect();
         contextMenu.style.top = `${rect.bottom + window.scrollY}px`;
         contextMenu.style.left = `${rect.left + window.scrollX}px`;
     });

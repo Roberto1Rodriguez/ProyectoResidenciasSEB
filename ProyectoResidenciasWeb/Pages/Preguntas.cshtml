@@ -74,21 +74,33 @@
 
     <div class="pyr-conteiner">
         <h1>Preguntas y Respuestas</h1>
+
         <div>
             <h2 id="tipo-seleccionado"></h2>
             <h3 id="nivel-educativo-seleccionado"></h3>
         </div>
+
+
         <div class="buttons-filter">
             <button onclick="filtrarPreguntas('Abierta')">Abiertas</button>
             <button onclick="filtrarPreguntas('Opción Múltiple')">Opción Múltiple</button>
             <button onclick="filtrarPreguntas('Falso-Verdadera')">Falso-Verdadera</button>
             <button onclick="filtrarPreguntas('Multireactiva')">Lectura Multirreactivos</button>
         </div>
+
+
         <ul id="preguntas-list"></ul>
-        <button onclick="abrirConfirmacionModal()">Agregar al Examen</button>
-        <button onclick="abrirModal()">Agregar Pregunta</button>
-        <button onclick="abrirModalLectura()">Agregar Lectura</button>
-        <a href="index">Volver a Inicio</a>
+
+        <div class="preguntas-op">
+            <button onclick="abrirConfirmacionModal()">Agregar al Examen</button>
+            <button onclick="abrirModal()">Agregar Pregunta</button>
+            <button onclick="abrirModalLectura()">Agregar Lectura</button>
+            <a href="index">Volver a Inicio</a>
+        </div>
+       
+
+
+       
     </div>
 
     <!-- Modal Agregar Pregunta -->

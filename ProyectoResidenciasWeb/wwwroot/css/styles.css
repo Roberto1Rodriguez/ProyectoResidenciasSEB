@@ -718,7 +718,33 @@ display:block;
     margin:0;
     border: 1px solid lightgray;
     margin-bottom:10px;
+    
 }
+
+#preguntas-list > li > button{
+    background-color:black;
+    color:white;
+    padding:3px 10px;
+    border-radius:5px;
+    margin-right:5px;
+    font-size:medium;
+}
+.preguntas-op{
+    margin:0px 20px;
+    
+}
+.preguntas-op > button{
+    background-color:var(--rosita);
+    color:var(--rosa);
+    font-size:medium;
+    padding:10px 15px;
+    border-radius:5px;
+    border:none;
+    font-weight:500;
+    margin-right:10px;
+}
+
+
 
     #preguntas-list li:hover {
         background-color: var(--celeste);
@@ -948,7 +974,7 @@ display:block;
     background-color:var(--light-verde);
     
     z-index: 1000;
-}
+} 
 
     .context-menu ul {
         list-style: none;
