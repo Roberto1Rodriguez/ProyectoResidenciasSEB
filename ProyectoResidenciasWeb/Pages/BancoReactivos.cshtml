@@ -1,13 +1,14 @@
 ﻿@page
-@model ProyectoResidenciasWeb.Pages.PreguntasModel
+@model ProyectoResidenciasWeb.Pages.BancoReactivosModel
 @{
 }
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preguntas y Respuestas</title>
+    <title>Banco de Reactivos</title>
     <link rel="stylesheet" href="/css/styles.css" />
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Space+Grotesk:wght@300..700&family=Varela+Round&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,7 +34,7 @@
     <div class="index-options">
         <div>
             <h3>
-                Hola,<span>Roberto Rodriguez Wong</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                Hola,<span>Belén Ruiz Almaguer</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
                     <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
@@ -44,7 +45,7 @@
 
 
         <div class="index-options-btns">
-            <button onclick="window.location.href='agregarAlumno'" class="btn-agg-alumno" id="openModalBtn">
+            <button onclick="window.location.href='agregarDocente'" class="btn-agg-alumno" id="openModalBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-plus" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7a9f37" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M20.985 12.528a9 9 0 1 0 -8.45 8.456" />
@@ -53,10 +54,10 @@
                     <path d="M9 10h.01" />
                     <path d="M15 10h.01" />
                     <path d="M9.5 15c.658 .64 1.56 1 2.5 1s1.842 -.36 2.5 -1" />
-                </svg>Agregar Alumno
+                </svg>Agregar Docente
             </button>
 
-            <button onclick="window.location.href='ListaExamenes'" class="btn-examenlist">
+            <button onclick="window.location.href='BancoReactivos'" class="btn-examenlist">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4a6a99" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
@@ -65,7 +66,7 @@
                     <path d="M11 6l9 0" />
                     <path d="M11 12l9 0" />
                     <path d="M11 18l9 0" />
-                </svg>Exámenes
+                </svg>Banco de Reactivos
             </button>
         </div>
     </div>
@@ -73,7 +74,7 @@
 
 
     <div class="pyr-conteiner">
-        <h1>Preguntas y Respuestas</h1>
+        <h1>Banco de reactivos</h1>
         <div>
             <h2 id="tipo-seleccionado"></h2>
             <h3 id="nivel-educativo-seleccionado"></h3>

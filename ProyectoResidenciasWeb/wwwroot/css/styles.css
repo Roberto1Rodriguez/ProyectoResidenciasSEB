@@ -730,13 +730,13 @@ display:block;
 
 /*ALUMNO INDEX*/
 
-.alumno-header{
+/*.alumno-header{
     background-color:var(--verde);
-}
+}*/
 
-.alumno-index-main-conteiner{
+/*.alumno-index-main-conteiner{
     margin:40px;
-}
+}*/
 
 .alumno-index-main-conteiner h1{
     margin:0;
@@ -750,16 +750,14 @@ display:block;
 }
 
 #alumno-info {
-    display: flex;
+    display:flex;
+    position:relative;
     justify-content: space-between;
     align-items:center;
-    padding:5px;
-  
-    border-radius:5px;
-    
-    font-weight:500;
-    
-    
+   
+    padding: 10px 40px;
+    border-bottom: 1px solid ghostwhite;
+    border-top: 1px solid ghostwhite;
     
 }
 
@@ -770,27 +768,39 @@ display:block;
     gap: 20px;
 }
 
+
 #alumno-info > .bienvenida-alumno {
-    display:flex;
+    display:grid;
     justify-content:center;
     align-content:center;
     align-items:center;
-    gap: 3px;
-    
-    font-size:1.2rem;
-    margin-bottom:10px;
+    gap:0;
+
 }
 
-/*#alumno-info h3,h1{
+    #alumno-info > .bienvenida-alumno > div {
+        display: flex;
+      
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+        gap:5px;
+       
+    }
+
+    #alumno-info > .bienvenida-alumno > label {
+        color:gray;
+    }
+        /*#alumno-info h3,h1{
     font-weight:400;
     font-size:1.5rem;
     
 }*/
 
-.alumno-index-main-conteiner > h2{
+        .alumno-index-main-conteiner > h2{
 
     margin-bottom:10px;
-    font-weight:600;
+    margin:15px 40px;
 }
 
 #examenes-list {
@@ -798,7 +808,7 @@ display:block;
     flex-direction: column;
     gap: 10px;
     border: 1px solid gray;
-
+    margin:0px 40px;
     padding: 10px;
 }
 
@@ -907,8 +917,8 @@ display:block;
    /*PERFIL ADMINISTRADOR*/
    /*INDEX*/
 
-.form-container-admin-index{
-    margin:40px;
+.form-container-admin-index {
+    margin: 15px 40px;
 }
 
     .form-container-admin-index h1 {
@@ -918,7 +928,7 @@ display:block;
 
 /*AGREGAR ALUMNO REGISTRO*/
 .agg-alumno-container {
-    margin:40px;
+    margin:15px 40px;
       
 }
 .agg-alumno-container > #form-alumno{
@@ -928,6 +938,32 @@ display:block;
 
 
 }
+/*CONTEXT MENU CERRAR SESION ALUMNO*/
+
+.context-menu {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 0px; 
+    background-color:var(--light-verde);
+    
+    z-index: 1000;
+}
+
+    .context-menu ul {
+        list-style: none;
+        margin: 0;
+       
+    }
+
+        .context-menu ul li {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+            .context-menu ul li:hover {
+                background-color: #f0f0f0;
+            }
 
 /* Responsividad */
 @media (max-width: 768px) {

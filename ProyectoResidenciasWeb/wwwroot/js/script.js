@@ -30,14 +30,15 @@ var btn = document.getElementById("openModalBtn");
 var span = document.getElementsByClassName("close")[0];
 
 // Cuando el usuario hace clic en el botón, se abre el modal
-btn.onclick = function() {
-    modal.style.display = "block";
-}
+//btn.onclick = function() {
+    //modal.style.display = "block";
+//}
+//
 
 // Cuando el usuario hace clic en <span> (x), se cierra el modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
+//span.onclick = function() {
+  //  modal.style.display = "none";
+//}
 
 // Cuando el usuario hace clic en cualquier lugar fuera del modal, se cierra
 window.onclick = function(event) {
@@ -46,4 +47,26 @@ window.onclick = function(event) {
     }
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    const icon = document.getElementById('icon');
+    const contextMenu = document.getElementById('contextMenu');
+
+    icon.addEventListener('click', function (event) {
+        event.stopPropagation();
+        contextMenu.style.display = 'block';
+    });
+
+    document.addEventListener('click', function (event) {
+        if (event.target !== contextMenu && event.target !== icon) {
+            contextMenu.style.display = 'none';
+        }
+    });
+
+    contextMenu.addEventListener('click', function (event) {
+        if (event.target.id === 'logout') {
+            alert('Cerrando sesión...');
+            // Aquí puedes agregar la lógica para cerrar sesión
+        }
+    });
+});
 
