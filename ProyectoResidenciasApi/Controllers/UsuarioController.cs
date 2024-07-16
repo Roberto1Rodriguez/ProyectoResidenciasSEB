@@ -20,21 +20,38 @@ namespace ProyectoResidenciasApi.Controllers
             repoUsuario = new Repository<Usuario>(context);
             repoDocente = new Repository<Docente>(context);
         }
-
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            var usuario = repoUsuario.Get().SingleOrDefault(u => u.NombreUsuario== loginDto.NombreUsuario && u.Contraseña == loginDto.Contraseña); // Manejar el hash de la contraseña en una implementación real
-            if (usuario == null)
+            List<Usuario> usuarios = new();
+            usuarios = await repoUsuario.Get().Include(u => u.Alumno).ToListAsync();
+            if (usuarios == null)
             {
-                return Unauthorized("Usuario o contraseña incorrectos");
+                return NotFound();
+            }
+            else
+            {
+                return Ok(usuarios);
             }
 
-            var docente = repoDocente.Get().SingleOrDefault(d => d.UsuarioId == usuario.Id);
-
-            // Devolver datos de usuario y docente
-            return Ok(new { usuario, docente });
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            Usuario? usuario = new();
+            usuario = await repoUsuario.Get().Where(x => x.Id == id).Include(u => u.Alumno).FirstOrDefaultAsync();
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(usuario);
+            }
+
+        }
+
     }
 
 }

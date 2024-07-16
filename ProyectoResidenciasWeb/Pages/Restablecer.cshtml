@@ -1,0 +1,47 @@
+﻿@page
+@model ProyectoResidenciasWeb.Pages.RestablecerModel
+@{
+}
+<html>
+<head>
+    <title>Restablecer Contraseña</title>
+
+</head>
+<body>
+
+
+    <span class="dot"></span>
+    <div class="login-box" style="height: 270px;">
+        <a href="/index" class="back-arrow">
+           
+        </a>
+        <h2 class="password-forget-h2">Restablecer contrase&ntilde;a</h2>
+        <form>
+            <div class="user-box">
+                <input type="text" id="EmailInput" required>
+                <label>Email</label>
+                
+            </div>
+            <p class="error-message"></p>
+            <div class="password-btn-box" style="margin-top: -10px;">
+                <a href="#" class="login-btn" id="restablecerBtn">
+                    Continuar
+                </a>
+            </div>
+
+
+        </form>
+    </div>
+    <script type="text/javascript" src="~/js/seguridad.js">
+
+    </script>
+    <script>
+        const email = document.querySelector("#EmailInput");
+
+        const errorMessage = document.querySelector(".error-message");
+        document.querySelector("#restablecerBtn").addEventListener("click", function () {
+            restablecerContrasena(email.value);
+        })
+    </script>
+</body>
+</html>

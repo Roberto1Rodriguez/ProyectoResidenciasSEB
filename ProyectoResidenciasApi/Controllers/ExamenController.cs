@@ -198,6 +198,25 @@ namespace ProyectoResidenciasApi.Controllers
             var fileBytes = System.IO.File.ReadAllBytes(filePath);
             return File(fileBytes, "application/pdf", Path.GetFileName(filePath));
         }
+        [HttpGet("DescargarExamen")]
+        public IActionResult DescargarExamen(int examenId)
+        {
+            var examen = repoExamen.Get(examenId);
+            if (examen == null || string.IsNullOrEmpty(examen.UbicacionPdf))
+            {
+                return NotFound("El examen no existe o no tiene un PDF asociado.");
+            }
+
+            var filePath = Path.Combine(_env.WebRootPath, examen.UbicacionPdf);
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound("El archivo PDF no se encuentra en el servidor.");
+            }
+
+            var fileBytes = System.IO.File.ReadAllBytes(filePath);
+            var fileName = $"Examen_{examenId}.pdf";
+            return File(fileBytes, "application/pdf", fileName);
+        }
     }
 }
 
