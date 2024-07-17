@@ -18,22 +18,51 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 
+    <style>
+        .docente {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
 
+        .columna {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .columna.nombre {
+                flex: 1;
+            }
+
+            .columna.boton {
+                margin-left: 10px;
+            }
+
+        .boton-examen {
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1px solid #70a0e6;
+            background-color: #70a0e6;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
     <!-- Header con logos y botón de registro -->
 
-
     <header class="header">
         <img src="/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
         <div class="header-right">
             <img src="/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
-
         </div>
     </header>
-
-
 
     <div class="index-options">
         <div>
@@ -45,8 +74,6 @@
                 </svg>
             </h3>
         </div>
-
-
 
         <div class="index-options-btns">
             <button onclick="window.location.href='agregarDocente'" class="btn-agg-alumno" id="openModalBtn">
@@ -75,92 +102,85 @@
         </div>
     </div>
 
-
     <div class="main-container-admin-index">
-
         <div class="form-container-admin-index">
-
-
             <h1>Lista de docentes</h1>
-
             <ul id="docentes-list"></ul>
-            
-
             <button id="volver" class="hidden">Volver</button>
         </div>
     </div>
 
-    <!-- Modal agregar docente-->
+    <!-- Modal agregar docente -->
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Agregar Docente</h2>
             <form>
-
                 <div class="input-group">
                     <input type="text" id="nombre" required placeholder=" ">
                     <label for="nombre">Nombre</label>
                     <span class="error-message">Error en el nombre</span>
                 </div>
-
                 <div class="input-group">
                     <input type="text" id="usuario" required placeholder=" ">
                     <label for="usuario">Usuario</label>
                     <span class="error-message">Error en el usuario</span>
                 </div>
-
                 <div class="input-group">
                     <input type="email" id="correo" required placeholder=" ">
                     <label for="correo">Correo</label>
                     <span class="error-message">Error en el correo</span>
                 </div>
-
                 <div class="input-group">
                     <input type="number" id="grado" required placeholder=" ">
                     <label for="grado">Grado</label>
                     <span class="error-message">Error en el grado</span>
                 </div>
-
                 <div class="input-group">
                     <input type="text" id="seccion" required placeholder=" ">
                     <label for="seccion">Sección</label>
                     <span class="error-message">Error en la seccion</span>
                 </div>
-
                 <div class="input-group">
                     <input type="password" id="contraseña" required placeholder=" ">
                     <label for="contraseña">Contraseña</label>
                     <span class="error-message">Error en la contraseña</span>
                 </div>
-
-
                 <button type="submit">Guardar registro</button>
             </form>
         </div>
     </div>
 
-
     <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('https://localhost:7162/api/Docente/docentes');
+                const data = await response.json();
+                const docentesList = document.getElementById('docentes-list');
 
-        const docentesList = document.getElementById('docentes-list');
-        data.docentes.forEach(docenteData => {
-            const docenteDiv = document.createElement('div');
-            docenteDiv.classList.add('docente');
-
-            docenteDiv.innerHTML = `
-                                                                     <div class="columna nombre">
-            <h3 class="nombre-docente">Examen de ${examenData.examen.asignatura || examenData.examen.campoFormativo}</h3>
-        </div>
-        <div class="columna boton">
-            <button class="boton-examen" onclick="realizarExamen(${examenData.examen.id})">Ver Exámenes</button>
-        </div>
-
-                        `;
-            docentesList.appendChild(docenteDiv);
+                data.forEach(docente => {
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('docente');
+                    listItem.innerHTML = `
+                                <div class="columna nombre">
+                                    <h3>${docente.nombre} - ${docente.usuario.nombreUsuario}</h3>
+                                </div>
+                                <div class="columna boton">
+                                    <button class="boton-examen" onclick="verExamenes(${docente.id})">Ver Exámenes</button>
+                                </div>
+                            `;
+                    docentesList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Error al cargar la lista de docentes:', error);
+            }
         });
 
+        function verExamenes(docenteId) {
+            // Aquí iría la lógica para ver los exámenes del docente seleccionado
+            console.log('Ver exámenes del docente con ID:', docenteId);
+        }
     </script>
-
 
 </body>
 </html>

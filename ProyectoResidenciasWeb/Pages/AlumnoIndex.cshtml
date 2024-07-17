@@ -112,17 +112,17 @@
                     examenDiv.classList.add('examen');
 
                     examenDiv.innerHTML = `
-                                                     <div class="columna nombre-fecha">
-                        <h3 class="nombre-examen">Examen de ${examenData.examen.asignatura || examenData.examen.campoFormativo}</h3>
-                        <p class="fecha-examen">Fecha: ${examenData.examen.fecha}</p>
-                    </div>
-                    <div class="columna calificacion">
-                        <p>${examenData.calificacion !== null ? examenData.calificacion : 'No calificado'}</p>
-                    </div>
-                    <div class="columna boton">
-                        <button class="boton-examen" onclick="realizarExamen(${examenData.examen.id})" ${examenData.calificacion !== null ? 'disabled' : ''}>Responder Examen</button>
-                    </div>
-                `;
+                                    <div class="columna nombre-fecha">
+                                        <h3 class="nombre-examen">Examen de ${examenData.examen.asignatura || examenData.examen.campoFormativo}</h3>
+                                        <p class="fecha-examen">Fecha: ${examenData.examen.fecha}</p>
+                                    </div>
+                                    <div class="columna calificacion">
+                                        <p>${examenData.calificacion !== null ? examenData.calificacion : 'No calificado'}</p>
+                                    </div>
+                                                  <div class="columna boton">
+                                        <button class="boton-examen" onclick="realizarExamen(${examenData.examen.id})" ${examenData.haRespondido || examenData.estaCalificado ? 'disabled' : ''}>Responder Examen</button>
+                                    </div>
+                                `;
                     examenesList.appendChild(examenDiv);
                 });
             });
@@ -132,6 +132,7 @@
                 window.location.href = 'realizarExamen';
             }
         </script>
+    
 
     </div>
 

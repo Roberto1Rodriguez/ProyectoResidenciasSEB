@@ -17,15 +17,19 @@ namespace ProyectoResidenciasApi.Controllers
         Repository<Docente> repoDocente;
         Repository<Historialexamen> repoHistorialExamen;
         Repository<Examengenerado> repoExamengenerado;
+        Repository<Respuesta> repoRespuestas; // Añadir repositorio de respuestas
+
         public AlumnoController(Sistem21ResidenciasSebContext context)
         {
             this.context = context;
             repoAlumno = new Repository<Alumno>(context);
             repoUsuario = new Repository<Usuario>(context);
             repoDocente = new Repository<Docente>(context);
-            repoHistorialExamen= new Repository<Historialexamen>(context);
-            repoExamengenerado=new Repository<Examengenerado>(context);
+            repoHistorialExamen = new Repository<Historialexamen>(context);
+            repoExamengenerado = new Repository<Examengenerado>(context);
+            repoRespuestas = new Repository<Respuesta>(context); // Inicializar repositorio de respuestas
         }
+
         [HttpGet("alumno/{usuarioId}")]
         public IActionResult GetAlumnoPorUsuario(int usuarioId)
         {
@@ -43,16 +47,19 @@ namespace ProyectoResidenciasApi.Controllers
                 var examen = repoExamengenerado.Get(h.ExamenGeneradoId);
                 if (examen != null)
                 {
+                    var haRespondido = !string.IsNullOrEmpty(h.UbicacionRespuestasPdf); // Verificar si hay un PDF de respuestas
                     examenes.Add(new
                     {
                         Examen = examen,
-                        Calificacion = h.Calificacion
+                        Calificacion = h.Calificacion,
+                        HaRespondido = haRespondido // Añadir verificación de respuesta
                     });
                 }
             }
 
             return Ok(new { Alumno = alumno, Examenes = examenes });
         }
+
         [HttpPost("CrearAlumno")]
         public IActionResult CrearConUsuario(AlumnoDto dto)
         {
@@ -102,3 +109,4 @@ namespace ProyectoResidenciasApi.Controllers
         }
     }
 }
+

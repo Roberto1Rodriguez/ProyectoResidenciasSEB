@@ -117,7 +117,7 @@
             </div>
 
             <button type="submit">Guardar Docente</button>
-            <a href="index.html">Volver a Inicio</a>
+            <a href="AdministradorIndex">Volver a Inicio</a>
 
         </form>
 
@@ -130,43 +130,38 @@
     <script>
         async function guardarAlumno(event) {
             event.preventDefault();
-
-            const docenteId = sessionStorage.getItem('docenteId');
-            const nombre = document.getElementById('nombre-alumno').value;
+            const nombre = document.getElementById('nombre-docente').value;
             const nombreUsuario = document.getElementById('nombre-usuario').value;
-            const email = document.getElementById('email-alumno').value;
-            const grado = document.getElementById('grado').value;
-            const seccion = document.getElementById('seccion').value;
+            const email = document.getElementById('email-docente').value;
             const contraseña = document.getElementById('contraseña').value;
 
-            const alumno = {
+            const docente = {
                 Nombre: nombre,
                 NombreUsuario: nombreUsuario,
                 Email: email,
                 Contraseña: contraseña,
-                Grado: grado,
-                Seccion: seccion,
-                DocenteId: docenteId
+               
             };
 
             try {
-                const response = await fetch('https://localhost:7162/api/alumno/CrearAlumno', {
+                const response = await fetch('https://localhost:7162/api/docente/CrearDocente', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(alumno)
+                    body: JSON.stringify(docente)
                 });
 
                 if (!response.ok) {
-                    throw new Error('Error al guardar el alumno');
+                    throw new Error('Error al guardar el docente');
                 }
 
-                alert('Alumno guardado exitosamente.');
+                alert('Docente guardado exitosamente.');
+                window.location.href = 'AdministradorIndex';
                 document.getElementById('form-alumno').reset();
             } catch (error) {
-                console.error('Error al guardar el alumno:', error);
-                alert('Hubo un error al guardar el alumno.');
+                console.error('Error al guardar el docente:', error);
+                alert('Hubo un error al guardar el docente.');
             }
         }
     </script>
