@@ -105,31 +105,31 @@
 
     <!-- Modal Agregar Pregunta -->
     <div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
-        <div style="background-color:#fff; margin:10% auto; padding:20px; width:50%;">
-            <h2>Agregar Pregunta</h2>
+        <div style="background-color:#fff; margin:10% auto; border-radius:10px; padding:20px; width:50%;">
+            <h2 style="margin-bottom:10px;">Agregar Pregunta</h2>
             <form id="form-pregunta" onsubmit="guardarPregunta(event)">
                 <input type="hidden" id="pregunta-id" name="pregunta-id">
-                <div>
+                <div style="margin-bottom:10px;">
                     <label for="nivel-educativo">Nivel Educativo:</label>
-                    <select id="nivel-educativo" name="nivel-educativo" required onchange="cargarAsignaturasPorNivel(); cargarLecturasEnPreguntas();">
-                        <option value="" disabled selected>Seleccione Nivel Educativo</option>
+                    <select style="padding:5px; border-radius:10px;" id="nivel-educativo" name="nivel-educativo" required onchange="cargarAsignaturasPorNivel(); cargarLecturasEnPreguntas();">
+                        <option  value="" disabled selected>Seleccione Nivel Educativo</option>
                     </select>
                 </div>
-                <div>
+                <div style="margin-bottom:10px;">
                     <label for="campo-formativo">Campo Formativo:</label>
-                    <select id="campo-formativo" name="campo-formativo" required onchange="cargarLecturasEnPreguntas();">
-                        <option value="" disabled selected>Seleccione Campo Formativo</option>
+                    <select style="padding:5px; border-radius:10px;" id="campo-formativo" name="campo-formativo" required onchange="cargarLecturasEnPreguntas();">
+                        <option  value="" disabled selected>Seleccione Campo Formativo</option>
                     </select>
                 </div>
-                <div>
+                <div style="margin-bottom:10px;">
                     <label for="asignatura">Asignatura:</label>
-                    <select id="asignatura" name="asignatura" required onchange="cargarLecturasEnPreguntas();">
-                        <option value="" disabled selected>Seleccione Asignatura</option>
+                    <select style="padding:5px; border-radius:10px;" id="asignatura" name="asignatura" required onchange="cargarLecturasEnPreguntas();">
+                        <option  value="" disabled selected>Seleccione Asignatura</option>
                     </select>
                 </div>
-                <div>
+                <div style="margin-bottom:10px;">
                     <label for="tipo-pregunta">Tipo de Pregunta:</label>
-                    <select id="tipo-pregunta" name="tipo-pregunta" required onchange="cambiarTipoPregunta()">
+                    <select style="padding:5px; border-radius:10px;" id="tipo-pregunta" name="tipo-pregunta" required onchange="cambiarTipoPregunta()">
                         <option value="" disabled selected>Seleccione Tipo de Pregunta</option>
                         <option value="Abierta">Abierta</option>
                         <option value="Opción Múltiple">Opción Múltiple</option>
@@ -137,120 +137,120 @@
                         <option value="Multireactiva">Lectura Multirreactivos</option>
                     </select>
                 </div>
-                <div id="pregunta-abierta" style="display:none;">
+                <div style="margin-bottom:10px;" id="pregunta-abierta" style="display:none;">
                     <label for="texto-pregunta-abierta">Texto de la Pregunta:</label>
-                    <input type="text" id="texto-pregunta-abierta" name="texto-pregunta-abierta" required>
+                    <input style="padding:5px; border-radius:10px;" type="text" id="texto-pregunta-abierta" name="texto-pregunta-abierta" required>
                 </div>
-                <div id="pregunta-multiple" style="display:none;">
+                <div style="margin-bottom:10px; display:none;" id="pregunta-multiple">
                     <label for="texto-pregunta-multiple">Texto de la Pregunta:</label>
-                    <input type="text" id="texto-pregunta-multiple" name="texto-pregunta-multiple" required>
+                    <input style="padding:5px; border-radius:10px; margin-bottom:10px;" type="text" id="texto-pregunta-multiple" name="texto-pregunta-multiple" required>
                     <div>
                         <label>Opción A:</label>
-                        <input type="text" id="opcion-a" name="opcion-a" required>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-a" name="opcion-a" required>
                         <input type="radio" name="correcta" value="A" required> Correcta
                     </div>
                     <div>
                         <label>Opción B:</label>
-                        <input type="text" id="opcion-b" name="opcion-b" required>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-b" name="opcion-b" required>
                         <input type="radio" name="correcta" value="B"> Correcta
                     </div>
                     <div>
                         <label>Opción C:</label>
-                        <input type="text" id="opcion-c" name="opcion-c" required>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-c" name="opcion-c" required>
                         <input type="radio" name="correcta" value="C"> Correcta
                     </div>
                     <div>
                         <label>Opción D:</label>
-                        <input type="text" id="opcion-d" name="opcion-d" required>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-d" name="opcion-d" required>
                         <input type="radio" name="correcta" value="D"> Correcta
                     </div>
                 </div>
-                <div id="pregunta-verdadero-falso" style="display:none;">
+                <div style="margin-bottom:10px;" id="pregunta-verdadero-falso" style="display:none;">
                     <label for="texto-pregunta-verdadero-falso">Texto de la Pregunta:</label>
-                    <input type="text" id="texto-pregunta-verdadero-falso" name="texto-pregunta-verdadero-falso" required>
+                    <input style="padding:5px; border-radius:10px;" type="text" id="texto-pregunta-verdadero-falso" name="texto-pregunta-verdadero-falso" required>
                     <div>
                         <input type="radio" name="correcta-vf" value="Verdadero" required> Verdadero
                         <input type="radio" name="correcta-vf" value="Falso"> Falso
                     </div>
                 </div>
-                <div id="pregunta-lectura" style="display:none;">
+                <div style="margin-bottom:10px; display:none;" id="pregunta-lectura">
                     <label for="texto-pregunta-lectura">Texto de la Pregunta:</label>
-                    <input type="text" id="texto-pregunta-lectura" name="texto-pregunta-lectura" required>
+                    <input style="padding:5px; border-radius:10px; margin-bottom:10px;" type="text" id="texto-pregunta-lectura" name="texto-pregunta-lectura" required>
                     <label for="lectura">Lectura:</label>
-                    <select id="lectura" name="lectura" required>
-                        <option value="" disabled selected>Seleccione Lectura</option>
+                    <select style="padding:5px; font-weight:500; font-size:1rem; " id="lectura" name="lectura" required>
+                        <option style="padding:5px; border-radius:10px;" value="" disabled selected>Seleccione Lectura</option>
                     </select>
                     <div>
                         <label>Opción A:</label>
-                        <input type="text" id="opcion-a-lectura" name="opcion-a-lectura" required>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-a-lectura" name="opcion-a-lectura" required>
                         <input type="radio" name="correcta-lectura" value="A" required> Correcta
                     </div>
                     <div>
                         <label>Opción B:</label>
-                        <input type="text" id="opcion-b-lectura" name="opcion-b-lectura" required>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-b-lectura" name="opcion-b-lectura" required>
                         <input type="radio" name="correcta-lectura" value="B"> Correcta
                     </div>
                     <div>
                         <label>Opción C:</label>
-                        <input type="text" id="opcion-c-lectura" name="opcion-c-lectura" required>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-c-lectura" name="opcion-c-lectura" required>
                         <input type="radio" name="correcta-lectura" value="C"> Correcta
                     </div>
                     <div>
                         <label>Opción D:</label>
-                        <input type="text" id="opcion-d-lectura" name="opcion-d-lectura" required>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-d-lectura" name="opcion-d-lectura" required>
                         <input type="radio" name="correcta-lectura" value="D"> Correcta
                     </div>
                 </div>
-                <button type="submit">Guardar Pregunta</button>
-                <button type="button" onclick="cerrarModal()">Cancelar</button>
+                <button style="background-color:var(--verde); border-radius:10px;" type="submit">Guardar Pregunta</button>
+                <button type="button" style="padding:10px 15px; font-size:1rem;  border-radius:10px; background-color:black; border:none; color:white;" onclick="cerrarModal()">Cancelar</button>
             </form>
         </div>
     </div>
 
     <!-- Modal Lectura -->
     <div id="modal-lectura" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
-        <div style="background-color:#fff; margin:10% auto; padding:20px; width:50%;">
-            <h2>Agregar Lectura</h2>
+        <div style="background-color:#fff; margin:10% auto; padding:20px; width:50%; border-radius:10px;">
+            <h2 style="margin-bottom:10px;">Agregar Lectura</h2>
             <form id="form-lectura" onsubmit="guardarLectura(event)">
-                <div>
+                <div style="margin-bottom:10px;">
                     <label for="titulo-lectura">Título:</label>
-                    <input type="text" id="titulo-lectura" name="titulo-lectura" required>
+                    <input style="border-radius:10px; padding:5px; font-size:1rem; font-weight:500;" type="text" id="titulo-lectura" name="titulo-lectura" required>
                 </div>
-                <div>
+                <div style="margin-bottom:10px;">
                     <label for="contenido-lectura">Contenido:</label>
-                    <textarea id="contenido-lectura" name="contenido-lectura" required></textarea>
+                    <textarea style="padding:5px; border-radius:10px;" id="contenido-lectura" name="contenido-lectura" required></textarea>
                 </div>
-                <div>
+                <div style="margin-bottom:10px;">
                     <label for="campo-formativo-lectura">Campo Formativo:</label>
-                    <select id="campo-formativo-lectura" name="campo-formativo-lectura" required>
+                    <select style="padding:5px; border-radius:10px;" id="campo-formativo-lectura" name="campo-formativo-lectura" required>
                         <option value="" disabled selected>Seleccione el Campo Formativo</option>
                     </select>
                 </div>
-                <div>
+                <div style="margin-bottom:10px;">
                     <label for="nivel-educativo-lectura">Nivel Educativo:</label>
-                    <select id="nivel-educativo-lectura" name="nivel-educativo-lectura" required onchange="cargarAsignaturasLectura()">
+                    <select style="padding:5px; border-radius:10px;" id="nivel-educativo-lectura" name="nivel-educativo-lectura" required onchange="cargarAsignaturasLectura()">
                         <option value="" disabled selected>Seleccione el Nivel Educativo</option>
                     </select>
                 </div>
-                <div>
+                <div style="margin-bottom:10px;">
                     <label for="asignatura-lectura">Asignatura:</label>
-                    <select id="asignatura-lectura" name="asignatura-lectura" required>
+                    <select style="padding:5px; border-radius:10px;" id="asignatura-lectura" name="asignatura-lectura" required>
                         <option value="" disabled selected>Seleccione la Asignatura</option>
                     </select>
                 </div>
-                <button type="submit">Guardar Lectura</button>
-                <button type="button" onclick="cerrarModalLectura()">Cancelar</button>
+                <button style="background-color:var(--verde); border-radius:10px;" type="submit">Guardar Lectura</button>
+                <button type="button" style="padding:10px 15px; font-size:1rem;  border-radius:10px; background-color:black; border:none; color:white;" onclick="cerrarModalLectura()">Cancelar</button>
             </form>
         </div>
     </div>
 
     <!-- Modal Confirmación -->
     <div id="confirmacion-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
-        <div style="background-color:#fff; margin:10% auto; padding:20px; width:50%;">
-            <h2>Confirmar Generación de Examen</h2>
-            <p>¿Está seguro de generar el examen con las preguntas seleccionadas?</p>
-            <button onclick="confirmarAgregarAlExamen()">Sí</button>
-            <button onclick="cerrarConfirmacionModal()">No</button>
+        <div style="background-color:#fff; margin:10% auto; padding:20px; width:50%; border-radius:10px;">
+            <h2 style="font-weight:600; font-size:1.1rem;">Confirmar Generación de Examen</h2>
+            <p style="margin-bottom:10px;" >¿Está seguro de generar el examen con las preguntas seleccionadas?</p>
+            <button onclick="confirmarAgregarAlExamen()" style="padding:10px 15px; font-size:1rem; border-radius:10px; background-color:var(--verde); border:none; color:white;">Sí</button>
+            <button onclick="cerrarConfirmacionModal()" style="padding:10px 15px; font-size:1rem;  border-radius:10px; background-color:black; border:none; color:white;">No</button>
         </div>
     </div>
 
