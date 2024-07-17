@@ -107,16 +107,19 @@
                 if (response.ok) {
                     const data = await response.json();
                     sessionStorage.setItem('usuarioId', data.usuario.id);
-                    sessionStorage.setItem('docenteId', data.docente ? data.docente.id : null);
                     sessionStorage.setItem('tipoUsuario', data.usuario.tipo);
 
                     if (data.usuario.tipo === 'D') {
+                        sessionStorage.setItem('docenteId', data.docente.id);
+                        sessionStorage.setItem('nombre', data.docente.nombre);
                         window.location.href = 'index';
-                    }
-                    else if (data.usuario.tipo === 'A') {
+                    } else if (data.usuario.tipo === 'A') {
+                        sessionStorage.setItem('alumnoId', data.alumno.id);
+                        sessionStorage.setItem('nombreAlumno', data.alumno.nombre);
+                        sessionStorage.setItem('gradoAlumno', data.alumno.grado);
+                        sessionStorage.setItem('seccionAlumno', data.alumno.seccion);
                         window.location.href = 'AlumnoIndex';
-                    }
-                    else {
+                    } else {
                         alert('Tipo de usuario no autorizado');
                     }
                 } else {

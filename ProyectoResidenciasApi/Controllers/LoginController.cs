@@ -14,11 +14,13 @@ namespace ProyectoResidenciasApi.Controllers
         private readonly Sistem21ResidenciasSebContext context;
         Repository<Usuario> repoUsuario;
         Repository<Docente> repoDocente;
+        Repository<Alumno> repoAlumno;
         public LoginController(Sistem21ResidenciasSebContext context)
         {
             this.context = context;
             repoUsuario = new Repository<Usuario>(context);
             repoDocente = new Repository<Docente>(context);
+            repoAlumno= new Repository<Alumno>(context);
         }
 
         [HttpPost("login")]
@@ -31,9 +33,9 @@ namespace ProyectoResidenciasApi.Controllers
             }
 
             var docente = repoDocente.Get().SingleOrDefault(d => d.UsuarioId == usuario.Id);
-
+            var alumno = repoAlumno.Get().SingleOrDefault(d => d.UsuarioId == usuario.Id);
             // Devolver datos de usuario y docente
-            return Ok(new { usuario, docente });
+            return Ok(new { usuario, docente,alumno });
         }
         [HttpPut("restablecer")]
         public IActionResult Restablecer(JsonRequestModel model)
@@ -101,6 +103,46 @@ namespace ProyectoResidenciasApi.Controllers
             {
                 Console.WriteLine($"Error al enviar correo electrónico: {ex.Message}");
             }
+        }
+        [HttpPut("cambiarcontrasena")]
+        public IActionResult CambiarContraseña([FromBody] CambiarContraseñaModel model)
+        {
+            try
+            {
+                if (model == null || model.UserId <= 0 || string.IsNullOrEmpty(model.ContrasenaActual) || string.IsNullOrEmpty(model.ContrasenaNueva))
+                {
+                    return BadRequest("Se requiere el ID del usuario, la contraseña actual y la nueva contraseña.");
+                }
+
+                var usuario = repoUsuario.Get().SingleOrDefault(u => u.Id == model.UserId);
+
+                if (usuario == null)
+                {
+                    return NotFound("Usuario no encontrado");
+                }
+
+                if (usuario.Contraseña != model.ContrasenaActual)
+                {
+                    return BadRequest("La contraseña actual no es correcta.");
+                }
+
+                usuario.Contraseña = model.ContrasenaNueva;
+
+                repoUsuario.Update(usuario);
+
+                return Ok("Contraseña cambiada con éxito.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        public class CambiarContraseñaModel
+        {
+            public int UserId { get; set; }
+            public string? ContrasenaActual { get; set; }
+            public string? ContrasenaNueva { get; set; }
         }
     }
 

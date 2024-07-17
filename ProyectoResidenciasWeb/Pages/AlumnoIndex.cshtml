@@ -18,99 +18,96 @@
 <body>
 
     <!-- Header con logos y botón de registro -->
-
-
     <header class="alumno-header">
         <img src="/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
         <div class="header-right">
             <img src="/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
-
         </div>
     </header>
-
+    <!---------------------------------------->
+    <!-- Modal cambiar contraseña -->
+    <div id="cambiarContrasenaModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Cambiar Contraseña</h2>
+            <form id="cambiarContrasenaForm">
+                <div class="input-group">
+                    <input type="password" id="current-password" required placeholder=" ">
+                    <label for="current-password">Contraseña Actual</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="new-password" required placeholder=" ">
+                    <label for="new-password">Nueva Contraseña</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="confirm-new-password" required placeholder=" ">
+                    <label for="confirm-new-password">Confirmar Nueva Contraseña</label>
+                </div>
+                <button type="submit">Guardar</button>
+            </form>
+            </div>
+        </div>
     <div class="alumno-index-main-conteiner">
-
-        <!--<h2>Perfil Alumno</h2>-->
-
         <div id="alumno-info">
-            
-            <div class="bienvenida-alumno">
-                
+         
+                <div class="bienvenida-alumno">
+                    <div>
+                        <label id="nombre-alumno"></label>
+                        <svg id="settingsIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+                            <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                        </svg>
+                    </div>
+                    
+                    <label id="rol" class="instrucciones">Alumno</label>
+                </div>
                 <div>
-                    <label id="nombre-alumno"></label><svg id="icon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
-                        <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-                    </svg>
-
-                </div>
-
-                <!--CONTEXT MENU CERRAR SESION-->
-
-                <div id="contextMenu" class="context-menu">
-                    <ul>
-                        <li id="logout">Cerrar sesión</li>
-                    </ul>
-                </div>
-
-                <!---------------------------------------->
-
-                <label id="rol" class="instrucciones">Alumno</label>
-            </div>
-            
-
-            <div>
-  
                     <label>Grado: <span id="grado-alumno"></span></label>
-
                     <label>Sección: <span id="seccion-alumno"></span></label>
-
+                </div>
             </div>
-
-            
-
+        <div id="contextMenu" class="context-menu">
+            <ul>
+                <li id="cambiar-contraseña">Cambiar contraseña</li>
+                <li id="logout">Cerrar sesión</li>
+            </ul>
         </div>
 
         <h2>Mis examenes</h2>
-
-        <ul id="examenes-list"></ul>
-
-        <button onclick="window.location.href='login'">Cerrar sesión</button>
-
-       
-
+        <div id="loading-spinner" style="text-align: center;">
+            <img src="/images/loading-spinner.gif" alt="Cargando...">
+        </div>
+        <ul id="examenes-list" style="display:none;"></ul>
         <script>
             document.addEventListener('DOMContentLoaded', async () => {
                 const usuarioId = sessionStorage.getItem('usuarioId');
-                const nombreUsuario = sessionStorage.getItem('nombreUsuario');
                 const tipoUsuario = sessionStorage.getItem('tipoUsuario');
+
                 if (!usuarioId || tipoUsuario !== 'A') {
-                    // Si no hay usuario autenticado o no es alumno, redirigir al login
-                    window.location.href = 'login.html';
+                    window.location.href = 'login';
+                    return;
                 }
-                const response = await fetch(`https://localhost:7162/api/Alumno/alumno/${usuarioId}`);
-                const data = await response.json();
 
-                const alumnoId = data.alumno.id;
-                const nombreAlumno = data.alumno.nombre;
-                const gradoAlumno = data.alumno.grado;
-                const seccionAlumno = data.alumno.seccion;
-
-                // Guardar información del alumno en sessionStorage
-                sessionStorage.setItem('alumnoId', alumnoId);
-                sessionStorage.setItem('nombreAlumno', nombreAlumno);
-                sessionStorage.setItem('gradoAlumno', gradoAlumno);
-                sessionStorage.setItem('seccionAlumno', seccionAlumno);
+                const nombreAlumno = sessionStorage.getItem('nombreAlumno');
+                const gradoAlumno = sessionStorage.getItem('gradoAlumno');
+                const seccionAlumno = sessionStorage.getItem('seccionAlumno');
 
                 document.getElementById('nombre-alumno').textContent = nombreAlumno;
                 document.getElementById('grado-alumno').textContent = gradoAlumno;
                 document.getElementById('seccion-alumno').textContent = seccionAlumno;
 
+                const response = await fetch(`https://localhost:7162/api/Alumno/alumno/${usuarioId}`);
+                const data = await response.json();
+
                 const examenesList = document.getElementById('examenes-list');
+                const loadingSpinner = document.getElementById('loading-spinner');
+                examenesList.style.display = 'block';
+                loadingSpinner.style.display = 'none';
+
                 data.examenes.forEach(examenData => {
                     const examenDiv = document.createElement('div');
                     examenDiv.classList.add('examen');
-
                     examenDiv.innerHTML = `
                                     <div class="columna nombre-fecha">
                                         <h3 class="nombre-examen">Examen de ${examenData.examen.asignatura || examenData.examen.campoFormativo}</h3>
@@ -119,7 +116,7 @@
                                     <div class="columna calificacion">
                                         <p>${examenData.calificacion !== null ? examenData.calificacion : 'No calificado'}</p>
                                     </div>
-                                                  <div class="columna boton">
+                                    <div class="columna boton">
                                         <button class="boton-examen" onclick="realizarExamen(${examenData.examen.id})" ${examenData.haRespondido || examenData.estaCalificado ? 'disabled' : ''}>Responder Examen</button>
                                     </div>
                                 `;
@@ -132,8 +129,6 @@
                 window.location.href = 'realizarExamen';
             }
         </script>
-    
-
     </div>
 
     <script src="/js/script.js"></script>

@@ -40,24 +40,18 @@ namespace ProyectoResidenciasApi.Controllers
             }
 
             var historial = repoHistorialExamen.Get().Where(h => h.AlumnoId == alumno.Id).ToList();
-            var examenes = new List<object>();
+            var examenIds = historial.Select(h => h.ExamenGeneradoId).ToList();
 
-            foreach (var h in historial)
+            var examenes = repoExamengenerado.Get().Where(e => examenIds.Contains(e.Id)).ToList();
+
+            var examenesConHistorial = historial.Select(h => new
             {
-                var examen = repoExamengenerado.Get(h.ExamenGeneradoId);
-                if (examen != null)
-                {
-                    var haRespondido = !string.IsNullOrEmpty(h.UbicacionRespuestasPdf); // Verificar si hay un PDF de respuestas
-                    examenes.Add(new
-                    {
-                        Examen = examen,
-                        Calificacion = h.Calificacion,
-                        HaRespondido = haRespondido // Añadir verificación de respuesta
-                    });
-                }
-            }
+                Examen = examenes.FirstOrDefault(e => e.Id == h.ExamenGeneradoId),
+                Calificacion = h.Calificacion,
+                HaRespondido = !string.IsNullOrEmpty(h.UbicacionRespuestasPdf)
+            }).ToList();
 
-            return Ok(new { Alumno = alumno, Examenes = examenes });
+            return Ok(new { Alumno = alumno, Examenes = examenesConHistorial });
         }
 
         [HttpPost("CrearAlumno")]
