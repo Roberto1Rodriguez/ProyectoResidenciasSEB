@@ -49,7 +49,7 @@
                     <span class="error-message">Error en la contraseña</span>
                 </div>
                 <div class="forgot-passw">
-                    <a href="restablecer" class="forgot-password">¿Has olvidado tu contraseña?</a>
+                    <a onclick="abrirRestablecerModal()" class="forgot-password">¿Has olvidado tu contraseña?</a>
                     <button type="submit">Ingresar</button>
                 </div>
 
@@ -58,6 +58,21 @@
                     <a href="/index.html">Regístrate aquí</a>
                 </div> *@
             </form>
+        </div>
+    </div>
+
+    <!-- Modal Restablecer contraseña -->
+    <div id="restablecer-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
+        <div style="background-color:#fff; margin:10% auto; padding:20px; width:50%; border-radius:10px;">
+            <h2 style="font-weight:600; font-size:1.2rem;">Restablecer contraseña</h2>
+            <p style="margin-bottom:10px; font-size:1rem;">Se enviará una nueva contraseña a su correo electronico.</p>
+
+            <input id="EmailInput" style="padding:10px 20px;border:1px solid gray; border-radius:10px; font-size:1rem;" type="text" required placeholder=" ">
+            <p style="margin:10px 0px;" class="error-message"></p>
+
+            <button style="padding:10px 15px; font-size:1rem; border-radius:10px; background-color:var(--verde); border:none; color:white;">Enviar</button>
+
+            <button id="restablecerBtn" href="#" onclick="cerrarRestablecerModal()" style="padding:10px 15px; font-size:1rem;  border-radius:10px; background-color:black; border:none; color:white;">Salir</button>
         </div>
     </div>
 
@@ -100,6 +115,23 @@
                 alert('Ocurrió un error al intentar iniciar sesión. Por favor, intente nuevamente.');
             }
         }
+
+
+        function abrirRestablecerModal() {
+            document.getElementById('restablecer-modal').style.display = 'block';
+        }
+
+        function cerrarRestablecerModal() {
+            document.getElementById('restablecer-modal').style.display = 'none';
+        }
+
+        const email = document.querySelector("#EmailInput");
+
+        const errorMessage = document.querySelector(".error-message");
+        document.querySelector("#restablecerBtn").addEventListener("click", function () {
+            restablecerContraseña(email.value);
+        })
+
     </script>
 </body>
 </html>
