@@ -68,15 +68,27 @@
             <p style="margin-bottom:10px; font-size:1rem;">Se enviará una nueva contraseña a su correo electronico.</p>
 
             <input id="EmailInput" style="padding:10px 20px;border:1px solid gray; border-radius:10px; font-size:1rem;" type="text" required placeholder=" ">
-            <p style="margin:10px 0px;" class="error-message"></p>
+            <p class="error-message" style="margin:10px 0px;"></p>
 
-            <button style="padding:10px 15px; font-size:1rem; border-radius:10px; background-color:var(--verde); border:none; color:white;">Enviar</button>
+            <button href="#" id="restablecerBtn" style="padding:10px 15px; margin-top:15px 0px; font-size:1rem; border-radius:10px; background-color:var(--verde); border:none; color:white;">Enviar</button>
 
-            <button id="restablecerBtn" href="#" onclick="cerrarRestablecerModal()" style="padding:10px 15px; font-size:1rem;  border-radius:10px; background-color:black; border:none; color:white;">Salir</button>
+            <button  onclick="cerrarRestablecerModal()" style="padding:10px 15px; font-size:1rem;  border-radius:10px; background-color:black; border:none; color:white;">Salir</button>
         </div>
     </div>
 
+    <script type="text/javascript" src="~/js/seguridad.js">
+
+    </script>
+
     <script>
+
+        const email = document.querySelector("#EmailInput");
+
+        const errorMessage = document.querySelector(".error-message");
+
+        document.querySelector("#restablecerBtn").addEventListener("click", function () {
+            restablecerContrasena(email.value);
+        })
         async function login(event) {
             event.preventDefault();
 
@@ -125,12 +137,7 @@
             document.getElementById('restablecer-modal').style.display = 'none';
         }
 
-        const email = document.querySelector("#EmailInput");
-
-        const errorMessage = document.querySelector(".error-message");
-        document.querySelector("#restablecerBtn").addEventListener("click", function () {
-            restablecerContraseña(email.value);
-        })
+       
 
     </script>
 </body>
