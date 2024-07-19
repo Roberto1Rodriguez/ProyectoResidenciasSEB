@@ -1,0 +1,319 @@
+﻿@page
+@model ProyectoResidenciasWeb.Pages.FiltroBancoReactivosModel
+@{
+}
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Inicio de Sesión</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Space+Grotesk:wght@300..700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+
+    <!-- Header con logos y botón de registro -->
+
+
+    <header class="header">
+        <img src="/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
+        <div class="header-right">
+            <img src="/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
+
+        </div>
+    </header>
+
+
+
+    <div class="index-options">
+        <div>
+            <h3>
+                Hola,<span id="nombre-perfil">Belén Ruiz Almaguer</span><svg id="settingsIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+                    <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                </svg>
+            </h3>
+        </div>
+
+        <!--CONTEXT MENU CERRAR SESION-->
+
+        <div id="contextMenu" class="context-menu">
+            <ul>
+                <li id="cambiar-contraseña">Cambiar contraseña</li>
+                <li id="logout">Cerrar sesión</li>
+            </ul>
+        </div>
+
+        <!---------------------------------------->
+        <!-- Modal cambiar contraseña -->
+        <div id="cambiarContrasenaModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Cambiar Contraseña</h2>
+                <form id="cambiarContrasenaForm">
+                    <div class="input-group">
+                        <input type="password" id="current-password" required placeholder=" ">
+                        <label for="current-password">Contraseña Actual</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="new-password" required placeholder=" ">
+                        <label for="new-password">Nueva Contraseña</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="confirm-new-password" required placeholder=" ">
+                        <label for="confirm-new-password">Confirmar Nueva Contraseña</label>
+                    </div>
+                    <button type="submit">Guardar</button>
+                </form>
+            </div>
+        </div>
+       <div class="index-options-btns">
+            <button onclick="window.location.href='agregarDocente'" class="btn-agg-alumno" id="openModalBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-plus" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7a9f37" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M20.985 12.528a9 9 0 1 0 -8.45 8.456" />
+                    <path d="M16 19h6" />
+                    <path d="M19 16v6" />
+                    <path d="M9 10h.01" />
+                    <path d="M15 10h.01" />
+                    <path d="M9.5 15c.658 .64 1.56 1 2.5 1s1.842 -.36 2.5 -1" />
+                </svg>Agregar Docente
+            </button>
+
+            <button onclick="window.location.href='FiltroBancoReactivos' " class="btn-examenlist">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4a6a99" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
+                    <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
+                    <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
+                    <path d="M11 6l9 0" />
+                    <path d="M11 12l9 0" />
+                    <path d="M11 18l9 0" />
+                </svg>Banco de reactivos
+            </button>
+        </div>
+    </div>
+
+
+    <div class="main-container-index">
+
+        <div class="form-container-index">
+
+
+            <h1>Filtra por nivel educativo y tipo de examen!</h1>
+            <label>Selecciona el nivel educativo y el tipo de examen que quieras aplicar. Podrás visualizar una lista mas especifica de reactivos.</label>
+
+
+            <form action="#">
+
+                <div class="input-group">
+                    <input type="text" id="nombre-escuela" required placeholder=" ">
+                    <label for="nombre-escuela">Nombre de la escuela</label>
+
+                </div>
+
+
+
+                <div class="datos-group">
+                    <div class="input-group">
+                        <input type="text" id="turno" required placeholder=" ">
+                        <label for="turno">Turno</label>
+
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" id="grado" required placeholder=" ">
+                        <label for="grado">Grado</label>
+
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" id="seccion" required placeholder=" ">
+                        <label for="seccion">Sección</label>
+
+                    </div>
+
+                </div>
+
+
+            </form>
+
+
+
+
+            <div id="nivel-educativo" class="btn-nivel-edu">
+
+                <label>Selecciona el nivel educativo.</label>
+
+                <div>
+                    <button id="primaria-btn" class="sty-primaria">Primaria</button>
+                    <button id="secundaria-btn" class="sty-secundaria">Secundaria</button>
+                </div>
+
+
+            </div>
+
+
+
+            <div id="contenedor" class="row hidden">
+
+                <label>Selecciona el tipo de examen</label>
+
+                <div class="tipo-ex-conteiner">
+
+
+                    <div id="campos-formativos" class="column hidden">
+                        <h2 class="hidden">Campos Formativos</h2>
+                        <ul id="campos-formativos-list"></ul>
+                    </div>
+
+                    <div id="asignaturas" class="column hidden">
+                        <h2 class="hidden">Asignaturas</h2>
+                        <ul id="asignaturas-list"></ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <button id="volver" class="hidden">Volver</button>
+        </div>
+    </div>
+
+
+    <script>
+
+        // Verificar si el usuario está autenticado
+        document.addEventListener('DOMContentLoaded', () => {
+            const nombrePerfil = sessionStorage.getItem('nombre');
+            if (nombrePerfil) {
+                document.getElementById('nombre-perfil').textContent = nombrePerfil;
+            }
+
+            const usuarioId = sessionStorage.getItem('usuarioId');
+            const nombreUsuario = sessionStorage.getItem('nombreUsuario');
+            const tipoUsuario = sessionStorage.getItem('tipoUsuario');
+            if (!usuarioId || tipoUsuario !== 'D') {
+                // Si no hay usuario autenticado o no es docente, redirigir al login
+                window.location.href = 'login';
+            }
+        });
+
+        // Event listener para los botones de nivel educativo
+        document.getElementById('primaria-btn').addEventListener('click', mostrarCamposFormativos);
+        document.getElementById('secundaria-btn').addEventListener('click', mostrarCamposFormativos);
+
+        // Event listener para el botón de volver
+        document.getElementById('volver').addEventListener('click', volverInicio);
+
+        // Función para mostrar los campos formativos y asignaturas
+        function mostrarCamposFormativos() {
+            document.getElementById('nivel-educativo').classList.add('hidden');
+
+            // Ocultar el botón de volver y el contenedor
+            document.getElementById('volver').classList.add('hidden');
+            document.getElementById('contenedor').classList.add('hidden');
+
+            // Ocultar las asignaturas antes de realizar las solicitudes GET
+            document.getElementById('campos-formativos-list').innerHTML = '';
+            document.getElementById('asignaturas-list').innerHTML = '';
+
+            // Obtener el nivel educativo seleccionado
+            const nivelEducativo = this.textContent;
+
+            // Guardar información de la escuela
+            sessionStorage.setItem('nombreEscuela', document.getElementById('nombre-escuela').value);
+            sessionStorage.setItem('turno', document.getElementById('turno').value);
+            sessionStorage.setItem('grado', document.getElementById('grado').value);
+            sessionStorage.setItem('seccion', document.getElementById('seccion').value);
+            sessionStorage.setItem('nivelEducativo', nivelEducativo);
+
+            // Realizar una solicitud GET para obtener los campos formativos correspondientes al nivel educativo
+            fetch(`https://localhost:7162/api/campoformativo`)
+                .then(response => response.json())
+                .then(camposFormativos => {
+                    const camposFormativosList = document.getElementById('campos-formativos-list');
+                    camposFormativosList.innerHTML = '';
+                    camposFormativos.forEach(camposFormativo => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = camposFormativo.nombre;
+                        listItem.addEventListener('click', () => seleccionarCampoFormativo(camposFormativo.id, camposFormativo.nombre));
+                        camposFormativosList.appendChild(listItem);
+                    });
+
+                    // Mostrar el título de campos formativos y el contenedor después de cargar la información
+                    document.getElementById('campos-formativos').classList.remove('hidden');
+                    document.querySelector('#campos-formativos h2').classList.remove('hidden');
+                    document.getElementById('contenedor').classList.remove('hidden');
+                    document.getElementById('volver').classList.remove('hidden');
+                })
+                .catch(error => {
+                    console.error('Error al obtener los campos formativos:', error);
+                });
+
+            // Realizar una solicitud GET para obtener las asignaturas correspondientes al nivel educativo
+            fetch(`https://localhost:7162/api/asignatura/ByNivel?nivel=${nivelEducativo}`)
+                .then(response => response.json())
+                .then(asignaturas => {
+                    const asignaturasList = document.getElementById('asignaturas-list');
+                    asignaturasList.innerHTML = '';
+                    asignaturas.forEach(asignatura => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = asignatura.nombre;
+                        listItem.addEventListener('click', () => seleccionarAsignatura(asignatura.id, asignatura.nombre));
+                        asignaturasList.appendChild(listItem);
+                    });
+
+                    // Mostrar el título de asignaturas después de cargar la información
+                    document.getElementById('asignaturas').classList.remove('hidden');
+                    document.querySelector('#asignaturas h2').classList.remove('hidden');
+                })
+                .catch(error => {
+                    console.error('Error al obtener las asignaturas:', error);
+                });
+        }
+        function seleccionarCampoFormativo(campoFormativoId, campoFormativoNombre) {
+            sessionStorage.setItem('campoFormativoId', campoFormativoId);
+            sessionStorage.setItem('tipo', 'campoFormativo');
+            sessionStorage.setItem('campoFormativoNombre', campoFormativoNombre);
+            window.location.href = 'Preguntas';
+        }
+
+        function seleccionarAsignatura(asignaturaId, asignaturaNombre) {
+            sessionStorage.setItem('asignaturaId', asignaturaId);
+            sessionStorage.setItem('tipo', 'asignatura');
+            sessionStorage.setItem('asignaturaNombre', asignaturaNombre);
+            window.location.href = 'Preguntas';
+        }
+
+        // Función para volver a la selección del nivel educativo
+        function volverInicio() {
+            // Ocultar los campos formativos, asignaturas, y el botón de volver
+            document.getElementById('campos-formativos').classList.add('hidden');
+            document.getElementById('asignaturas').classList.add('hidden');
+            document.getElementById('volver').classList.add('hidden');
+            document.getElementById('contenedor').classList.add('hidden');
+
+            // Mostrar los botones de nivel educativo
+            document.getElementById('nivel-educativo').classList.remove('hidden');
+        }
+    </script>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>
