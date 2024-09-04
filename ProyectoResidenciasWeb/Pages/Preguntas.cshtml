@@ -23,12 +23,22 @@
     }
 </style>
 <body>
+
+
+    <!-- Header con logos y botón de registro -->
+
+
     <header class="header">
-        <img src="/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
+        <img src="/images/logo_coah.png" alt="Logo Izquierda" class="logo-izquierda">
+        <label>Generador de pruebas escritas.</label>
         <div class="header-right">
-            <img src="/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
+            <img src="/images/logo_sedu4.png" alt="Logo Derecha" class="logo-derecha">
+
         </div>
+
+
     </header>
+
 
     <div class="index-options">
         <div>
@@ -39,13 +49,19 @@
                     <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
                 </svg>
             </h3>
+            <label id="rol" class="instrucciones" style="font-size:large; color:gray; font-family:'Quicksand'; ">Docente</label>
         </div>
 
 
 
         <div class="index-options-btns">
+
+            <button class="selec" onclick="window.location.href='Index'">
+               Inicio
+            </button>
+
             <button onclick="window.location.href='agregarAlumno'" class="btn-agg-alumno" id="openModalBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-plus" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7a9f37" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                 @* <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-plus" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7a9f37" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M20.985 12.528a9 9 0 1 0 -8.45 8.456" />
                     <path d="M16 19h6" />
@@ -53,11 +69,11 @@
                     <path d="M9 10h.01" />
                     <path d="M15 10h.01" />
                     <path d="M9.5 15c.658 .64 1.56 1 2.5 1s1.842 -.36 2.5 -1" />
-                </svg>Agregar Alumno
+                </svg> *@ Agregar Alumno
             </button>
 
             <button onclick="window.location.href='ListaExamenes'" class="btn-examenlist">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4a6a99" fill="none" stroke-linecap="round" stroke-linejoin="round">
+               @*  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4a6a99" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
                     <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
@@ -65,7 +81,7 @@
                     <path d="M11 6l9 0" />
                     <path d="M11 12l9 0" />
                     <path d="M11 18l9 0" />
-                </svg>Exámenes
+                </svg> *@ Exámenes
             </button>
         </div>
     </div>
@@ -73,11 +89,49 @@
 
 
     <div class="pyr-conteiner">
-        <h1>Preguntas y Respuestas</h1>
 
-        <div>
-            <h2 id="tipo-seleccionado"></h2>
-            <h3 id="nivel-educativo-seleccionado"></h3>
+        <div class="agg-btns">
+
+            <div>
+                <h1>Preguntas y Respuestas</h1>
+
+                <div>
+                    <label class="instrucciones" id="tipo-seleccionado"></label>
+                    <label class="instrucciones" id="nivel-educativo-seleccionado"></label>
+                </div>
+
+            </div>
+
+
+            <div class="preguntas-op">
+                <button onclick="abrirConfirmacionModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--rosa)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M5 12l5 5l10 -10" />
+                    </svg>Agregar al Examen
+                </button>
+                <button onclick="abrirModal()">Agregar Pregunta</button>
+                <button onclick="abrirModalLectura()">Agregar Lectura</button>
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" id="settingsIcon" class="icon icon-tabler icon-tabler-plus" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--rosa)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 5l0 14" />
+                        <path d="M5 12l14 0" />
+                    </svg>
+                </button>
+
+            </div>
+        </div>
+
+        
+
+        <!--CONTEXT MENU agg pregunta y agg lectura-->
+
+        <div id="contextMenu" class="context-menu">
+            <ul>
+                <li id="cambiar-contraseña">Agregar pregunta</li>
+                <li id="logout">Agregar lectura</li>
+            </ul>
         </div>
 
 
@@ -91,12 +145,7 @@
 
         <ul id="preguntas-list"></ul>
 
-        <div class="preguntas-op">
-            <button onclick="abrirConfirmacionModal()">Agregar al Examen</button>
-            <button onclick="abrirModal()">Agregar Pregunta</button>
-            <button onclick="abrirModalLectura()">Agregar Lectura</button>
-            <a href="index">Volver a Inicio</a>
-        </div>
+        
        
 
 
@@ -698,17 +747,38 @@
                                 listItem.appendChild(respuestasDiv);
                             }
 
+
+
                             const editButton = document.createElement('button');
-                            editButton.textContent = 'Editar';
+                            editButton.innerHTML = `
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+          <path d="M13.5 6.5l4 4" />
+        </svg>
+          `;
                             editButton.onclick = () => abrirModal(pregunta.id);
                             listItem.appendChild(editButton);
 
                             const deleteButton = document.createElement('button');
-                            deleteButton.textContent = 'Eliminar';
+                            deleteButton.innerHTML = `
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M4 7l16 0" />
+          <path d="M10 11l0 6" />
+          <path d="M14 11l0 6" />
+          <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+          <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+        </svg>
+                  `;
+
                             deleteButton.onclick = () => eliminarPregunta(pregunta.id);
                             listItem.appendChild(deleteButton);
 
                             lecturaItem.appendChild(listItem);
+
+
+
                         });
                     });
                 });
@@ -757,12 +827,27 @@
                     }
 
                     const editButton = document.createElement('button');
-                    editButton.textContent = 'Editar';
+                    editButton.innerHTML = `
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+                  <path d="M13.5 6.5l4 4" />
+                </svg>
+                  `;
                     editButton.onclick = () => abrirModal(pregunta.id);
                     listItem.appendChild(editButton);
 
                     const deleteButton = document.createElement('button');
-                    deleteButton.textContent = 'Eliminar';
+                    deleteButton.innerHTML = `
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M4 7l16 0" />
+                  <path d="M10 11l0 6" />
+                  <path d="M14 11l0 6" />
+                  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                </svg>
+                          `;
                     deleteButton.onclick = () => eliminarPregunta(pregunta.id);
                     listItem.appendChild(deleteButton);
 
@@ -1022,6 +1107,21 @@
             cargarDatos();
             cargarPreguntas();
         });
+
+        //PARA QUE SE ENFOQUE EL BORDE NARANJA ***
+
+        const navItems = document.querySelectorAll('div button');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Eliminar la clase 'selec' de todos los elementos
+                navItems.forEach(nav => nav.classList.remove('selec'));
+                // Agregar la clase 'selec' al elemento seleccionado
+                item.classList.add('selec');
+            });
+        });
+
     </script>
+    <script src="/js/script.js"></script>
 </body>
 </html>

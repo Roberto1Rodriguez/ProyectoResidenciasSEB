@@ -22,13 +22,18 @@
 
      <!-- Header con logos y botón de registro -->
 
-    
+
+
+
     <header class="header">
-        <img src="/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
+        <img src="/images/logo_coah.png" alt="Logo Izquierda" class="logo-izquierda">
+        <label>Generador de pruebas escritas.</label>
         <div class="header-right">
-            <img src="/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
-             
+            <img src="/images/logo_sedu4.png" alt="Logo Derecha" class="logo-derecha">
+
         </div>
+
+
     </header>
 
     <div class="index-options">
@@ -40,33 +45,39 @@
                     <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
                 </svg>
             </h3>
+            <label id="rol" class="instrucciones" style="font-size:large; color:gray;">Docente</label>
         </div>
 
 
 
         <div class="index-options-btns">
+
+            <button onclick="window.location.href='Index'">
+                Inicio
+            </button>
+
             <button onclick="window.location.href='agregarAlumno'" class="btn-agg-alumno" id="openModalBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-plus" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7a9f37" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M20.985 12.528a9 9 0 1 0 -8.45 8.456" />
-                    <path d="M16 19h6" />
-                    <path d="M19 16v6" />
-                    <path d="M9 10h.01" />
-                    <path d="M15 10h.01" />
-                    <path d="M9.5 15c.658 .64 1.56 1 2.5 1s1.842 -.36 2.5 -1" />
-                </svg>Agregar Alumno
+                @* <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-plus" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7a9f37" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M20.985 12.528a9 9 0 1 0 -8.45 8.456" />
+                <path d="M16 19h6" />
+                <path d="M19 16v6" />
+                <path d="M9 10h.01" />
+                <path d="M15 10h.01" />
+                <path d="M9.5 15c.658 .64 1.56 1 2.5 1s1.842 -.36 2.5 -1" />
+                </svg> *@ Agregar Alumno
             </button>
 
             <button onclick="window.location.href='ListaExamenes'" class="btn-examenlist">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4a6a99" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
-                    <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
-                    <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
-                    <path d="M11 6l9 0" />
-                    <path d="M11 12l9 0" />
-                    <path d="M11 18l9 0" />
-                </svg>Exámenes
+                @*  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4a6a99" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
+                <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
+                <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
+                <path d="M11 6l9 0" />
+                <path d="M11 12l9 0" />
+                <path d="M11 18l9 0" />
+                </svg> *@ Exámenes
             </button>
         </div>
     </div>
@@ -75,61 +86,72 @@
 
     <div class="agg-alumno-container">
 
+         <div class="form-agg-alumn-conteiner">
 
-        <h1>Agregar Alumno</h1>
-        <label class="instrucciones">LLena los campos con la informacion del nuevo alumno.</label>
+            <h1>Agregar Alumno</h1>
+            <label class="instrucciones">LLena los campos con la informacion del nuevo alumno.</label>
 
-        <form id="form-alumno" onsubmit="guardarAlumno(event)">
-
-          
-            <div class="input-group">
-                <input type="text" id="nombre-alumno" name="nombre-alumno" required placeholder=" ">
-                <label for="nombre-alumno">Nombre</label>
-                <span class="error-message">Error en el nombre</span>
-            </div>
+            <form id="form-alumno" onsubmit="guardarAlumno(event)">
 
 
-            <div class="input-group">
-                <input type="text" id="nombre-usuario" name="nombre-usuario" required placeholder=" ">
-                <label for="nombre-usuario">Usuario</label>
-                <span class="error-message">Error en el usuario</span>
-            </div>
+                <div class="input-group">
+                    <input type="text" id="nombre-alumno" name="nombre-alumno" required placeholder=" ">
+                    <label for="nombre-alumno">Nombre</label>
+                    <span class="error-message">Error en el nombre</span>
+                </div>
 
 
-
-            <div class="input-group">
-                <input type="email" id="email-alumno" name="email-alumno" required placeholder=" ">
-                <label for="email-alumno">Correo</label>
-                <span class="error-message">Error en el correo</span>
-            </div>
-
-
-            <div class="input-group">
-                <input type="number" id="grado" name="grado" required placeholder=" ">
-                <label for="grado">Grado</label>
-                <span class="error-message">Error en el grado</span>
-            </div>
+                <div class="input-group">
+                    <input type="text" id="nombre-usuario" name="nombre-usuario" required placeholder=" ">
+                    <label for="nombre-usuario">Usuario</label>
+                    <span class="error-message">Error en el usuario</span>
+                </div>
 
 
 
+                <div class="input-group">
+                    <input type="email" id="email-alumno" name="email-alumno" required placeholder=" ">
+                    <label for="email-alumno">Correo</label>
+                    <span class="error-message">Error en el correo</span>
+                </div>
 
-            <div class="input-group">
-                <input type="text" id="seccion" name="seccion" required placeholder=" ">
-                <label for="seccion">Sección</label>
-                <span class="error-message">Error en la seccion</span>
-            </div>
+
+                <div class="input-group">
+                    <input type="number" id="grado" name="grado" required placeholder=" ">
+                    <label for="grado">Grado</label>
+                    <span class="error-message">Error en el grado</span>
+                </div>
 
 
-            <div class="input-group">
-                <input type="password" id="contraseña" name="contraseña" required placeholder=" ">
-                <label for="contraseña">Contraseña</label>
-                <span class="error-message">Error en la contraseña</span>
-            </div>
 
-            <button type="submit">Guardar Alumno</button>
-            <a href="index">Volver a Inicio</a>
 
-        </form>
+                <div class="input-group">
+                    <input type="text" id="seccion" name="seccion" required placeholder=" ">
+                    <label for="seccion">Sección</label>
+                    <span class="error-message">Error en la seccion</span>
+                </div>
+
+
+                <div class="input-group">
+                    <input type="password" id="contraseña" name="contraseña" required placeholder=" ">
+                    <label for="contraseña">Contraseña</label>
+                    <span class="error-message">Error en la contraseña</span>
+                </div>
+
+                <button type="submit">Guardar Alumno</button>
+
+
+            </form>
+
+        </div> 
+
+         <div class="agg-alumno-img">
+
+            <img src="~/images/img2.png" />
+        </div> 
+
+       
+
 
         
 

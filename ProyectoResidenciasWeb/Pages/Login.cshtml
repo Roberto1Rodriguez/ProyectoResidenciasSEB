@@ -16,21 +16,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 </head>
 <body class="body-log">
-    <!-- Header con logos y botón de registro -->
+    <!--Header con logos y botón de registro 
     <header class="header-log">
-        <img src="~/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
+      <-- <img src="~/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
         <div class="header-right">
             <img src="~/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
-            <!-- <button class="register-button">Registrarse</button> -->
+             <button class="register-button">Registrarse</button> 
         </div>
-    </header>
+    </header> -->
 
+    
     <!-- Contenedor principal -->
+    
     <div class="main-container">
         <!-- Parte de la imagen -->
+        
         <div class="image-container">
+           
+            
+            <img src="~/images/img-login.jpg" alt="Imagen de Login">
             <label>Generador de pruebas escritas.</label>
-            <img src="~/images/img1.png" alt="Imagen de Login">
+            
+
+
+
         </div>
 
         <!-- Parte del formulario -->
@@ -63,16 +72,16 @@
 
     <!-- Modal Restablecer contraseña -->
     <div id="restablecer-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
-        <div style="background-color:#fff; margin:10% auto; padding:20px; width:50%; border-radius:10px;">
-            <h2 style="font-weight:600; font-size:1.2rem;">Restablecer contraseña</h2>
+        <div style="background-color:#fff; margin:10% auto; padding:20px; width:50%; border-radius:20px;">
+            <h2 style="font-weight:bold; font-family:'Quicksand'; margin-bottom:5px; font-size:1.8rem;">Restablecer contraseña</h2>
             <p style="margin-bottom:10px; font-size:1rem;">Se enviará una nueva contraseña a su correo electronico.</p>
 
-            <input id="EmailInput" style="padding:10px 20px;border:1px solid gray; border-radius:10px; font-size:1rem;" type="text" required placeholder=" ">
+            <input id="EmailInput" style="padding:10px 20px; width:100%; border:1px solid gray; border-radius:10px; font-size:1rem;" type="text" required placeholder=" ">
             <p class="error-message" style="margin:10px 0px;"></p>
 
-            <button href="#" id="restablecerBtn" style="padding:10px 15px; margin-top:15px 0px; font-size:1rem; border-radius:10px; background-color:var(--verde); border:none; color:white;">Enviar</button>
+            <button href="#" id="restablecerBtn" style="padding:10px 15px; margin-top:15px 0px; font-size:1.1rem; border-radius:10px; background-color:#00698a; border:none; color:white;">Enviar</button>
 
-            <button  onclick="cerrarRestablecerModal()" style="padding:10px 15px; font-size:1rem;  border-radius:10px; background-color:black; border:none; color:white;">Salir</button>
+            <button  onclick="cerrarRestablecerModal()" style="padding:10px 15px; font-size:1.1rem;  border-radius:10px; background-color:black; border:none; color:white;">Salir</button>
         </div>
     </div>
 

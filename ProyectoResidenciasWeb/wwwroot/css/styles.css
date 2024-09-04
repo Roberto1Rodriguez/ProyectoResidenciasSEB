@@ -46,10 +46,18 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background-color: transparent;
-    
+    padding: 15px 20px;
+    background: linear-gradient(to bottom, rgba(0, 105, 138, 0.5), rgba(0, 134, 176, 0)); /* Degradado de azul rey opaco hacia arriba */
+    background-color: #00698a;
 }
+
+    header label {
+        font-family: "Quicksand", sans-serif;
+        font-weight: 500;
+        font-size: 1.3rem;
+        color:ghostwhite;
+    }
+    
 
 .logo-izquierda, .logo-derecha {
     height: 50px;
@@ -86,33 +94,44 @@ header {
 /* Contenedor principal */
  .main-container {
     display: flex;
-    max-width: 900px;
-    width: 100%;
+    max-width: max-content;
+    
     background-color: #ffffff;
-    border-radius: 40px;
-    overflow: hidden;
+    height:100%;
+    /*overflow: hidden;*/
     margin-top: 0;
 }
 
 .image-container {
-    flex: 1;
-    padding: 40px;
-    background-color: aliceblue;
+    flex: 1.5;
+    background-color: #007497;
     text-align: center;
+    position: relative;
+    width: 100%;
+    
 }
 
     .image-container label {
         font-family: "Quicksand", sans-serif;
         font-weight: bolder;
-        font-size: 2rem;
-        color: #a2d249;
+        font-size: 2.6rem;
+        position: absolute;
+        bottom: 0px;
+        left: 00px;
+        padding: 60px 0px;
+        color: white;
+        width: 100%;
+        background: linear-gradient(to top, rgba(0, 0, 137, 0.4), rgba(0, 0, 139, 0)); /* Degradado de azul rey opaco hacia arriba */
+        /* Aquí puedes añadir otras propiedades según necesites */
     }
 
     .image-container img {
-        width: 80%;
-        height: 80%;
+
         object-fit: cover;
-        border-radius: 30px;
+        opacity: 0.5;
+
+        width: 100%;
+        height: 100%;;
     }
 
 h1 {
@@ -359,34 +378,40 @@ button[type="submit"] {
 .index-options-btns {
     display: flex;
     justify-content: space-between;
-    column-gap: 15px;
-}
+    column-gap: 8px;
+    align-items: center;
+    
+   }
 
-.index-options button {
+    
+
+
+
+.index-options-btns button {
     border: none;
     padding: 10px 15px;
-    border-radius: 10px;
+   
     align-self: center;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color:transparent;
+    color:black;
+    font-size:large;
 }
 
-.btn-examenlist {
-    background-color: #dae2ee;
-    color: #4a6a99;
-    font-weight: 500;
-    font-size: medium;
+.index-options-btns button:focus {
+    border-bottom: 5px solid orange;
+    padding: 10px 15px;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   font-weight:500;
+    color: black;
 }
 
-.btn-agg-alumno {
-    background-color: #dfefc0;
-    color: #7a9f37;
-    font-weight: 500;
-    font-size: medium;
 
-
-}
 
 
 
@@ -432,7 +457,7 @@ button[type="submit"] {
 
 svg {
     height: min-content;
-    margin-right: 5px;
+   /*margin-right: 5px;*/
 }
 
     svg:hover {
@@ -636,13 +661,18 @@ display:block;
 .detalles-ex-conteiner div {
     display:flex;
     justify-content:space-between;
+    margin-bottom:10px;
+}
+
+.detalles-ex-conteiner > div > .buttons-group-ex > button{
+    margin: 0px 5px;
 }
 
     .detalles-ex-conteiner div > button {
         height: min-content;
         align-self: center;
-        padding: 5px 10px;
-        border-radius: 6px;
+        padding:  10px;
+        border-radius: 10px;
         border: 1px solid #70a0e6;
         background-color: #70a0e6;
         font-weight:500;
@@ -684,65 +714,83 @@ display:block;
             padding:10px 25px;
         }
 
-            .pyr-conteiner > .buttons-filter {
-                background-color: transparent;
-                padding: 15px 20px;
-                display: flex;
-                border-radius: 50px;
-               border:1px solid gray;
-                gap: 10px;
-                margin: 10px 0px;
-                justify-content:center;
-                
-            }
+    .agg-btns{
+        display:flex;
+        flex-direction:row;
+        align-items:center;
+        justify-content:space-between;
+        padding-left:15px;
+    }
 
-        .buttons-filter button{
-            padding:10px 15px;
-            border-radius:30px;
-            font-weight:500;
-            border:none;
-          background-color:var(--verde);
+.pyr-conteiner > .buttons-filter {
+    background-color: transparent;
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+    margin: 10px 0px;
+}
 
-        }
+.buttons-filter button {
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-weight: 500;
+    border: none;
+    background-color: var(--celeste);
+    color: #314665;
+}
 
-        .buttons-filter > button:hover{
+        .buttons-filter > button:focus{
             background-color:black;
             font-weight:500;
             color:white;
         }
 
 #preguntas-list li {
-    padding: 5px 10px;
+    padding:  10px 15px;
     border: none;
-    border-radius:5px;
+    border-radius:15px;
     margin:0;
     border: 1px solid lightgray;
     margin-bottom:10px;
+
+    
+
+    
+
     
 }
 
-#preguntas-list > li > button{
-    background-color:black;
-    color:white;
-    padding:3px 10px;
-    border-radius:5px;
-    margin-right:5px;
-    font-size:medium;
-}
-.preguntas-op{
-    margin:0px 20px;
+#preguntas-list > li > button {
+   
     
+   
+    border:none;
+    border-radius:8px;
+    height:min-content;
+    font-size: medium;
+    margin-right:5px;
+    
+
+    
+}
+.preguntas-op {
+   
+    display: flex;
+   
+    height:min-content;
 }
 .preguntas-op > button{
     background-color:var(--rosita);
     color:var(--rosa);
     font-size:medium;
-    padding:10px 15px;
-    border-radius:5px;
+    padding:10px ;
+    border-radius:25px;
     border:none;
     font-weight:500;
     margin-right:10px;
+    display:inline-flex;
 }
+
 
 
 
@@ -954,16 +1002,30 @@ display:block;
 
 /*AGREGAR ALUMNO REGISTRO*/
 .agg-alumno-container {
-    margin:15px 40px;
-      
+    display: grid;
+    grid-template-columns: 40% 60%;
+    height: min-content;
 }
-.agg-alumno-container > #form-alumno{
-    width:50%;
-    margin-top:25px;
+    
+    
+
+
+    .agg-alumno-container > .form-agg-alumn-conteiner {
+   
+    }
+
+    .agg-alumno-container >  .agg-alumno-img > img {
+    
+    
+    }
+
+    
+  
+    
   
 
 
-}
+
 /*CONTEXT MENU CERRAR SESION ALUMNO*/
 .context-menu {
     display: none;
@@ -1086,7 +1148,13 @@ display:block;
     .form-container {
         padding-top: 0;
     }
+
+    .main-container svg > .icono-logo{
+        height:20px;
+        width:20px;
+    }
 }
+
 
 /*ROBEEEE*/
 
