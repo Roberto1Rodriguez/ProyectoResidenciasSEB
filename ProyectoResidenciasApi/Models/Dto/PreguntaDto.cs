@@ -15,6 +15,9 @@
     public int? LecturaId { get; set; }
 
         public int? CamposFormativosId {  get; set; }
-      
+        public string? CreadoPor { get; set; }
+
+        public string? ModificadoPor { get; set; }
+
     }
 }

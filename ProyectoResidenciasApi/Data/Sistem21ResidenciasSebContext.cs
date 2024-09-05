@@ -252,10 +252,12 @@ public partial class Sistem21ResidenciasSebContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.AsignaturaId).HasColumnType("int(11)");
             entity.Property(e => e.CamposFormativosId).HasColumnType("int(11)");
+            entity.Property(e => e.CreadoPor).HasMaxLength(100);
             entity.Property(e => e.Disponible)
                 .HasDefaultValueSql("b'1'")
                 .HasColumnType("bit(1)");
             entity.Property(e => e.LecturaId).HasColumnType("int(11)");
+            entity.Property(e => e.ModificadoPor).HasMaxLength(100);
             entity.Property(e => e.NivelEducativo).HasColumnType("enum('Primaria','Secundaria')");
             entity.Property(e => e.Texto).HasColumnType("text");
             entity.Property(e => e.TipoPregunta).HasColumnType("enum('Abierta','Opción Múltiple','Falso-Verdadera','Multireactiva')");
@@ -304,7 +306,7 @@ public partial class Sistem21ResidenciasSebContext : DbContext
             entity.Property(e => e.Contraseña).HasMaxLength(255);
             entity.Property(e => e.Email).HasMaxLength(255);
             entity.Property(e => e.NombreUsuario).HasMaxLength(255);
-            entity.Property(e => e.Tipo).HasColumnType("enum('A','D')");
+            entity.Property(e => e.Tipo).HasColumnType("enum('A','D','M')");
         });
 
         OnModelCreatingPartial(modelBuilder);

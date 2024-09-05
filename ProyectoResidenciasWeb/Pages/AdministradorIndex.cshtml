@@ -21,8 +21,7 @@
     <style>
         .docente {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
             padding: 10px;
             border: 1px solid #ccc;
             margin: 5px 0;
@@ -31,16 +30,9 @@
 
         .columna {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
         }
-
-            .columna.nombre {
-                flex: 1;
-            }
-
-            .columna.boton {
-                margin-left: 10px;
-            }
 
         .boton-examen {
             padding: 5px 10px;
@@ -51,12 +43,45 @@
             font-size: 1rem;
             cursor: pointer;
         }
+
+        .examenes-container {
+            max-height: 200px; /* Limita la altura del contenedor de exámenes */
+            overflow-y: auto; /* Permite el scroll vertical */
+            margin-top: 10px;
+            background-color: #f9f9f9;
+            padding: 5px;
+            border-radius: 5px;
+            display: none; /* Oculto por defecto */
+        }
+
+        .examen {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+            border-radius: 5px;
+            background-color: #f7e4cb;
+        }
+
+        .examen-info {
+            flex: 1;
+        }
+
+        .boton-descargar {
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1px solid #4CAF50;
+            background-color: #4CAF50;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
     <!-- Header con logos y botón de registro -->
-
     <header class="header">
         <img src="/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
         <div class="header-right">
@@ -67,17 +92,16 @@
     <div class="index-options">
         <div>
             <h3>
-                Hola,<span>Belén Ruiz Almaguer</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                Hola,<span>Belén Ruiz Almaguer</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24V24H0z" fill="none" />
                     <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
                     <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
                 </svg>
-
             </h3>
             <label id="rol" class="instrucciones" style="font-size:large; color:gray;">Administrador</label>
         </div>
         <!--CONTEXT MENU CERRAR SESION-->
-
         <div id="contextMenu" class="context-menu">
             <ul>
                 <li id="cambiar-contraseña">Cambiar contraseña</li>
@@ -87,7 +111,7 @@
         <div class="index-options-btns">
             <button onclick="window.location.href='agregarDocente'" class="btn-agg-alumno" id="openModalBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-plus" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7a9f37" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path stroke="none" d="M0 0h24V24H0z" fill="none" />
                     <path d="M20.985 12.528a9 9 0 1 0 -8.45 8.456" />
                     <path d="M16 19h6" />
                     <path d="M19 16v6" />
@@ -99,7 +123,7 @@
 
             <button onclick="window.location.href='FiltroBancoReactivos' " class="btn-examenlist">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4a6a99" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path stroke="none" d="M0 0h24V24H0z" fill="none" />
                     <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
                     <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
                     <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
@@ -119,47 +143,6 @@
         </div>
     </div>
 
-    <!-- Modal agregar docente -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Agregar Docente</h2>
-            <form>
-                <div class="input-group">
-                    <input type="text" id="nombre" required placeholder=" ">
-                    <label for="nombre">Nombre</label>
-                    <span class="error-message">Error en el nombre</span>
-                </div>
-                <div class="input-group">
-                    <input type="text" id="usuario" required placeholder=" ">
-                    <label for="usuario">Usuario</label>
-                    <span class="error-message">Error en el usuario</span>
-                </div>
-                <div class="input-group">
-                    <input type="email" id="correo" required placeholder=" ">
-                    <label for="correo">Correo</label>
-                    <span class="error-message">Error en el correo</span>
-                </div>
-                <div class="input-group">
-                    <input type="number" id="grado" required placeholder=" ">
-                    <label for="grado">Grado</label>
-                    <span class="error-message">Error en el grado</span>
-                </div>
-                <div class="input-group">
-                    <input type="text" id="seccion" required placeholder=" ">
-                    <label for="seccion">Sección</label>
-                    <span class="error-message">Error en la seccion</span>
-                </div>
-                <div class="input-group">
-                    <input type="password" id="contraseña" required placeholder=" ">
-                    <label for="contraseña">Contraseña</label>
-                    <span class="error-message">Error en la contraseña</span>
-                </div>
-                <button type="submit">Guardar registro</button>
-            </form>
-        </div>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             try {
@@ -171,12 +154,11 @@
                     const listItem = document.createElement('li');
                     listItem.classList.add('docente');
                     listItem.innerHTML = `
-                                <div class="columna nombre">
+                                <div class="columna">
                                     <h3>${docente.nombre} - ${docente.usuario.nombreUsuario}</h3>
+                                    <button class="boton-examen" onclick="toggleExamenes(${docente.id}, this)">Ver Exámenes</button>
                                 </div>
-                                <div class="columna boton">
-                                    <button class="boton-examen" onclick="verExamenes(${docente.id})">Ver Exámenes</button>
-                                </div>
+                                <div id="examenes-${docente.id}" class="examenes-container"></div>
                             `;
                     docentesList.appendChild(listItem);
                 });
@@ -185,9 +167,49 @@
             }
         });
 
-        function verExamenes(docenteId) {
-            // Aquí iría la lógica para ver los exámenes del docente seleccionado
-            console.log('Ver exámenes del docente con ID:', docenteId);
+        async function toggleExamenes(docenteId, button) {
+            const examenesContainer = document.getElementById(`examenes-${docenteId}`);
+
+            if (examenesContainer.style.display === 'none' || examenesContainer.style.display === '') {
+                // Mostrar exámenes
+                await cargarExamenes(docenteId, examenesContainer);
+                examenesContainer.style.display = 'block';
+                button.textContent = 'Ocultar Exámenes';
+            } else {
+                // Ocultar exámenes
+                examenesContainer.style.display = 'none';
+                button.textContent = 'Ver Exámenes';
+            }
+        }
+
+        async function cargarExamenes(docenteId, container) {
+            try {
+                const response = await fetch(`https://localhost:7162/api/Examen/examenesPorDocente/${docenteId}`);
+                const examenes = await response.json();
+                container.innerHTML = ''; // Limpiar lista de exámenes previos
+
+                examenes.forEach(examen => {
+                    const listItem = document.createElement('div');
+                    listItem.classList.add('examen');
+                    listItem.innerHTML = `
+                                <div class="examen-info">
+                                    <h4>Examen ID: ${examen.id}</h4>
+                                    <p>Asignatura: ${examen.asignatura}</p>
+                                    <p>Campo Formativo: ${examen.campoFormativo}</p>
+                                    <p>Nivel Educativo: ${examen.nivelEducativo}</p>
+                                    <p>Fecha: ${examen.fecha}</p>
+                                </div>
+                                <button class="boton-descargar" onclick="descargarExamen(${examen.id})">Descargar</button>
+                            `;
+                    container.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Error al cargar los exámenes del docente:', error);
+            }
+        }
+
+        function descargarExamen(examenId) {
+            window.location.href = `https://localhost:7162/api/Examen/DescargarExamen?examenId=${examenId}`;
         }
     </script>
 

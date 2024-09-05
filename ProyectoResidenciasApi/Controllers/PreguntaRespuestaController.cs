@@ -79,7 +79,9 @@ namespace ProyectoResidenciasApi.Controllers
                     TipoPregunta = dto.TipoPregunta,
                     LecturaId = dto.LecturaId,
                     AsignaturaId = dto.AsignaturaId,
-                    Disponible = 1
+                    Disponible = 1,
+                    CreadoPor=dto.CreadoPor,
+                    ModificadoPor=dto.ModificadoPor
 
                 };
                 repoPregunta.Insert(pregunta);
@@ -98,21 +100,25 @@ namespace ProyectoResidenciasApi.Controllers
                 return BadRequest();
             }
 
-            // Convertir PreguntaDto a Pregunta
-            var pregunta = new Pregunta
+            // Buscar la pregunta existente
+            var preguntaExistente = repoPregunta.Get(id);
+            if (preguntaExistente == null)
             {
-                Id = preguntaDto.Id,
-                Texto = preguntaDto.Texto,
-                CamposFormativosId = preguntaDto.CamposFormativosId,
-                NivelEducativo = preguntaDto.NivelEducativo,
-                TipoPregunta = preguntaDto.TipoPregunta,
-                AsignaturaId = preguntaDto.AsignaturaId,
-                LecturaId = preguntaDto.LecturaId,
-                Disponible = 1
-            };
+                return NotFound("Pregunta no encontrada");
+            }
 
-            repoPregunta.Update(pregunta);
-            return Ok(pregunta);
+            // Actualizar los campos necesarios
+            preguntaExistente.Texto = preguntaDto.Texto;
+            preguntaExistente.CamposFormativosId = preguntaDto.CamposFormativosId;
+            preguntaExistente.NivelEducativo = preguntaDto.NivelEducativo;
+            preguntaExistente.TipoPregunta = preguntaDto.TipoPregunta;
+            preguntaExistente.AsignaturaId = preguntaDto.AsignaturaId;
+            preguntaExistente.LecturaId = preguntaDto.LecturaId;
+            preguntaExistente.Disponible = 1;
+            preguntaExistente.ModificadoPor = preguntaDto.ModificadoPor; // Actualiza el usuario que modifica
+
+            repoPregunta.Update(preguntaExistente);
+            return Ok(preguntaExistente);
         }
         [HttpDelete("Preguntas/{id}")]
         public IActionResult DeletePregunta(int id)

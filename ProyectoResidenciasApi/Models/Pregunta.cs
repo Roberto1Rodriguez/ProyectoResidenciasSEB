@@ -21,6 +21,10 @@ public partial class Pregunta
 
     public ulong? Disponible { get; set; }
 
+    public string? CreadoPor { get; set; }
+
+    public string? ModificadoPor { get; set; }
+
     public virtual Asignatura? Asignatura { get; set; }
 
     public virtual Camposformativos? CamposFormativos { get; set; }
