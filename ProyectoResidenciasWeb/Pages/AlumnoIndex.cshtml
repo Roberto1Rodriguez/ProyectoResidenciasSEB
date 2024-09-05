@@ -17,19 +17,33 @@
 </head>
 <body>
 
+
+
     <!-- Header con logos y botón de registro -->
-    <header class="alumno-header">
-        <img src="/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
+
+
+    <header class="header">
+        <img src="/images/logo_coah.png" alt="Logo Izquierda" class="logo-izquierda">
+        <label>Generador de pruebas escritas.</label>
         <div class="header-right">
-            <img src="/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
+            <img src="/images/logo_sedu4.png" alt="Logo Derecha" class="logo-derecha">
+
         </div>
+
+
     </header>
+
+
     <!---------------------------------------->
     <!-- Modal cambiar contraseña -->
+
+
     <div id="cambiarContrasenaModal" class="modal">
+
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Cambiar Contraseña</h2>
+                <span class="close">&times;</span>
+                <h2>Cambiar Contraseña</h2>
+
             <form id="cambiarContrasenaForm">
                 <div class="input-group">
                     <input type="password" id="current-password" required placeholder=" ">
@@ -45,28 +59,41 @@
                 </div>
                 <button type="submit">Guardar</button>
             </form>
-            </div>
+
         </div>
+
+    </div>
+
+
     <div class="alumno-index-main-conteiner">
-        <div id="alumno-info">
+                
+            <div id="alumno-info">
          
                 <div class="bienvenida-alumno">
+
+
                     <div>
-                        <label id="nombre-alumno"></label>
-                        <svg id="settingsIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
-                            <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-                        </svg>
+                            <label id="nombre-alumno"></label>
+                               <svg id="settingsIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+                                <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                               </svg>
                     </div>
                     
                     <label id="rol" class="instrucciones">Alumno</label>
                 </div>
+
+
                 <div>
                     <label>Grado: <span id="grado-alumno"></span></label>
                     <label>Sección: <span id="seccion-alumno"></span></label>
                 </div>
+
+
             </div>
+
+
         <div id="contextMenu" class="context-menu">
             <ul>
                 <li id="cambiar-contraseña">Cambiar contraseña</li>
@@ -75,10 +102,15 @@
         </div>
 
         <h2>Mis examenes</h2>
+
+
         <div id="loading-spinner" style="text-align: center;">
             <img src="/images/loading-spinner.gif" alt="Cargando...">
         </div>
+
         <ul id="examenes-list" style="display:none;"></ul>
+
+
         <script>
             document.addEventListener('DOMContentLoaded', async () => {
                 const usuarioId = sessionStorage.getItem('usuarioId');

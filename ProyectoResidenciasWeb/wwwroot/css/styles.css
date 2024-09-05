@@ -400,16 +400,17 @@ button[type="submit"] {
     font-size:large;
 }
 
-.index-options-btns button:focus {
-    border-bottom: 5px solid orange;
-    padding: 10px 15px;
-    align-self: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   font-weight:500;
-    color: black;
-}
+    .index-options-btns button:focus, .index-options-btns button:hover {
+        border-bottom: 5px solid orange;
+        padding: 10px 15px;
+        align-self: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 500;
+        color: black;
+        transition: 0.02s;
+    }
 
 
 
@@ -1058,8 +1059,8 @@ display:block;
         }
 
             .context-menu ul li:hover {
-                background-color: var(--light-verde);
-                color: #5a732d;
+                background-color: var(--celeste);
+                
                 font-weight:600;
             }
 /* Estilos del modal CAMBIAR CONTRASEÑA */
@@ -1082,24 +1083,38 @@ display:block;
     border: 1px solid #888;
     width: 80%; /* Ancho del modal */
     max-width: 500px; /* Ancho máximo */
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2{
+    margin-bottom:25px;
 }
 
 /* Estilos del botón de cierre */
 .close {
     color: #aaa;
     float: right;
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 30px;
+    font-weight: bolder;
 }
 
     .close:hover,
     .close:focus {
-        color: black;
+        color: #00698a;
         text-decoration: none;
         cursor: pointer;
+        font-weight: bolder;
     }
+
+
+    /*EXAMEN FORM DEL ALUMNO*/
+    #examen-form{
+        display:flex;
+       justify-content:space-between;
+    }
+
+
 /*.context-menu {
     display: none;
     position: absolute;
