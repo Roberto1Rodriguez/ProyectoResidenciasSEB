@@ -14,106 +14,133 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
-    
 </head>
 <body>
-
-
-
+    <!-- Header con logos y botón de registro -->
     <header class="header">
         <img src="/images/logo_coah.png" alt="Logo Izquierda" class="logo-izquierda">
         <label>Generador de pruebas escritas.</label>
         <div class="header-right">
             <img src="/images/logo_sedu4.png" alt="Logo Derecha" class="logo-derecha">
-
         </div>
-
-
     </header>
-
 
     <div class="index-options">
         <div>
             <h3>
-                Hola,<span>Roberto Rodriguez Wong</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                Hola,<span id="nombre-perfil"></span>
+                <svg id="settingsIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
                     <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
                 </svg>
             </h3>
-            <label id="rol" class="instrucciones" style="font-size:large; color:gray;">Docente</label>
+            <label id="rol" class="instrucciones" style="font-size:large; font-weight: normal; color: gray; font-family: 'Quicksand'; ">Docente</label>
         </div>
 
+        <!--CONTEXT MENU CERRAR SESION-->
+        <div id="contextMenu" class="context-menu">
+            <ul>
+                <li id="cambiar-contraseña">Cambiar contraseña</li>
+                <li id="logout">Cerrar sesión</li>
+            </ul>
+        </div>
+
+        <!-- Modal cambiar contraseña -->
+        <div id="cambiarContrasenaModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Cambiar Contraseña</h2>
+                <form id="cambiarContrasenaForm">
+                    <div class="input-group">
+                        <input type="password" id="current-password" required placeholder=" ">
+                        <label for="current-password">Contraseña Actual</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="new-password" required placeholder=" ">
+                        <label for="new-password">Nueva Contraseña</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="confirm-new-password" required placeholder=" ">
+                        <label for="confirm-new-password">Confirmar Nueva Contraseña</label>
+                    </div>
+                    <button type="submit">Guardar</button>
+                </form>
+            </div>
+        </div>
 
         <div class="index-options-btns">
-
-            <button onclick="window.location.href='Index'">
-                Inicio
-            </button>
-
-            <button onclick="window.location.href='agregarAlumno'" class="btn-agg-alumno" id="openModalBtn">
-                @* <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-plus" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7a9f37" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M20.985 12.528a9 9 0 1 0 -8.45 8.456" />
-                <path d="M16 19h6" />
-                <path d="M19 16v6" />
-                <path d="M9 10h.01" />
-                <path d="M15 10h.01" />
-                <path d="M9.5 15c.658 .64 1.56 1 2.5 1s1.842 -.36 2.5 -1" />
-                </svg> *@ Agregar Alumno
-            </button>
-
-            <button onclick="window.location.href='ListaExamenes'" class="btn-examenlist">
-                @*  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4a6a99" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
-                <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
-                <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
-                <path d="M11 6l9 0" />
-                <path d="M11 12l9 0" />
-                <path d="M11 18l9 0" />
-                </svg> *@ Exámenes
-            </button>
+            <button onclick="window.location.href='Index'">Inicio</button>
+            <button onclick="window.location.href='agregarAlumno'" class="btn-agg-alumno" id="openModalBtn">Agregar Alumno</button>
+            <button onclick="window.location.href='ListaExamenes'" class="btn-examenlist">Exámenes</button>
         </div>
     </div>
-
-
 
     <!--LISTA DE EXAMENES-->
     <div class="examenlist-container">
-
         <div>
             <h1>Exámenes Generados</h1>
-          
-
+            <!-- Formulario de Búsqueda -->
+            <form id="search-form">
+                <input type="text" id="search-input" placeholder="Filtra por fecha, nivel educativo, asignatura o campo formativo" oninput="filtrarExamenes()" />
+            </form>
         </div>
-        
+
         <ul id="examenes-list"></ul>
-       
     </div>
-    
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
+           
+                const nombrePerfil = sessionStorage.getItem('nombre');
+                if (nombrePerfil) {
+                    document.getElementById('nombre-perfil').textContent = nombrePerfil;
+                }
             const docenteId = sessionStorage.getItem('docenteId');
             const response = await fetch(`https://localhost:7162/api/Examen/examenesPorDocente/${docenteId}`);
             const examenes = await response.json();
 
+            // Guarda los exámenes originales para filtrar después
+            window.examenesOriginal = examenes;
+
+            // Mostrar los exámenes al cargar la página
+            mostrarExamenes(examenesOriginal);
+        });
+
+        function mostrarExamenes(examenes) {
             const examenesList = document.getElementById('examenes-list');
+            examenesList.innerHTML = ''; // Limpiar la lista antes de añadir los elementos filtrados
             examenes.forEach(examen => {
                 const listItem = document.createElement('li');
-  
-
                 listItem.textContent = `Examen (${examen.fecha}) - ${examen.asignatura || examen.campoFormativo} - ${examen.nivelEducativo}`;
                 listItem.addEventListener('click', () => verExamen(examen.id));
                 examenesList.appendChild(listItem);
             });
-        });
+        }
+
+        function filtrarExamenes() {
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+
+            const examenesFiltrados = window.examenesOriginal.filter(examen => {
+                const fecha = (examen.fecha || '').toLowerCase();
+                const nivel = (examen.nivelEducativo || '').toLowerCase();
+                const asignatura = ((examen.asignatura || examen.campoFormativo) || '').toLowerCase();
+
+                return (
+                    fecha.includes(searchInput) ||
+                    nivel.includes(searchInput) ||
+                    asignatura.includes(searchInput)
+                );
+            });
+
+            mostrarExamenes(examenesFiltrados);
+        }
 
         function verExamen(examenId) {
             sessionStorage.setItem('examenId', examenId);
             window.location.href = 'verExamen';
         }
     </script>
+    <script src="/js/script.js"></script>
 </body>
 </html>

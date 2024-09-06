@@ -75,4 +75,31 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error al cambiar la contraseña:', error);
         });
     });
+
+    // Obtener el botón y el menú de botones agg
+    const menuBtnAgg = document.getElementById('menuBtn-agg');
+    const contextMenuAgg = document.getElementById('contextMenu-agg');
+
+    // Mostrar/ocultar el menú contextual al hacer clic en el botón
+    menuBtnAgg.addEventListener('click', function () {
+        contextMenuAgg.style.display = (contextMenuAgg.style.display === 'block') ? 'none' : 'block';
+    });
+
+    // Redirigir a las páginas correspondientes al hacer clic en las opciones del menú
+    document.getElementById('agregar-pregunta').addEventListener('click', function () {
+        window.location.href = 'agregar_pregunta.html';
+    });
+
+    document.getElementById('agregar-lectura').addEventListener('click', function () {
+        window.location.href = 'agregar_lectura.html';
+    });
+
+    // Cerrar el menú si se hace clic fuera de él
+    window.addEventListener('click', function (e) {
+        if (!menuBtnAgg.contains(e.target) && !contextMenuAgg.contains(e.target)) {
+            contextMenuAgg.style.display = 'none';
+        }
+    });
+
+
 });

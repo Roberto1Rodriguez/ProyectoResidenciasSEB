@@ -1,0 +1,1182 @@
+﻿@page
+@model ProyectoResidenciasWeb.Pages.PreguntasAdministradorModel
+@{
+}
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas y Respuestas Admin</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Space+Grotesk:wght@300..700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+</head>
+<style>
+    #preguntas-list {
+        list-style-type: decimal;
+        padding-left: 20px;
+    }
+</style>
+<body>
+
+
+
+    <!-- Header con logos y botón de registro -->
+    <!-- Header con logos y botón de registro -->
+
+
+    <header class="header">
+        <img src="/images/logo_coah.png" alt="Logo Izquierda" class="logo-izquierda">
+        <label>Generador de pruebas escritas.</label>
+        <div class="header-right">
+            <img src="/images/logo_sedu4.png" alt="Logo Derecha" class="logo-derecha">
+
+        </div>
+
+
+    </header>
+
+    <!--BUENO-->
+
+    <div class="index-options">
+        <div>
+            <h3>
+                Administrador<span id="nombre-perfil"></span><svg id="settingsIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+                    <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                </svg>
+            </h3>
+            @*  <label id="rol" class="instrucciones" style="font-size:large; font-weight: normal;
+            color: gray;
+            font-family: 'Quicksand' ; ">Administrador</label> *@
+        </div>
+
+
+
+        <!---------------------------------------->
+        <!-- Modal cambiar contraseña -->
+
+        <div id="cambiarContrasenaModal" class="modal">
+
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Cambiar Contraseña</h2>
+
+                <form id="cambiarContrasenaForm">
+                    <div class="input-group">
+                        <input type="password" id="current-password" required placeholder=" ">
+                        <label for="current-password">Contraseña Actual</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="new-password" required placeholder=" ">
+                        <label for="new-password">Nueva Contraseña</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="confirm-new-password" required placeholder=" ">
+                        <label for="confirm-new-password">Confirmar Nueva Contraseña</label>
+                    </div>
+                    <button type="submit">Guardar</button>
+                </form>
+
+            </div>
+
+        </div>
+
+        <div id="contextMenu" class="context-menu">
+            <ul>
+                <li id="cambiar-contraseña">Cambiar contraseña</li>
+                <li id="logout">Cerrar sesión</li>
+            </ul>
+        </div>
+
+
+        <div class="index-options-btns">
+
+            <button onclick="window.location.href='AdministradorIndex'">
+                Inicio
+            </button>
+
+            <button onclick="window.location.href='agregarDocente'" class="btn-agg-alumno" id="openModalBtn">
+                Agregar Docente
+            </button>
+
+            <button onclick="window.location.href='FiltroBancoReactivos' " class="btn-examenlist">
+                Banco de reactivos
+            </button>
+        </div>
+    </div>
+
+     
+    
+
+
+
+
+
+    <div class="pyr-conteiner">
+
+        <div class="agg-btns">
+
+            <div>
+                <h1>Preguntas y Respuestas</h1>
+
+                <div>
+                    <label class="instrucciones" id="tipo-seleccionado"></label>
+                    <label class="instrucciones" id="nivel-educativo-seleccionado"></label>
+                </div>
+
+            </div>
+
+
+            <div class="preguntas-op">
+               
+              
+                <button onclick="abrirModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-question-mark" width="24" style="margin-right:5px;" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--rosa)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M8 8a3.5 3 0 0 1 3.5 -3h1a3.5 3 0 0 1 3.5 3a3 3 0 0 1 -2 3a3 4 0 0 0 -2 4" />
+                        <path d="M12 19l0 .01" />
+                    </svg>Agregar Pregunta
+                </button>
+
+
+                <button onclick="abrirModalLectura()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-align-box-left-top" style="margin-right:5px;" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--rosa)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
+                        <path d="M9 13h-2" />
+                        <path d="M13 10h-6" />
+                        <path d="M11 7h-4" />
+                    </svg>Agregar Lectura
+                </button>
+                
+
+            </div>
+
+        </div>
+
+        
+
+        <!--CONTEXT MENU agg pregunta y agg lectura-->
+
+        <div id="contextMenu" class="context-menu">
+            <ul>
+                <li id="cambiar-contraseña">Agregar pregunta</li>
+                <li id="logout">Agregar lectura</li>
+            </ul>
+        </div>
+
+
+        <div class="buttons-filter">
+            <button onclick="filtrarPreguntas('Abierta')">Abiertas</button>
+            <button onclick="filtrarPreguntas('Opción Múltiple')">Opción Múltiple</button>
+            <button onclick="filtrarPreguntas('Falso-Verdadera')">Falso-Verdadera</button>
+            <button onclick="filtrarPreguntas('Multireactiva')">Lectura Multirreactivos</button>
+        </div>
+
+
+        <ul id="preguntas-list"></ul>
+
+        
+       
+
+
+       
+    </div>
+
+    <!-- Modal Agregar Pregunta -->
+    <div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
+        <div style="background-color:#fff; margin:10% auto; border-radius:10px; padding:20px; width:50%;">
+            <h2 style="margin-bottom:10px; font-weight:bold; font-family:'Quicksand'; font-size:1.8rem; ">Agregar Pregunta</h2>
+            <form id="form-pregunta" onsubmit="guardarPregunta(event)">
+                <input type="hidden" id="pregunta-id" name="pregunta-id">
+                <div style="margin-bottom:10px;">
+                    <label for="nivel-educativo">Nivel Educativo:</label>
+                    <select style="padding:5px; border-radius:10px;" id="nivel-educativo" name="nivel-educativo" required onchange="cargarAsignaturasPorNivel(); cargarLecturasEnPreguntas();">
+                        <option  value="" disabled selected>Seleccione Nivel Educativo</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:10px;">
+                    <label for="campo-formativo">Campo Formativo:</label>
+                    <select style="padding:5px; border-radius:10px;" id="campo-formativo" name="campo-formativo" required onchange="cargarLecturasEnPreguntas();">
+                        <option  value="" disabled selected>Seleccione Campo Formativo</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:10px;">
+                    <label for="asignatura">Asignatura:</label>
+                    <select style="padding:5px; border-radius:10px;" id="asignatura" name="asignatura" required onchange="cargarLecturasEnPreguntas();">
+                        <option  value="" disabled selected>Seleccione Asignatura</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:10px;">
+                    <label for="tipo-pregunta">Tipo de Pregunta:</label>
+                    <select style="padding:5px; border-radius:10px;" id="tipo-pregunta" name="tipo-pregunta" required onchange="cambiarTipoPregunta()">
+                        <option value="" disabled selected>Seleccione Tipo de Pregunta</option>
+                        <option value="Abierta">Abierta</option>
+                        <option value="Opción Múltiple">Opción Múltiple</option>
+                        <option value="Falso-Verdadera">Falso-Verdadera</option>
+                        <option value="Multireactiva">Lectura Multirreactivos</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:10px;" id="pregunta-abierta" style="display:none;">
+                    <label for="texto-pregunta-abierta">Texto de la Pregunta:</label>
+                    <input style="padding:5px; border-radius:10px;" type="text" id="texto-pregunta-abierta" name="texto-pregunta-abierta" required>
+                </div>
+                <div style="margin-bottom:10px; display:none;" id="pregunta-multiple">
+                    <label for="texto-pregunta-multiple">Texto de la Pregunta:</label>
+                    <input style="padding:5px; border-radius:10px; margin-bottom:10px;" type="text" id="texto-pregunta-multiple" name="texto-pregunta-multiple" required>
+                    <div>
+                        <label>Opción A:</label>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-a" name="opcion-a" required>
+                        <input type="radio" name="correcta" value="A" required> Correcta
+                    </div>
+                    <div>
+                        <label>Opción B:</label>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-b" name="opcion-b" required>
+                        <input type="radio" name="correcta" value="B"> Correcta
+                    </div>
+                    <div>
+                        <label>Opción C:</label>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-c" name="opcion-c" required>
+                        <input type="radio" name="correcta" value="C"> Correcta
+                    </div>
+                    <div>
+                        <label>Opción D:</label>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-d" name="opcion-d" required>
+                        <input type="radio" name="correcta" value="D"> Correcta
+                    </div>
+                </div>
+                <div style="margin-bottom:10px;" id="pregunta-verdadero-falso" style="display:none;">
+                    <label for="texto-pregunta-verdadero-falso">Texto de la Pregunta:</label>
+                    <input style="padding:5px; border-radius:10px;" type="text" id="texto-pregunta-verdadero-falso" name="texto-pregunta-verdadero-falso" required>
+                    <div>
+                        <input type="radio" name="correcta-vf" value="Verdadero" required> Verdadero
+                        <input type="radio" name="correcta-vf" value="Falso"> Falso
+                    </div>
+                </div>
+                <div style="margin-bottom:10px; display:none;" id="pregunta-lectura">
+                    <label for="texto-pregunta-lectura">Texto de la Pregunta:</label>
+                    <input style="padding:5px; border-radius:10px; margin-bottom:10px;" type="text" id="texto-pregunta-lectura" name="texto-pregunta-lectura" required>
+                    <label for="lectura">Lectura:</label>
+                    <select style="padding:5px; font-weight:500; font-size:1rem; " id="lectura" name="lectura" required>
+                        <option style="padding:5px; border-radius:10px;" value="" disabled selected>Seleccione Lectura</option>
+                    </select>
+                    <div>
+                        <label>Opción A:</label>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-a-lectura" name="opcion-a-lectura" required>
+                        <input type="radio" name="correcta-lectura" value="A" required> Correcta
+                    </div>
+                    <div>
+                        <label>Opción B:</label>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-b-lectura" name="opcion-b-lectura" required>
+                        <input type="radio" name="correcta-lectura" value="B"> Correcta
+                    </div>
+                    <div>
+                        <label>Opción C:</label>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-c-lectura" name="opcion-c-lectura" required>
+                        <input type="radio" name="correcta-lectura" value="C"> Correcta
+                    </div>
+                    <div>
+                        <label>Opción D:</label>
+                        <input style="padding:5px; border-radius:10px;" type="text" id="opcion-d-lectura" name="opcion-d-lectura" required>
+                        <input type="radio" name="correcta-lectura" value="D"> Correcta
+                    </div>
+                </div>
+                <button style="background-color:#00698a; border-radius:10px;" type="submit">Guardar Pregunta</button>
+                <button type="button" style="padding:10px 15px; font-size:1rem;  border-radius:10px; background-color:black; border:none; color:white;" onclick="cerrarModal()">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Lectura -->
+    <div id="modal-lectura" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
+        <div style="background-color:#fff; margin:10% auto; padding:20px; width:50%; border-radius:10px;">
+            <h2 style="margin-bottom:10px; font-family:'Quicksand'; font-weight:bold; font-size:1.8rem;">Agregar Lectura</h2>
+            <form id="form-lectura" onsubmit="guardarLectura(event)">
+                <div style="margin-bottom:10px;">
+                    <label for="titulo-lectura">Título:</label>
+                    <input style="border-radius:10px; padding:5px; font-size:1rem; font-weight:500;" type="text" id="titulo-lectura" name="titulo-lectura" required>
+                </div>
+                <div style="margin-bottom:10px;">
+                    <label for="contenido-lectura">Contenido:</label>
+                    <textarea style="padding:5px; border-radius:10px;" id="contenido-lectura" name="contenido-lectura" required></textarea>
+                </div>
+                <div style="margin-bottom:10px;">
+                    <label for="campo-formativo-lectura">Campo Formativo:</label>
+                    <select style="padding:5px; border-radius:10px;" id="campo-formativo-lectura" name="campo-formativo-lectura" required>
+                        <option value="" disabled selected>Seleccione el Campo Formativo</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:10px;">
+                    <label for="nivel-educativo-lectura">Nivel Educativo:</label>
+                    <select style="padding:5px; border-radius:10px;" id="nivel-educativo-lectura" name="nivel-educativo-lectura" required onchange="cargarAsignaturasLectura()">
+                        <option value="" disabled selected>Seleccione el Nivel Educativo</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:10px;">
+                    <label for="asignatura-lectura">Asignatura:</label>
+                    <select style="padding:5px; border-radius:10px;" id="asignatura-lectura" name="asignatura-lectura" required>
+                        <option value="" disabled selected>Seleccione la Asignatura</option>
+                    </select>
+                </div>
+                <button style="background-color:#00698a; border-radius:10px;" type="submit">Guardar Lectura</button>
+                <button type="button" style="padding:10px 15px; font-size:1rem;  border-radius:10px; background-color:black; border:none; color:white;" onclick="cerrarModalLectura()">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Confirmación -->
+    <div id="confirmacion-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
+        <div style="background-color:#fff; margin:10% auto; padding:20px; width:50%; border-radius:10px;">
+            <h2 style="font-weight:bold; font-size:1.8rem; font-family:'Quicksand'; margin-bottom:5px; ">Confirmar Generación de Examen</h2>
+            <p style="margin-bottom:10px;" >¿Está seguro de generar el examen con las preguntas seleccionadas?</p>
+            <button onclick="confirmarAgregarAlExamen()" style="padding:10px 30px; font-size:1rem; border-radius:10px; background-color:#00698a; border:none; color:white;">Sí</button>
+            <button onclick="cerrarConfirmacionModal()" style="padding:10px 15px; font-size:1rem;  border-radius:10px; background-color:black; border:none; color:white;">No</button>
+        </div>
+    </div>
+
+    <script>
+        let preguntasSeleccionadas = [];
+        let preguntas = [];
+        let preguntasFiltradas = [];
+        let lecturasSeleccionadas = [];
+        let nombreUsuario;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            nombreUsuario = sessionStorage.getItem('nombreUsuario') || 'Desconocido'; // Captura el nombre del usuario
+            cargarDatos();
+            cargarPreguntas();
+        });
+        async function cargarDatos() {
+            const nivelesEducativos = ['Primaria', 'Secundaria'];
+            const camposFormativos = await fetch('https://localhost:7162/api/campoFormativo').then(response => response.json());
+            const nivelEducativoSelect = document.getElementById('nivel-educativo');
+            const nivelEducativoLecturaSelect = document.getElementById('nivel-educativo-lectura');
+            nivelesEducativos.forEach(nivel => {
+                const option = document.createElement('option');
+                option.value = nivel;
+                option.textContent = nivel;
+                nivelEducativoSelect.appendChild(option);
+
+                const optionLectura = document.createElement('option');
+                optionLectura.value = nivel;
+                optionLectura.textContent = nivel;
+                nivelEducativoLecturaSelect.appendChild(optionLectura);
+            });
+
+            const campoFormativoSelect = document.getElementById('campo-formativo');
+            const campoFormativoLecturaSelect = document.getElementById('campo-formativo-lectura');
+            camposFormativos.forEach(campo => {
+                const option = document.createElement('option');
+                option.value = campo.id;
+                option.textContent = campo.nombre;
+                campoFormativoSelect.appendChild(option);
+
+                const optionLectura = document.createElement('option');
+                optionLectura.value = campo.id;
+                optionLectura.textContent = campo.nombre;
+                campoFormativoLecturaSelect.appendChild(optionLectura);
+            });
+        }
+
+        async function cargarAsignaturasPorNivel() {
+            const nivelEducativo = document.getElementById('nivel-educativo').value;
+            const asignaturaSelect = document.getElementById('asignatura');
+            asignaturaSelect.innerHTML = '<option value="" disabled selected>Seleccione Asignatura</option>';
+
+            if (nivelEducativo) {
+                const asignaturas = await fetch(`https://localhost:7162/api/asignatura/ByNivel?nivel=${nivelEducativo}`).then(response => response.json());
+                asignaturas.forEach(asignatura => {
+                    const option = document.createElement('option');
+                    option.value = asignatura.id;
+                    option.textContent = asignatura.nombre;
+                    asignaturaSelect.appendChild(option);
+                });
+            }
+        }
+
+        async function cargarLecturasEnPreguntas() {
+            const nivelEducativo = document.getElementById('nivel-educativo').value;
+            const campoFormativoId = document.getElementById('campo-formativo').value;
+            const asignaturaId = document.getElementById('asignatura').value;
+            const lecturaSelect = document.getElementById('lectura');
+            lecturaSelect.innerHTML = '<option value="" disabled selected>Seleccione la Lectura</option>';
+            if (!nivelEducativo || !campoFormativoId || !asignaturaId) {
+                return;
+            }
+            try {
+                const response = await fetch(`https://localhost:7162/api/Lectura/LecturasByAll?campoFormativoId=${campoFormativoId}&asignaturaId=${asignaturaId}&nivelEducativo=${nivelEducativo}`);
+                const lecturas = await response.json();
+                lecturas.forEach(lectura => {
+                    const option = document.createElement('option');
+                    option.value = lectura.id;
+                    option.textContent = lectura.titulo;
+                    lecturaSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error al cargar las lecturas:', error);
+            }
+        }
+
+        function abrirModal(preguntaId = null) {
+            document.getElementById('pregunta-id').value = preguntaId || '';
+            if (preguntaId) {
+                const pregunta = preguntas.find(p => p.id === parseInt(preguntaId));
+                document.getElementById('nivel-educativo').value = pregunta.nivelEducativo;
+                document.getElementById('campo-formativo').value = pregunta.camposFormativosId;
+                cargarAsignaturasParaEdicion(pregunta.nivelEducativo, pregunta.asignaturaId);
+                document.getElementById('tipo-pregunta').value = pregunta.tipoPregunta;
+                cambiarTipoPregunta();
+                switch (pregunta.tipoPregunta) {
+                    case 'Abierta':
+                        document.getElementById('texto-pregunta-abierta').value = pregunta.texto;
+                        break;
+                    case 'Opción Múltiple':
+                        document.getElementById('texto-pregunta-multiple').value = pregunta.texto;
+                        pregunta.respuestas.forEach((respuesta, index) => {
+                            document.getElementById(`opcion-${String.fromCharCode(97 + index)}`).value = respuesta.texto;
+                            if (respuesta.esCorrecta) {
+                                document.querySelector(`input[name="correcta"][value="${String.fromCharCode(65 + index)}"]`).checked = true;
+                            }
+                        });
+                        break;
+                    case 'Falso-Verdadera':
+                        document.getElementById('texto-pregunta-verdadero-falso').value = pregunta.texto;
+                        if (pregunta.respuestas[0].esCorrecta) {
+                            document.querySelector('input[name="correcta-vf"][value="Verdadero"]').checked = true;
+                        } else {
+                            document.querySelector('input[name="correcta-vf"][value="Falso"]').checked = true;
+                        }
+                        break;
+                    case 'Multireactiva':
+                        document.getElementById('texto-pregunta-lectura').value = pregunta.texto;
+                        document.getElementById('lectura').value = pregunta.lecturaId;
+                        pregunta.respuestas.forEach((respuesta, index) => {
+                            document.getElementById(`opcion-${String.fromCharCode(97 + index)}-lectura`).value = respuesta.texto;
+                            if (respuesta.esCorrecta) {
+                                document.querySelector(`input[name="correcta-lectura"][value="${String.fromCharCode(65 + index)}"]`).checked = true;
+                            }
+                        });
+                        break;
+                }
+            } else {
+                document.getElementById('form-pregunta').reset();
+                cambiarTipoPregunta();
+            }
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('form-pregunta').reset();
+            cambiarTipoPregunta();
+        }
+
+        function abrirModalLectura() {
+            document.getElementById('modal-lectura').style.display = 'block';
+        }
+
+        function cerrarModalLectura() {
+            document.getElementById('modal-lectura').style.display = 'none';
+            document.getElementById('form-lectura').reset();
+        }
+
+        async function guardarLectura(event) {
+            event.preventDefault();
+            const titulo = document.getElementById('titulo-lectura').value;
+            const contenido = document.getElementById('contenido-lectura').value;
+            const campoFormativoId = document.getElementById('campo-formativo-lectura').value;
+            const nivelEducativo = document.getElementById('nivel-educativo-lectura').value;
+            const asignaturaId = document.getElementById('asignatura-lectura').value;
+            const lectura = {
+                Titulo: titulo,
+                Contenido: contenido,
+                CamposFormativosId: campoFormativoId,
+                NivelEducativo: nivelEducativo,
+                AsignaturaId: asignaturaId
+            };
+            try {
+                const response = await fetch('https://localhost:7162/api/Lectura/CrearLectura', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(lectura)
+                });
+                if (!response.ok) {
+                    throw new Error('Error al guardar la lectura');
+                }
+                cerrarModalLectura();
+            } catch (error) {
+                console.error('Error al guardar la lectura:', error);
+            }
+        }
+
+        async function cargarAsignaturasLectura() {
+            const nivelEducativo = document.getElementById('nivel-educativo-lectura').value;
+            const asignaturaSelect = document.getElementById('asignatura-lectura');
+            asignaturaSelect.innerHTML = '<option value="" disabled selected>Seleccione la Asignatura</option>';
+            try {
+                const response = await fetch(`https://localhost:7162/api/asignatura/ByNivel?nivel=${nivelEducativo}`);
+                const asignaturas = await response.json();
+                asignaturas.forEach(asignatura => {
+                    const option = document.createElement('option');
+                    option.value = asignatura.id;
+                    option.textContent = asignatura.nombre;
+                    asignaturaSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error al cargar las asignaturas:', error);
+            }
+        }
+
+        async function cargarAsignaturasParaEdicion(nivelEducativo, asignaturaId) {
+            const asignaturaSelect = document.getElementById('asignatura');
+            asignaturaSelect.innerHTML = '<option value="" disabled selected>Seleccione Asignatura</option>';
+            if (nivelEducativo) {
+                const asignaturas = await fetch(`https://localhost:7162/api/asignatura/ByNivel?nivel=${nivelEducativo}`).then(response => response.json());
+                asignaturas.forEach(asignatura => {
+                    const option = document.createElement('option');
+                    option.value = asignatura.id;
+                    option.textContent = asignatura.nombre;
+                    asignaturaSelect.appendChild(option);
+                });
+                asignaturaSelect.value = asignaturaId;
+            }
+        }
+
+        function cambiarTipoPregunta() {
+            const tipoPregunta = document.getElementById('tipo-pregunta').value;
+            document.getElementById('pregunta-abierta').style.display = tipoPregunta === 'Abierta' ? 'block' : 'none';
+            document.getElementById('pregunta-multiple').style.display = tipoPregunta === 'Opción Múltiple' ? 'block' : 'none';
+            document.getElementById('pregunta-verdadero-falso').style.display = tipoPregunta === 'Falso-Verdadera' ? 'block' : 'none';
+            document.getElementById('pregunta-lectura').style.display = tipoPregunta === 'Multireactiva' ? 'block' : 'none';
+            document.querySelectorAll('#form-pregunta input, #form-pregunta select').forEach(input => {
+                input.required = false;
+            });
+            switch (tipoPregunta) {
+                case 'Abierta':
+                    document.getElementById('texto-pregunta-abierta').required = true;
+                    break;
+                case 'Opción Múltiple':
+                    document.querySelectorAll('#pregunta-multiple input[type="text"]').forEach(input => {
+                        input.required = true;
+                    });
+                    break;
+                case 'Falso-Verdadera':
+                    document.getElementById('texto-pregunta-verdadero-falso').required = true;
+                    document.querySelectorAll('#pregunta-verdadero-falso input[type="radio"]').forEach(input => {
+                        input.required = true;
+                    });
+                    break;
+                case 'Multireactiva':
+                    document.querySelectorAll('#pregunta-lectura input[type="text"], #pregunta-lectura select').forEach(input => {
+                        input.required = true;
+                    });
+                    break;
+            }
+        }
+
+        async function guardarPregunta(event) {
+            event.preventDefault();
+            const tipoPregunta = document.getElementById('tipo-pregunta').value;
+            const nivelEducativo = document.getElementById('nivel-educativo').value;
+            const campoFormativoId = document.getElementById('campo-formativo').value;
+            const asignaturaId = document.getElementById('asignatura').value;
+            const preguntaId = document.getElementById('pregunta-id').value;
+            let texto;
+            switch (tipoPregunta) {
+                case 'Abierta':
+                    texto = document.getElementById('texto-pregunta-abierta').value;
+                    break;
+                case 'Opción Múltiple':
+                    texto = document.getElementById('texto-pregunta-multiple').value;
+                    break;
+                case 'Falso-Verdadera':
+                    texto = document.getElementById('texto-pregunta-verdadero-falso').value;
+                    break;
+                case 'Multireactiva':
+                    texto = document.getElementById('texto-pregunta-lectura').value;
+                    break;
+                default:
+                    console.error('Tipo de pregunta no válido');
+                    return;
+            }
+
+            const pregunta = {
+                Texto: texto,
+                CamposFormativosId: campoFormativoId,
+                NivelEducativo: nivelEducativo,
+                TipoPregunta: tipoPregunta,
+                AsignaturaId: asignaturaId, 
+                CreadoPor: nombreUsuario, // Añadir "CreadoPor"
+                ModificadoPor: nombreUsuario // Añadir "ModificadoPor"
+            };
+
+            if (tipoPregunta === 'Multireactiva') {
+                pregunta.LecturaId = document.getElementById('lectura').value;
+            }
+
+            try {
+                let nuevaPregunta;
+                if (preguntaId) {
+                    pregunta.Id = preguntaId;
+                    pregunta.ModificadoPor = nombreUsuario; // Actualizar "ModificadoPor" si se está editando
+
+                    const response = await fetch(`https://localhost:7162/api/PreguntaRespuesta/Preguntas/${preguntaId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(pregunta)
+                    });
+                    nuevaPregunta = await response.json();
+                } else {
+                    const response = await fetch('https://localhost:7162/api/PreguntaRespuesta/CrearPregunta', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(pregunta)
+                    });
+                    nuevaPregunta = await response.json();
+                }
+
+                if (tipoPregunta === 'Opción Múltiple' || tipoPregunta === 'Multireactiva' || tipoPregunta === 'Falso-Verdadera') {
+                    const opciones = tipoPregunta === 'Falso-Verdadera' ? ['Verdadero', 'Falso'] : ['A', 'B', 'C', 'D'];
+                    const respuestasExistentes = await fetch(`https://localhost:7162/api/PreguntaRespuesta/RespuestasPorPregunta/${nuevaPregunta.id}`).then(response => response.json());
+                    for (const respuesta of respuestasExistentes) {
+                        await fetch(`https://localhost:7162/api/PreguntaRespuesta/Respuestas/${respuesta.id}`, {
+                            method: 'DELETE'
+                        });
+                    }
+                    for (const opcion of opciones) {
+                        const textoRespuesta = tipoPregunta === 'Falso-Verdadera' ? opcion : document.getElementById(`opcion-${opcion.toLowerCase()}${tipoPregunta === 'Multireactiva' ? '-lectura' : ''}`).value;
+                        let esCorrecta;
+                        if (tipoPregunta === 'Falso-Verdadera' || tipoPregunta === 'Multireactiva') {
+                            esCorrecta = document.querySelector(`input[name="correcta${tipoPregunta === 'Multireactiva' ? '-lectura' : '-vf'}"]:checked`).value === opcion;
+                        } else {
+                            esCorrecta = document.querySelector(`input[name="correcta"]:checked`).value === opcion;
+                        }
+
+                        const respuesta = {
+                            Texto: textoRespuesta,
+                            PreguntaId: nuevaPregunta.id,
+                            Correcta: esCorrecta
+                        };
+
+                        await fetch('https://localhost:7162/api/PreguntaRespuesta/CrearRespuesta', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(respuesta)
+                        });
+                    }
+                }
+
+                cerrarModal();
+                cargarPreguntas();
+            } catch (error) {
+                console.error('Error al guardar la pregunta:', error);
+            }
+        }
+
+        async function cargarPreguntas() {
+            const campoFormativoId = sessionStorage.getItem('campoFormativoId');
+            const asignaturaId = sessionStorage.getItem('asignaturaId');
+            const nivelEducativo = sessionStorage.getItem('nivelEducativo');
+            let endpoint;
+            let tipoSeleccionadoTexto = "";
+
+            if (campoFormativoId) {
+                endpoint = `https://localhost:7162/api/PreguntaRespuesta/PreguntasPorCampoFormativo?campoFormativoId=${campoFormativoId}&nivelEducativo=${nivelEducativo}`;
+                const campoFormativo = await fetch(`https://localhost:7162/api/campoFormativo/${campoFormativoId}`).then(response => response.json());
+                tipoSeleccionadoTexto = `Campo Formativo - ${campoFormativo.nombre}`;
+            } else if (asignaturaId) {
+                endpoint = `https://localhost:7162/api/PreguntaRespuesta/PreguntasPorAsignatura?asignaturaId=${asignaturaId}&nivelEducativo=${nivelEducativo}`;
+                const asignatura = await fetch(`https://localhost:7162/api/asignatura/${asignaturaId}`).then(response => response.json());
+                tipoSeleccionadoTexto = `Asignatura - ${asignatura.nombre}`;
+            }
+
+            document.getElementById('tipo-seleccionado').textContent = tipoSeleccionadoTexto;
+            document.getElementById('nivel-educativo-seleccionado').textContent = nivelEducativo;
+
+            try {
+                const response = await fetch(endpoint);
+                preguntas = await response.json();
+                preguntasFiltradas = preguntas.filter(p => p.tipoPregunta === 'Opción Múltiple');
+                mostrarPreguntas();
+            } catch (error) {
+                console.error('Error al cargar las preguntas:', error);
+            }
+        }
+
+        function mostrarPreguntas() {
+            const preguntasList = document.getElementById('preguntas-list');
+            preguntasList.innerHTML = '';
+
+            if (preguntasFiltradas.length > 0 && preguntasFiltradas[0].tipoPregunta === 'Multireactiva') {
+                const lecturasMap = new Map();
+
+                const lecturaPromises = preguntasFiltradas.map(pregunta => {
+                    if (!lecturasMap.has(pregunta.lecturaId)) {
+                        return fetch(`https://localhost:7162/api/Lectura/${pregunta.lecturaId}`)
+                            .then(response => response.json())
+                            .then(lectura => {
+                                lecturasMap.set(pregunta.lecturaId, {
+                                    titulo: lectura.titulo,
+                                    contenido: lectura.contenido,
+                                    preguntas: []
+                                });
+                            });
+                    }
+                });
+
+                Promise.all(lecturaPromises).then(() => {
+                    preguntasFiltradas.forEach(pregunta => {
+                        lecturasMap.get(pregunta.lecturaId).preguntas.push(pregunta);
+                    });
+
+                    lecturasMap.forEach((lectura, lecturaId) => {
+                        const lecturaItem = document.createElement('li');
+                        const lecturaTitulo = document.createElement('strong');
+                        lecturaTitulo.textContent = lectura.titulo;
+                        lecturaItem.appendChild(lecturaTitulo);
+                        preguntasList.appendChild(lecturaItem);
+
+                        lectura.preguntas.forEach(pregunta => {
+                            const listItem = document.createElement('li');
+                            listItem.style.listStyleType = 'none';
+
+                            const checkbox = document.createElement('input');
+                            checkbox.type = 'checkbox';
+                            checkbox.value = pregunta.id;
+                            checkbox.setAttribute('data-tipo', pregunta.tipoPregunta);
+
+                            const label = document.createElement('label');
+                            // Añadiendo Creado Por y Modificado Por
+                            label.innerHTML = `
+                                <span>${pregunta.texto}</span>
+                                <small style="color: gray; display: block;">Creado por: ${pregunta.creadoPor || 'Desconocido'}</small>
+                                <small style="color: gray; display: block;">Modificado por: ${pregunta.modificadoPor || 'No modificado'}</small>
+                            `;
+
+                            if (preguntasSeleccionadas.some(p => p.id === pregunta.id)) {
+                                checkbox.checked = true;
+                            }
+
+                            listItem.appendChild(checkbox);
+                            listItem.appendChild(label);
+
+                            if (pregunta.tipoPregunta === 'Opción Múltiple' || pregunta.tipoPregunta === 'Multireactiva' || pregunta.tipoPregunta === 'Falso-Verdadera') {
+                                const respuestasDiv = document.createElement('div');
+
+                                if (pregunta.respuestas && pregunta.respuestas.length > 0) {
+                                    const opcionesRespuesta = pregunta.respuestas.map((respuesta, index) => {
+                                        const letra = String.fromCharCode(65 + index);
+                                        return `${letra}) ${respuesta.texto}`;
+                                    }).join('<br>');
+                                    respuestasDiv.innerHTML = opcionesRespuesta;
+                                } else {
+                                    fetch(`https://localhost:7162/api/PreguntaRespuesta/RespuestasPorPregunta/${pregunta.id}`)
+                                        .then(respuestaResponse => respuestaResponse.json())
+                                        .then(respuestas => {
+                                            pregunta.respuestas = respuestas;
+                                            const opcionesRespuesta = respuestas.map((respuesta, index) => {
+                                                const letra = String.fromCharCode(65 + index);
+                                                return `${letra}) ${respuesta.texto}`;
+                                            }).join('<br>');
+                                            respuestasDiv.innerHTML = opcionesRespuesta;
+                                        });
+                                }
+
+                                listItem.appendChild(respuestasDiv);
+                            }
+
+                            const editButton = document.createElement('button');
+                            editButton.innerHTML = `
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+                                    <path d="M13.5 6.5l4 4" />
+                                </svg>
+                            `;
+                            editButton.onclick = () => abrirModal(pregunta.id);
+                            listItem.appendChild(editButton);
+
+                            const deleteButton = document.createElement('button');
+                            deleteButton.innerHTML = `
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M4 7l16 0" />
+                                    <path d="M10 11l0 6" />
+                                    <path d="M14 11l0 6" />
+                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                </svg>
+                            `;
+                            deleteButton.onclick = () => eliminarPregunta(pregunta.id);
+                            listItem.appendChild(deleteButton);
+
+                            lecturaItem.appendChild(listItem);
+                        });
+                    });
+                });
+            } else {
+                preguntasFiltradas.forEach(pregunta => {
+                    const listItem = document.createElement('li');
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = pregunta.id;
+                    checkbox.setAttribute('data-tipo', pregunta.tipoPregunta);
+
+                    const label = document.createElement('label');
+                    // Añadiendo Creado Por y Modificado Por
+                    label.innerHTML = `
+                        <span>${pregunta.texto}</span>
+                        <small style="color: gray; display: block;">Creado por: ${pregunta.creadoPor || 'Desconocido'}</small>
+                        <small style="color: gray; display: block;">Modificado por: ${pregunta.modificadoPor || 'No modificado'}</small>
+                    `;
+
+                    if (preguntasSeleccionadas.some(p => p.id === pregunta.id)) {
+                        checkbox.checked = true;
+                    }
+
+                    listItem.appendChild(checkbox);
+                    listItem.appendChild(label);
+
+                    if (pregunta.tipoPregunta === 'Opción Múltiple' || pregunta.tipoPregunta === 'Multireactiva' || pregunta.tipoPregunta === 'Falso-Verdadera') {
+                        const respuestasDiv = document.createElement('div');
+
+                        if (pregunta.respuestas && pregunta.respuestas.length > 0) {
+                            const opcionesRespuesta = pregunta.respuestas.map((respuesta, index) => {
+                                const letra = String.fromCharCode(65 + index);
+                                return `${letra}) ${respuesta.texto}`;
+                            }).join('<br>');
+                            respuestasDiv.innerHTML = opcionesRespuesta;
+                        } else {
+                            fetch(`https://localhost:7162/api/PreguntaRespuesta/RespuestasPorPregunta/${pregunta.id}`)
+                                .then(respuestaResponse => respuestaResponse.json())
+                                .then(respuestas => {
+                                    pregunta.respuestas = respuestas;
+                                    const opcionesRespuesta = respuestas.map((respuesta, index) => {
+                                        const letra = String.fromCharCode(65 + index);
+                                        return `${letra}) ${respuesta.texto}`;
+                                    }).join('<br>');
+                                    respuestasDiv.innerHTML = opcionesRespuesta;
+                                });
+                        }
+
+                        listItem.appendChild(respuestasDiv);
+                    }
+
+                    const editButton = document.createElement('button');
+                    editButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+                            <path d="M13.5 6.5l4 4" />
+                        </svg>
+                    `;
+                    editButton.onclick = () => abrirModal(pregunta.id);
+                    listItem.appendChild(editButton);
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M4 7l16 0" />
+                            <path d="M10 11l0 6" />
+                            <path d="M14 11l0 6" />
+                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                        </svg>
+                    `;
+                    deleteButton.onclick = () => eliminarPregunta(pregunta.id);
+                    listItem.appendChild(deleteButton);
+
+                    preguntasList.appendChild(listItem);
+                });
+            }
+        }
+
+        async function eliminarPregunta(preguntaId) {
+            if (confirm('¿Está seguro de que desea eliminar esta pregunta?')) {
+                try {
+                    await fetch(`https://localhost:7162/api/PreguntaRespuesta/Preguntas/${preguntaId}`, {
+                        method: 'DELETE'
+                    });
+                    cargarPreguntas();
+                } catch (error) {
+                    console.error('Error al eliminar la pregunta:', error);
+                }
+            }
+        }
+
+        function actualizarPreguntasSeleccionadas() {
+            const checkboxes = document.querySelectorAll('#preguntas-list input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                const preguntaId = parseInt(checkbox.value);
+                const pregunta = preguntas.find(p => p.id === preguntaId);
+                if (checkbox.checked) {
+                    if (!preguntasSeleccionadas.some(p => p.id === preguntaId)) {
+                        preguntasSeleccionadas.push(pregunta);
+                    }
+                } else {
+                    preguntasSeleccionadas = preguntasSeleccionadas.filter(p => p.id !== preguntaId);
+                }
+            });
+        }
+
+        async function agregarAlExamen() {
+            actualizarPreguntasSeleccionadas();
+            alert('Preguntas agregadas al examen.');
+        }
+
+        function abrirConfirmacionModal() {
+            actualizarPreguntasSeleccionadas();
+            document.getElementById('confirmacion-modal').style.display = 'block';
+        }
+
+        function cerrarConfirmacionModal() {
+            document.getElementById('confirmacion-modal').style.display = 'none';
+        }
+
+        async function confirmarAgregarAlExamen() {
+            cerrarConfirmacionModal();
+            generarPDF();
+        }
+      
+        async function generarPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                unit: 'cm',
+                format: 'a4',
+                orientation: 'portrait'
+            });
+
+            const nombreEscuela = sessionStorage.getItem('nombreEscuela');
+            const turno = sessionStorage.getItem('turno');
+            const grado = sessionStorage.getItem('grado');
+            const seccion = sessionStorage.getItem('seccion');
+            const docenteId = sessionStorage.getItem('docenteId');
+            const asignatura = sessionStorage.getItem('asignaturaNombre');
+            const campoFormativo = sessionStorage.getItem('campoFormativoNombre');
+            const nivelEducativo = sessionStorage.getItem('nivelEducativo');
+            const fechaActual = new Date().toLocaleString('es-MX', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
+            const tituloExamen = asignatura ? `EXAMEN DE ${asignatura.toUpperCase()}` : `EXAMEN DE ${campoFormativo.toUpperCase()}`;
+
+            // Ajustar márgenes y encabezado con logos
+            const marginLeft = 2;
+            const marginTop = 2;
+
+            // Añadir los logos
+            doc.addImage('/images/logo_sedu4.png', 'PNG', marginLeft, marginTop, 2, 2); // Logo SEDU
+            doc.addImage('/images/logo_coah.png', 'PNG', 18 - 2, marginTop, 2, 2); // Logo Escuela
+
+            // Encabezado del examen
+            doc.setFontSize(14);
+            doc.text(nombreEscuela, 10.5, marginTop + 1, { align: 'center' });
+            doc.setFontSize(12);
+            doc.text(tituloExamen, 10.5, marginTop + 1.8, { align: 'center' });
+
+            // Información del examen
+            doc.setFontSize(12);
+            doc.text(`Nombre: ______________________`, marginLeft, marginTop + 3);
+            doc.text(`Grupo: __________`, 11, marginTop + 3);
+            doc.text(`Fecha: __________`, marginLeft, marginTop + 4); // Campo de fecha vacío para ser llenado manualmente
+            doc.text(`Grado: __________  Calif.: __________`, 11, marginTop + 4);
+
+            // Instrucciones
+            let yOffset = marginTop + 5.5;
+            doc.setFontSize(12);
+            doc.text('I. Instrucciones: Lee los reactivos y contesta correctamente:', marginLeft, yOffset);
+            yOffset += 1;
+
+            const preguntaIds = [];
+            const lecturasMap = new Map();
+
+            const lecturaPromises = preguntasSeleccionadas.map(pregunta => {
+                if (pregunta.tipoPregunta === 'Multireactiva' && !lecturasMap.has(pregunta.lecturaId)) {
+                    return fetch(`https://localhost:7162/api/Lectura/${pregunta.lecturaId}`)
+                        .then(response => response.json())
+                        .then(lectura => {
+                            lecturasMap.set(pregunta.lecturaId, lectura);
+                        });
+                }
+            });
+
+            await Promise.all(lecturaPromises);
+
+            const preguntasSinLectura = preguntasSeleccionadas.filter(p => p.tipoPregunta !== 'Multireactiva');
+            const preguntasConLectura = preguntasSeleccionadas.filter(p => p.tipoPregunta === 'Multireactiva');
+
+            function checkPageSpace(requiredSpace) {
+                const pageHeight = 29.7; // Altura en cm de A4
+                if (yOffset + requiredSpace > pageHeight - 2) { // Ajuste de margen
+                    doc.addPage();
+                    yOffset = marginTop;
+                }
+            }
+
+            preguntasSinLectura.forEach((pregunta, index) => {
+                checkPageSpace(3);
+                doc.text(`${index + 1}. ${pregunta.texto}`, marginLeft, yOffset);
+                yOffset += 1;
+
+                if (pregunta.tipoPregunta === 'Opción Múltiple') {
+                    pregunta.respuestas.forEach((respuesta, respIndex) => {
+                        const letra = String.fromCharCode(65 + respIndex);
+                        doc.text(`${letra}) ${respuesta.texto}`, marginLeft + 0.5, yOffset);
+                        yOffset += 0.5;
+                    });
+                } else if (pregunta.tipoPregunta === 'Falso-Verdadera') {
+                    pregunta.respuestas.forEach((respuesta, respIndex) => {
+                        const letra = String.fromCharCode(65 + respIndex);
+                        doc.text(`${letra}) ${respuesta.texto}`, marginLeft + 0.5, yOffset);
+                        yOffset += 0.5;
+                    });
+                }
+
+                yOffset += 0.5;
+                preguntaIds.push(pregunta.id);
+            });
+
+            let lecturaIndex = preguntasSinLectura.length + 1;
+            lecturasMap.forEach((lectura, lecturaId) => {
+                const preguntasDeLectura = preguntasConLectura.filter(p => p.lecturaId === lecturaId);
+
+                if (preguntasDeLectura.length > 0) {
+                    checkPageSpace(4);
+                    doc.setFontSize(12);
+                    doc.text('II. Lee detenidamente la lectura y contesta las preguntas:', marginLeft, yOffset);
+                    yOffset += 1;
+                    doc.text(lectura.titulo, marginLeft, yOffset);
+                    yOffset += 1;
+                    doc.text(lectura.contenido, marginLeft, yOffset, { maxWidth: 17 });
+                    yOffset += 2;
+
+                    preguntasDeLectura.forEach((pregunta, index) => {
+                        checkPageSpace(3);
+                        doc.text(`${lecturaIndex}. ${pregunta.texto}`, marginLeft, yOffset);
+                        yOffset += 1;
+                        preguntaIds.push(pregunta.id);
+
+                        pregunta.respuestas.forEach((respuesta, respIndex) => {
+                            const letra = String.fromCharCode(65 + respIndex);
+                            doc.text(`${letra}) ${respuesta.texto}`, marginLeft + 0.5, yOffset);
+                            yOffset += 0.5;
+                        });
+
+                        yOffset += 0.5;
+                        lecturaIndex++;
+                    });
+                }
+            });
+
+            // Añadir página con respuestas correctas
+            doc.addPage();
+            doc.setFontSize(16);
+            doc.text('Respuestas Correctas', marginLeft, marginTop);
+            yOffset = marginTop + 1;
+            doc.setFontSize(12);
+
+            preguntasSeleccionadas.forEach((pregunta, index) => {
+                checkPageSpace(2);
+                doc.text(`${index + 1}. ${pregunta.texto}`, marginLeft, yOffset);
+                yOffset += 0.5;
+
+                if (pregunta.tipoPregunta === 'Opción Múltiple' || pregunta.tipoPregunta === 'Multireactiva') {
+                    const respuestaCorrecta = pregunta.respuestas.find(respuesta => respuesta.esCorrecta);
+                    if (respuestaCorrecta) {
+                        const letraCorrecta = pregunta.respuestas.indexOf(respuestaCorrecta);
+                        doc.text(`Respuesta Correcta: ${String.fromCharCode(65 + letraCorrecta)}`, marginLeft + 0.5, yOffset);
+                    } else {
+                        doc.text('Respuesta Correcta: No definida', marginLeft + 0.5, yOffset);
+                    }
+                } else if (pregunta.tipoPregunta === 'Falso-Verdadera') {
+                    const respuestaCorrecta = pregunta.respuestas.find(respuesta => respuesta.esCorrecta);
+                    if (respuestaCorrecta) {
+                        doc.text(`Respuesta Correcta: ${respuestaCorrecta.texto}`, marginLeft + 0.5, yOffset);
+                    } else {
+                        doc.text('Respuesta Correcta: No definida', marginLeft + 0.5, yOffset);
+                    }
+                } else if (pregunta.tipoPregunta === 'Abierta') {
+                    doc.text('Respuesta Correcta: Criterio del Maestro', marginLeft + 0.5, yOffset);
+                }
+
+                yOffset += 0.5;
+            });
+
+            const pdfBlob = doc.output('blob');
+            const fileName = `Examen_${fechaActual}.pdf`;
+            const formData = new FormData();
+            formData.append('pdf', pdfBlob, fileName);
+            formData.append('nombreEscuela', nombreEscuela);
+            formData.append('turno', turno);
+            formData.append('grado', grado);
+            formData.append('seccion', seccion);
+            formData.append('docenteId', docenteId);
+            formData.append('asignatura', asignatura || '');
+            formData.append('campoFormativo', campoFormativo || '');
+            formData.append('nivelEducativo', nivelEducativo || '');
+            formData.append('fecha', fechaActual);
+            preguntaIds.forEach(id => formData.append('PreguntaIds', id));
+
+            fetch('https://localhost:7162/api/Examen/GenerarExamen', {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    alert('Examen generado y guardado exitosamente.');
+                } else {
+                    alert('Error al generar el examen.');
+                }
+            }).catch(error => {
+                console.error('Error al enviar el PDF al servidor:', error);
+            });
+
+            preguntasSeleccionadas = [];
+            const checkboxes = document.querySelectorAll('#preguntas-list input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            doc.save(fileName);
+            cargarPreguntas();
+        }
+
+        async function filtrarPreguntas(tipo) {
+            actualizarPreguntasSeleccionadas();
+            preguntasFiltradas = preguntas.filter(p => p.tipoPregunta === tipo);
+            mostrarPreguntas();
+        }
+       
+
+        //PARA QUE SE ENFOQUE EL BORDE NARANJA ***
+
+        const navItems = document.querySelectorAll('div button');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Eliminar la clase 'selec' de todos los elementos
+                navItems.forEach(nav => nav.classList.remove('selec'));
+                // Agregar la clase 'selec' al elemento seleccionado
+                item.classList.add('selec');
+            });
+        });
+
+    </script>
+    <script src="/js/script.js"></script>
+</body>
+</html>

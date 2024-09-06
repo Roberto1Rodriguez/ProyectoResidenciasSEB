@@ -118,7 +118,7 @@ header {
         position: absolute;
         bottom: 0px;
         left: 00px;
-        padding: 60px 0px;
+        padding: 50px 0px;
         color: white;
         width: 100%;
         background: linear-gradient(to top, rgba(0, 0, 137, 0.4), rgba(0, 0, 139, 0)); /* Degradado de azul rey opaco hacia arriba */
@@ -149,8 +149,23 @@ h1 {
     flex-direction: column;
 }
 
+.form-container-login {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group-login input:focus + label,
+.input-group-login input:not(:placeholder-shown) + label {
+    top: -15px;
+    left: 10px;
+    font-size: 12px;
+    color: black;
+}
+
     .form-container label {
-        margin-bottom: 30px;
+        margin-bottom: 40px;
         color: #999;
     }
 
@@ -182,7 +197,7 @@ h1 {
 
     .input-group input:focus + label,
     .input-group input:not(:placeholder-shown) + label {
-        top: -10px;
+        top: -15px;
         left: 10px;
         font-size: 12px;
         color: black;
@@ -200,6 +215,7 @@ h1 {
     text-decoration: none;
     margin-bottom: 20px;
     text-align: end;
+    width:fit-content;
 }
 
     .forgot-password:hover {
@@ -327,10 +343,20 @@ button[type="submit"] {
     display: flex;
 }
 
+.main-container-index-admin {
+    display: flex;
+    width: 100%;
+    padding: 20px 40px;
+}
+
 .form-container-index {
     padding: 20px 40px;
     display: flex;
     flex-direction: column;
+}
+
+.form-container-index-admin{
+    width:100%;
 }
 
     .form-container-index form {
@@ -365,14 +391,15 @@ button[type="submit"] {
         font-family: "Quicksand", sans-serif;
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-weight: normal;
+        justify-content: start;
+        font-weight: bold;
     }
 
     .index-options span {
         font-weight: normal;
         margin-right: 10px;
         margin-left: 3px;
+
     }
 
 .index-options-btns {
@@ -623,6 +650,16 @@ li {
     .examenlist-container > div{
         display:flex;
         justify-content:space-between;
+        margin-top:10px;
+    }
+
+    .examenlist-container > div form input{
+        padding:10px 15px;
+        border-radius:15px;
+        border:1px solid gray;
+        font-size:medium;
+        width:100%;
+        
     }
 
     .examenlist-container > div > button{
@@ -663,6 +700,13 @@ display:block;
     display:flex;
     justify-content:space-between;
     margin-bottom:10px;
+    align-items:center;
+}
+
+.detalles-ex-conteiner div input{
+    height:min-content;
+    padding: 10px 15px;
+    border-radius:15px;
 }
 
 .detalles-ex-conteiner > div > .buttons-group-ex > button{
@@ -679,6 +723,12 @@ display:block;
         font-weight:500;
         font-size:1rem;
     }
+
+    .detalles-ex-conteiner div > button:hover {
+       background-color:black;
+       color:white;
+       border:none;
+    }
 .detalles-ex-conteiner > div > h2{
     margin-top:20px;
 }
@@ -687,28 +737,38 @@ display:block;
     list-style-type: none;
 }
 
+
+
     #alumnos-list li {
         padding: 5px 10px;
         display: flex;
         justify-content: space-between;
+        background-color:var(--celeste);
+        border:none;
     }
 
+        #alumnos-list li:hover {
+            background-color: #00698a;
+            color:white;
+        }
+
     #alumnos-list li > span > input{
-        border-radius:6px;
-        border:1px solid gray;
+        border-radius:8px;
+       border:none;
         margin-left:10px;
         text-align:center;
-        font-weight:500;
+        font-weight:bolder;
         font-size:medium;
     }
 
         #alumnos-list li > button {
             border-radius: 6px;
             border: 1px solid transparent;
-            background-color: #dfefc0;
+            background-color: var(--naranja);
             padding: 5px 10px;
-            color: #67ad15;
-            font-size:0.9rem;
+            color: black;
+            font-size: 1rem;
+            font-weight: bolder;
         }
 
         .pyr-conteiner{
@@ -836,6 +896,22 @@ display:block;
     
 }
 
+    #alumno-info button {
+        border: none;
+        display: flex;
+        gap:5px;
+        align-items: center;
+        background-color:transparent;
+        font-size:larger;
+        padding:0px 15px;
+    }
+
+
+    #alumno-info button:hover {
+        border-bottom: 5px solid var(--naranja);
+    }
+
+
 
 
 #alumno-info > div {
@@ -883,22 +959,28 @@ display:block;
     flex-direction: column;
     gap: 10px;
     border: 1px solid gray;
-    margin:0px 40px;
+    
     padding: 10px;
 }
+
 
 .examen {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
     align-items: center;
-    
+    border-radius: 20px;
     padding: 10px;
-    
+   
+    border:none;
 }
 
+
     .examen:hover {
-        background-color:aliceblue;
+        background-color: var(--celeste);
+        border:none;
+       
+   
     }
 
 .columna {
@@ -971,19 +1053,17 @@ display:block;
       font-weight:500;
       
       
-    } 
+    }
 
-   #examen-form > .enviar-resp{
-       padding:15px 20px;
-       background-color:var(--naranja);
-       border-radius:10px;
-       border:none;
-       font-weight:500;
-       font-size:1.1rem;
-       
-
-
-   }
+#examen-form > .enviar-resp {
+    padding: 15px 20px;
+    background-color: var(--naranja);
+    border-radius: 10px;
+    border: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    height: min-content;
+}
    .pregunta{
        margin-bottom:15px;
    }
@@ -1003,27 +1083,76 @@ display:block;
 
 /*AGREGAR ALUMNO REGISTRO*/
 .agg-alumno-container {
-    display: grid;
-    grid-template-columns: 40% 60%;
-    height: min-content;
-}
-    
-    
-
-
-    .agg-alumno-container > .form-agg-alumn-conteiner {
    
+    height: min-content;
+    padding: 10px 40px;
+}
+
+.agg-alumno-container h1{
+    margin-bottom:0px;
+}
+
+
+    
+    
+
+
+    .agg-alumno-container > .form-agg-alumn-conteiner h1 {
+   margin-bottom:0px;
     }
 
-    .agg-alumno-container >  .agg-alumno-img > img {
-    
-    
+    .form-agg-alumn-conteiner #form-alumno{
+        margin-top:20px;
     }
 
+
+    .agg-alumno-container #form-docente{
+        margin-top:25px;
+    }
+   
+
     
-  
-    
-  
+  /*Context menu agregar bontones*/
+
+/* Estilo del botón */
+.preguntas-op > #menuBtnExamen {
+    background-color: #f28bb2;
+    color: white;
+    padding: 10px 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    position: relative;
+}
+
+/* Estilo del menú contextual */
+.context-menu-agg {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+    .context-menu-agg ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+        .context-menu-agg ul li {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+            .context-menu-agg ul li:hover {
+                background-color: #f28bb2;
+                color: white;
+            }
+
 
 
 
@@ -1113,6 +1242,56 @@ display:block;
         display:flex;
        justify-content:space-between;
     }
+
+
+    /*LISTA DE DOCENTES EN ADMIN*/
+.docente-contenedor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   
+  
+}
+
+.info-docente {
+    text-align: left;
+}
+
+    .info-docente h3 {
+        margin: 0;
+        font-size: 1.2em;
+    }
+
+    .info-docente p {
+        margin: 0;
+        font-size: 0.9em;
+        color: #666;
+    }
+
+.boton-contenedor {
+    text-align: right;
+}
+
+#docentes-list {
+    height:100%;
+}
+
+#docentes-list li{
+    border-radius:13px;
+    background-color:var(--celeste);
+    border:none;
+    padding:10px 15px;
+}
+
+   
+.boton-examen {
+   
+  background-color:var(--naranja);
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+ 
 
 
 /*.context-menu {

@@ -62,8 +62,7 @@ namespace ProyectoResidenciasApi.Controllers
                 {
                     Nombre = dto.Nombre,
                     UsuarioId = usuario.Id,
-                     
-                     
+ 
                 };
                 repoDocente.Insert(docente);
 

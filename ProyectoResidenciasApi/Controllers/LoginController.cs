@@ -26,16 +26,27 @@ namespace ProyectoResidenciasApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var usuario = repoUsuario.Get().SingleOrDefault(u => u.NombreUsuario == loginDto.NombreUsuario && u.Contraseña == loginDto.Contraseña); // Manejar el hash de la contraseña en una implementación real
-            if (usuario == null)
+            try
             {
-                return Unauthorized("Usuario o contraseña incorrectos");
-            }
+                // Trae los usuarios a la memoria y realiza la comparación en el lado del cliente
+                var usuario = repoUsuario.Get()
+                    .AsEnumerable() // Esto fuerza la evaluación en el cliente
+                    .SingleOrDefault(u => string.Equals(u.NombreUsuario, loginDto.NombreUsuario, StringComparison.OrdinalIgnoreCase));
 
-            var docente = repoDocente.Get().SingleOrDefault(d => d.UsuarioId == usuario.Id);
-            var alumno = repoAlumno.Get().SingleOrDefault(d => d.UsuarioId == usuario.Id);
-            // Devolver datos de usuario y docente
-            return Ok(new { usuario, docente,alumno });
+                if (usuario == null || usuario.Contraseña != loginDto.Contraseña)
+                {
+                    return Unauthorized("Usuario o contraseña incorrectos");
+                }
+
+                var docente = repoDocente.Get().SingleOrDefault(d => d.UsuarioId == usuario.Id);
+                var alumno = repoAlumno.Get().SingleOrDefault(a => a.UsuarioId == usuario.Id);
+
+                return Ok(new { usuario, docente, alumno });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno del servidor: {ex.Message}");
+            }
         }
         [HttpPut("restablecer")]
         public IActionResult Restablecer(JsonRequestModel model)

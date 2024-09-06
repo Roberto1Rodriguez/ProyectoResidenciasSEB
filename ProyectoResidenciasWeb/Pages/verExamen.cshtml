@@ -16,20 +16,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 </head>
 <body class="detalles-ex-body">
-
-
     <!-- Header con logos y botón de registro -->
-
-
     <header class="header">
-        <img src="/images/logo_coah2.png" alt="Logo Izquierda" class="logo-izquierda">
+        <img src="/images/logo_coah.png" alt="Logo Izquierda" class="logo-izquierda">
+        <label>Generador de pruebas escritas.</label>
         <div class="header-right">
-            <img src="/images/logo_sedu.png" alt="Logo Derecha" class="logo-derecha">
-
+            <img src="/images/logo_sedu4.png" alt="Logo Derecha" class="logo-derecha">
         </div>
     </header>
-
-
 
     <div class="index-options">
         <div>
@@ -40,11 +34,10 @@
                     <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
                 </svg>
             </h3>
-            <label id="rol" class="instrucciones" style="font-size:large; color:gray;">Docente</label>
+            <label id="rol" class="instrucciones" style="font-size:large; font-weight: normal; color: gray; font-family: 'Quicksand';">Docente</label>
         </div>
 
         <!--CONTEXT MENU CERRAR SESION-->
-
         <div id="contextMenu" class="context-menu">
             <ul>
                 <li id="cambiar-contraseña">Cambiar contraseña</li>
@@ -52,7 +45,6 @@
             </ul>
         </div>
 
-        <!---------------------------------------->
         <!-- Modal cambiar contraseña -->
         <div id="cambiarContrasenaModal" class="modal">
             <div class="modal-content">
@@ -75,36 +67,22 @@
                 </form>
             </div>
         </div>
-        <div class="index-options-btns">
-            <button onclick="window.location.href='agregarAlumno'" class="btn-agg-alumno" id="openModalBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-plus" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7a9f37" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M20.985 12.528a9 9 0 1 0 -8.45 8.456" />
-                    <path d="M16 19h6" />
-                    <path d="M19 16v6" />
-                    <path d="M9 10h.01" />
-                    <path d="M15 10h.01" />
-                    <path d="M9.5 15c.658 .64 1.56 1 2.5 1s1.842 -.36 2.5 -1" />
-                </svg>Agregar Alumno
-            </button>
 
-            <button onclick="window.location.href='ListaExamenes'" class="btn-examenlist">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4a6a99" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
-                    <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
-                    <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
-                    <path d="M11 6l9 0" />
-                    <path d="M11 12l9 0" />
-                    <path d="M11 18l9 0" />
-                </svg>Exámenes
-            </button>
+        <div class="index-options-btns">
+            <button onclick="window.location.href='Index'">Inicio</button>
+            <button onclick="window.location.href='agregarAlumno'" class="btn-agg-alumno" id="openModalBtn">Agregar Alumno</button>
+            <button onclick="window.location.href='ListaExamenes'" class="btn-examenlist">Exámenes</button>
         </div>
     </div>
 
-
     <div class="detalles-ex-conteiner">
-        <h1>Detalles del Examen</h1>
+
+        <div>
+            <h1>Detalles del Examen</h1>
+            <input type="text" id="search-input" placeholder="Buscar alumno por nombre..." oninput="filtrarAlumnos()">
+
+        </div>
+       
         <div>
             <div id="detalles-examen"></div>
             <div class="buttons-group-ex">
@@ -112,14 +90,13 @@
                 <button id="descargar-examen-pdf" onclick="descargarExamenPDF()">Descargar Examen</button>
             </div>
         </div>
-        
+
        
-            <h2>Alumnos</h2>
-           
-        
+        <h2>Alumnos</h2>
         <ul id="alumnos-list"></ul>
         <button id="volver" class="hidden" onclick="window.location.href='listaExamenes'">Volver</button>
     </div>
+
     <!-- Modal Confirmación -->
     <div id="confirmacion-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
         <div style="background-color:#fff; margin:10% auto; padding:20px; width:50%;">
@@ -129,6 +106,7 @@
             <button onclick="cerrarConfirmacionModal()">No</button>
         </div>
     </div>
+
     <script>
         let alumnosData = [];
 
@@ -152,19 +130,38 @@
             detallesExamen.innerHTML = detallesTexto;
 
             alumnosData = data.alumnos;
+            mostrarAlumnos(alumnosData);
+        });
+
+        function mostrarAlumnos(alumnos) {
+            const examenId = sessionStorage.getItem('examenId');
+
             const alumnosList = document.getElementById('alumnos-list');
-            alumnosList.innerHTML = ''; // Clear any existing items
-            alumnosData.forEach(alumno => {
+            alumnosList.innerHTML = ''; // Limpiar lista antes de agregar los elementos
+
+            alumnos.forEach(alumno => {
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `
                             <span>${alumno.alumno.nombre} - Calificación:
                                 <input type="number" value="${alumno.calificacion || 0}" min="0" max="10" step="0.1" data-alumno-id="${alumno.alumno.id}">
                             </span>
-                            <button onclick="descargarRespuestas(${alumno.alumno.id}, '${alumno.alumno.nombre}', ${examenId})" ${alumno.ubicacionRespuestasPDF ? '' : 'disabled'}>Ver Respuestas</button>
+                            <button onclick="descargarRespuestas(${alumno.alumno.id}, '${alumno.alumno.nombre}', ${examenId})"
+                                    ${alumno.ubicacionRespuestasPDF ? '' : 'disabled'}
+                                    style="background-color: ${alumno.ubicacionRespuestasPDF ? '' : 'gray'};">
+                                Ver Respuestas
+                            </button>
                         `;
                 alumnosList.appendChild(listItem);
             });
-        });
+        }
+
+        function filtrarAlumnos() {
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            const alumnosFiltrados = alumnosData.filter(alumno =>
+                alumno.alumno.nombre.toLowerCase().includes(searchInput)
+            );
+            mostrarAlumnos(alumnosFiltrados);
+        }
 
         function abrirConfirmacionModal() {
             document.getElementById('confirmacion-modal').style.display = 'block';
@@ -240,5 +237,6 @@
             }
         }
     </script>
+    <script src="/js/script.js"></script>
 </body>
 </html>
