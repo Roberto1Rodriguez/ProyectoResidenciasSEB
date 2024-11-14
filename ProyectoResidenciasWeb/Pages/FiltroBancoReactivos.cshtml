@@ -178,7 +178,7 @@
         }
 
         function cargarCamposFormativos(nivelEducativo) {
-            fetch(`https://localhost:7162/api/campoformativo`)
+            fetch(`https://residenciassebapi.sistemas19.com/api/campoformativo`)
                 .then(response => response.json())
                 .then(camposFormativos => {
                     const camposFormativosList = document.getElementById('campos-formativos-list');
@@ -200,7 +200,7 @@
         }
 
         function cargarAsignaturas(nivelEducativo) {
-            fetch(`https://localhost:7162/api/asignatura/ByNivel?nivel=${nivelEducativo}`)
+            fetch(`https://residenciassebapi.sistemas19.com/api/asignatura/ByNivel?nivel=${nivelEducativo}`)
                 .then(response => response.json())
                 .then(asignaturas => {
                     const asignaturasList = document.getElementById('asignaturas-list');

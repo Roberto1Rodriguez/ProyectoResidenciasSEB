@@ -84,7 +84,7 @@ namespace ProyectoResidenciasApi.Controllers
                 if (file == null || file.Length == 0)
                     return BadRequest("No se ha subido un archivo válido.");
 
-                var filePath = Path.Combine(_env.WebRootPath, "examenes", file.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "examenes", file.FileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {

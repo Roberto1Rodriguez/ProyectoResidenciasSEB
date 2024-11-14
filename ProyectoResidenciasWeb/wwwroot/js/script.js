@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        fetch('https://localhost:7162/api/login/cambiarcontrasena', {
+        fetch('https://residenciassebapi.sistemas19.com/api/login/cambiarcontrasena', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

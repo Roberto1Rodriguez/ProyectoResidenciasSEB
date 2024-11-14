@@ -188,7 +188,7 @@
                     document.getElementById('nombre-perfil').textContent = nombrePerfil;
                 }
 
-                const response = await fetch('https://localhost:7162/api/Docente/docentes');
+                const response = await fetch('https://residenciassebapi.sistemas19.com/api/Docente/docentes');
                 const data = await response.json();
                 const docentesList = document.getElementById('docentes-list');
 
@@ -232,7 +232,7 @@
 
         async function cargarExamenes(docenteId, container) {
             try {
-                const response = await fetch(`https://localhost:7162/api/Examen/examenesPorDocente/${docenteId}`);
+                const response = await fetch(`https://residenciassebapi.sistemas19.com/api/Examen/examenesPorDocente/${docenteId}`);
                 const examenes = await response.json();
                 container.innerHTML = ''; // Limpiar lista de exámenes previos
 
@@ -257,7 +257,7 @@
         }
 
         function descargarExamen(examenId) {
-            window.location.href = `https://localhost:7162/api/Examen/DescargarExamen?examenId=${examenId}`;
+            window.location.href = `https://residenciassebapi.sistemas19.com/api/Examen/DescargarExamen?examenId=${examenId}`;
         }
     </script>
 

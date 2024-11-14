@@ -257,7 +257,7 @@
 
         async function cargarDatos() {
             const nivelesEducativos = ['Primaria', 'Secundaria'];
-            const camposFormativos = await fetch('https://localhost:7162/api/campoFormativo').then(response => response.json());
+            const camposFormativos = await fetch('https://residenciassebapi.sistemas19.com/api/campoFormativo').then(response => response.json());
             const nivelEducativoSelect = document.getElementById('nivel-educativo');
             const nivelEducativoLecturaSelect = document.getElementById('nivel-educativo-lectura');
             nivelesEducativos.forEach(nivel => {
@@ -293,7 +293,7 @@
             asignaturaSelect.innerHTML = '<option value="" disabled selected>Seleccione Asignatura</option>';
 
             if (nivelEducativo) {
-                const asignaturas = await fetch(`https://localhost:7162/api/asignatura/ByNivel?nivel=${nivelEducativo}`).then(response => response.json());
+                const asignaturas = await fetch(`https://residenciassebapi.sistemas19.com/api/asignatura/ByNivel?nivel=${nivelEducativo}`).then(response => response.json());
                 asignaturas.forEach(asignatura => {
                     const option = document.createElement('option');
                     option.value = asignatura.id;
@@ -313,7 +313,7 @@
                 return;
             }
             try {
-                const response = await fetch(`https://localhost:7162/api/Lectura/LecturasByAll?campoFormativoId=${campoFormativoId}&asignaturaId=${asignaturaId}&nivelEducativo=${nivelEducativo}`);
+                const response = await fetch(`https://residenciassebapi.sistemas19.com/api/Lectura/LecturasByAll?campoFormativoId=${campoFormativoId}&asignaturaId=${asignaturaId}&nivelEducativo=${nivelEducativo}`);
                 const lecturas = await response.json();
                 lecturas.forEach(lectura => {
                     const option = document.createElement('option');
@@ -404,7 +404,7 @@
                 AsignaturaId: asignaturaId
             };
             try {
-                const response = await fetch('https://localhost:7162/api/Lectura/CrearLectura', {
+                const response = await fetch('https://residenciassebapi.sistemas19.com/api/Lectura/CrearLectura', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -425,7 +425,7 @@
             const asignaturaSelect = document.getElementById('asignatura-lectura');
             asignaturaSelect.innerHTML = '<option value="" disabled selected>Seleccione la Asignatura</option>';
             try {
-                const response = await fetch(`https://localhost:7162/api/asignatura/ByNivel?nivel=${nivelEducativo}`);
+                const response = await fetch(`https://residenciassebapi.sistemas19.com/api/asignatura/ByNivel?nivel=${nivelEducativo}`);
                 const asignaturas = await response.json();
                 asignaturas.forEach(asignatura => {
                     const option = document.createElement('option');
@@ -442,7 +442,7 @@
             const asignaturaSelect = document.getElementById('asignatura');
             asignaturaSelect.innerHTML = '<option value="" disabled selected>Seleccione Asignatura</option>';
             if (nivelEducativo) {
-                const asignaturas = await fetch(`https://localhost:7162/api/asignatura/ByNivel?nivel=${nivelEducativo}`).then(response => response.json());
+                const asignaturas = await fetch(`https://residenciassebapi.sistemas19.com/api/asignatura/ByNivel?nivel=${nivelEducativo}`).then(response => response.json());
                 asignaturas.forEach(asignatura => {
                     const option = document.createElement('option');
                     option.value = asignatura.id;
@@ -527,7 +527,7 @@
                 let nuevaPregunta;
                 if (preguntaId) {
                     pregunta.Id = preguntaId;
-                    const response = await fetch(`https://localhost:7162/api/PreguntaRespuesta/Preguntas/${preguntaId}`, {
+                    const response = await fetch(`https://residenciassebapi.sistemas19.com/api/PreguntaRespuesta/Preguntas/${preguntaId}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -536,7 +536,7 @@
                     });
                     nuevaPregunta = await response.json();
                 } else {
-                    const response = await fetch('https://localhost:7162/api/PreguntaRespuesta/CrearPregunta', {
+                    const response = await fetch('https://residenciassebapi.sistemas19.com/api/PreguntaRespuesta/CrearPregunta', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -548,9 +548,9 @@
 
                 if (tipoPregunta === 'Opción Múltiple' || tipoPregunta === 'Multireactiva' || tipoPregunta === 'Falso-Verdadera') {
                     const opciones = tipoPregunta === 'Falso-Verdadera' ? ['Verdadero', 'Falso'] : ['A', 'B', 'C', 'D'];
-                    const respuestasExistentes = await fetch(`https://localhost:7162/api/PreguntaRespuesta/RespuestasPorPregunta/${nuevaPregunta.id}`).then(response => response.json());
+                    const respuestasExistentes = await fetch(`https://residenciassebapi.sistemas19.com/api/PreguntaRespuesta/RespuestasPorPregunta/${nuevaPregunta.id}`).then(response => response.json());
                     for (const respuesta of respuestasExistentes) {
-                        await fetch(`https://localhost:7162/api/PreguntaRespuesta/Respuestas/${respuesta.id}`, {
+                        await fetch(`https://residenciassebapi.sistemas19.com/api/PreguntaRespuesta/Respuestas/${respuesta.id}`, {
                             method: 'DELETE'
                         });
                     }
@@ -569,7 +569,7 @@
                             Correcta: esCorrecta
                         };
 
-                        await fetch('https://localhost:7162/api/PreguntaRespuesta/CrearRespuesta', {
+                        await fetch('https://residenciassebapi.sistemas19.com/api/PreguntaRespuesta/CrearRespuesta', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -594,12 +594,12 @@
             let tipoSeleccionadoTexto = "";
 
             if (campoFormativoId) {
-                endpoint = `https://localhost:7162/api/PreguntaRespuesta/PreguntasPorCampoFormativo?campoFormativoId=${campoFormativoId}&nivelEducativo=${nivelEducativo}`;
-                const campoFormativo = await fetch(`https://localhost:7162/api/campoFormativo/${campoFormativoId}`).then(response => response.json());
+                endpoint = `https://residenciassebapi.sistemas19.com/api/PreguntaRespuesta/PreguntasPorCampoFormativo?campoFormativoId=${campoFormativoId}&nivelEducativo=${nivelEducativo}`;
+                const campoFormativo = await fetch(`https://residenciassebapi.sistemas19.com/api/campoFormativo/${campoFormativoId}`).then(response => response.json());
                 tipoSeleccionadoTexto = `Campo Formativo - ${campoFormativo.nombre}`;
             } else if (asignaturaId) {
-                endpoint = `https://localhost:7162/api/PreguntaRespuesta/PreguntasPorAsignatura?asignaturaId=${asignaturaId}&nivelEducativo=${nivelEducativo}`;
-                const asignatura = await fetch(`https://localhost:7162/api/asignatura/${asignaturaId}`).then(response => response.json());
+                endpoint = `https://residenciassebapi.sistemas19.com/api/PreguntaRespuesta/PreguntasPorAsignatura?asignaturaId=${asignaturaId}&nivelEducativo=${nivelEducativo}`;
+                const asignatura = await fetch(`https://residenciassebapi.sistemas19.com/api/asignatura/${asignaturaId}`).then(response => response.json());
                 tipoSeleccionadoTexto = `Asignatura - ${asignatura.nombre}`;
             }
 
@@ -625,7 +625,7 @@
 
                 const lecturaPromises = preguntasFiltradas.map(pregunta => {
                     if (!lecturasMap.has(pregunta.lecturaId)) {
-                        return fetch(`https://localhost:7162/api/Lectura/${pregunta.lecturaId}`)
+                        return fetch(`https://residenciassebapi.sistemas19.com/api/Lectura/${pregunta.lecturaId}`)
                             .then(response => response.json())
                             .then(lectura => {
                                 lecturasMap.set(pregunta.lecturaId, {
@@ -678,7 +678,7 @@
                                     }).join('<br>');
                                     respuestasDiv.innerHTML = opcionesRespuesta;
                                 } else {
-                                    fetch(`https://localhost:7162/api/PreguntaRespuesta/RespuestasPorPregunta/${pregunta.id}`)
+                                    fetch(`https://residenciassebapi.sistemas19.com/api/PreguntaRespuesta/RespuestasPorPregunta/${pregunta.id}`)
                                         .then(respuestaResponse => respuestaResponse.json())
                                         .then(respuestas => {
                                             pregunta.respuestas = respuestas;
@@ -736,7 +736,7 @@
                             }).join('<br>');
                             respuestasDiv.innerHTML = opcionesRespuesta;
                         } else {
-                            fetch(`https://localhost:7162/api/PreguntaRespuesta/RespuestasPorPregunta/${pregunta.id}`)
+                            fetch(`https://residenciassebapi.sistemas19.com/api/PreguntaRespuesta/RespuestasPorPregunta/${pregunta.id}`)
                                 .then(respuestaResponse => respuestaResponse.json())
                                 .then(respuestas => {
                                     pregunta.respuestas = respuestas;
@@ -769,7 +769,7 @@
         async function eliminarPregunta(preguntaId) {
             if (confirm('¿Está seguro de que desea eliminar esta pregunta?')) {
                 try {
-                    await fetch(`https://localhost:7162/api/PreguntaRespuesta/Preguntas/${preguntaId}`, {
+                    await fetch(`https://residenciassebapi.sistemas19.com/api/PreguntaRespuesta/Preguntas/${preguntaId}`, {
                         method: 'DELETE'
                     });
                     cargarPreguntas();
@@ -854,7 +854,7 @@
 
             const lecturaPromises = preguntasSeleccionadas.map(pregunta => {
                 if (pregunta.tipoPregunta === 'Multireactiva' && !lecturasMap.has(pregunta.lecturaId)) {
-                    return fetch(`https://localhost:7162/api/Lectura/${pregunta.lecturaId}`)
+                    return fetch(`https://residenciassebapi.sistemas19.com/api/Lectura/${pregunta.lecturaId}`)
                         .then(response => response.json())
                         .then(lectura => {
                             lecturasMap.set(pregunta.lecturaId, lectura);
@@ -984,7 +984,7 @@
             formData.append('fecha', fechaActual);
             preguntaIds.forEach(id => formData.append('PreguntaIds', id));
 
-            fetch('https://localhost:7162/api/Examen/GenerarExamen', {
+            fetch('https://residenciassebapi.sistemas19.com/api/Examen/GenerarExamen', {
                 method: 'POST',
                 body: formData
             }).then(response => {

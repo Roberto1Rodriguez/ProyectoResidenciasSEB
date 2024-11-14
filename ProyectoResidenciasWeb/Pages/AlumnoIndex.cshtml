@@ -129,7 +129,7 @@
                 document.getElementById('grado-alumno').textContent = gradoAlumno;
                 document.getElementById('seccion-alumno').textContent = seccionAlumno;
 
-                const response = await fetch(`https://localhost:7162/api/Alumno/alumno/${usuarioId}`);
+                const response = await fetch(`https://residenciassebapi.sistemas19.com/api/Alumno/alumno/${usuarioId}`);
                 const data = await response.json();
 
                 const examenesList = document.getElementById('examenes-list');

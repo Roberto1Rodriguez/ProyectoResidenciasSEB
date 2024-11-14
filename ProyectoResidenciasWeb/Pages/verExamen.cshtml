@@ -112,7 +112,7 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             const examenId = sessionStorage.getItem('examenId');
-            const response = await fetch(`https://localhost:7162/api/Examen/examen/${examenId}`);
+            const response = await fetch(`https://residenciassebapi.sistemas19.com/api/Examen/examen/${examenId}`);
             const data = await response.json();
 
             const detallesExamen = document.getElementById('detalles-examen');
@@ -179,7 +179,7 @@
                 const alumnoId = input.getAttribute('data-alumno-id');
                 const calificacion = parseFloat(input.value) || 0;
 
-                await fetch('https://localhost:7162/api/Examen/calificar', {
+                await fetch('https://residenciassebapi.sistemas19.com/api/Examen/calificar', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -193,7 +193,7 @@
         }
 
         async function descargarRespuestas(alumnoId, nombreAlumno, examenId) {
-            const url = `https://localhost:7162/api/Examen/DescargarRespuestas?examenId=${examenId}&alumnoId=${alumnoId}`;
+            const url = `https://residenciassebapi.sistemas19.com/api/Examen/DescargarRespuestas?examenId=${examenId}&alumnoId=${alumnoId}`;
 
             try {
                 const response = await fetch(url);
@@ -216,7 +216,7 @@
 
         async function descargarExamenPDF() {
             const examenId = sessionStorage.getItem('examenId');
-            const url = `https://localhost:7162/api/Examen/DescargarExamen?examenId=${examenId}`;
+            const url = `https://residenciassebapi.sistemas19.com/api/Examen/DescargarExamen?examenId=${examenId}`;
 
             try {
                 const response = await fetch(url);

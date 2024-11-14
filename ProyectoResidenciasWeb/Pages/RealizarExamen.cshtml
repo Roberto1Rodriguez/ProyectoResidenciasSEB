@@ -147,7 +147,7 @@
                 document.getElementById('seccion-alumno').textContent = seccionAlumno;
 
                 const examenId = sessionStorage.getItem('examenId');
-                const response = await fetch(`https://localhost:7162/api/Alumno/alumno/${usuarioId}`);
+            const response = await fetch(`https://residenciassebapi.sistemas19.com/api/Alumno/alumno/${usuarioId}`);
                 const data = await response.json();
                 const preguntas = data.preguntas;
                 construirInterfazPreguntas(preguntas);
@@ -157,7 +157,7 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             const examenId = sessionStorage.getItem('examenId');
-            const response = await fetch(`https://localhost:7162/api/Examen/ExamenPreguntas/${examenId}`);
+            const response = await fetch(`https://residenciassebapi.sistemas19.com/api/Examen/ExamenPreguntas/${examenId}`);
             const data = await response.json();
             const preguntas = data.preguntas;
             construirInterfazPreguntas(preguntas);
@@ -191,7 +191,7 @@
             lecturaMap.forEach((_, lecturaId) => {
                 if (lecturaId !== null) {
                     lecturaPromises.push(
-                        fetch(`https://localhost:7162/api/Lectura/${lecturaId}`)
+                        fetch(`https://residenciassebapi.sistemas19.com/api/Lectura/${lecturaId}`)
                             .then(response => response.json())
                             .then(lectura => ({ lecturaId, lectura }))
                     );
@@ -318,7 +318,7 @@
             pdfFormData.append('alumnoId', alumnoId);
 
             try {
-                const response = await fetch('https://localhost:7162/api/Examen/EnviarRespuestas', {
+                const response = await fetch('https://residenciassebapi.sistemas19.com/api/Examen/EnviarRespuestas', {
                     method: 'POST',
                     body: pdfFormData
                 });

@@ -5,7 +5,7 @@ async function restablecerContrasena(email) {
             email: email
         };
 
-        var response = await fetch("https://localhost:7162/api/login/restablecer", {
+        var response = await fetch("https://residenciassebapi.sistemas19.com/api/login/restablecer", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

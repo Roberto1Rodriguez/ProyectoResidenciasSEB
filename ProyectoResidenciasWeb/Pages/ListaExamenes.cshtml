@@ -97,7 +97,7 @@
                     document.getElementById('nombre-perfil').textContent = nombrePerfil;
                 }
             const docenteId = sessionStorage.getItem('docenteId');
-            const response = await fetch(`https://localhost:7162/api/Examen/examenesPorDocente/${docenteId}`);
+            const response = await fetch(`https://residenciassebapi.sistemas19.com/api/Examen/examenesPorDocente/${docenteId}`);
             const examenes = await response.json();
 
             // Guarda los exámenes originales para filtrar después

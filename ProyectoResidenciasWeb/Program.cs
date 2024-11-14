@@ -9,7 +9,7 @@ var app = builder.Build();
 // Configurar CORS.
 app.UseCors(options =>
 {
-    options.WithOrigins("https://localhost:7162", "https://localhost:7259")
+   options.WithOrigins("https://localhost:7162", "https://localhost:7259","https://residenciassebapi.sistemas19.com")
            .AllowAnyMethod()
            .AllowAnyHeader();
 });

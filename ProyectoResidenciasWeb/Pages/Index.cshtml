@@ -308,7 +308,7 @@
             sessionStorage.setItem('nivelEducativo', nivelEducativo);
 
             // Realizar una solicitud GET para obtener los campos formativos correspondientes al nivel educativo
-            fetch(`https://localhost:7162/api/campoformativo`)
+            fetch(`https://residenciassebapi.sistemas19.com/api/campoformativo`)
                 .then(response => response.json())
                 .then(camposFormativos => {
                     const camposFormativosList = document.getElementById('campos-formativos-list');
@@ -331,7 +331,7 @@
                 });
 
             // Realizar una solicitud GET para obtener las asignaturas correspondientes al nivel educativo
-            fetch(`https://localhost:7162/api/asignatura/ByNivel?nivel=${nivelEducativo}`)
+            fetch(`https://residenciassebapi.sistemas19.com/api/asignatura/ByNivel?nivel=${nivelEducativo}`)
                 .then(response => response.json())
                 .then(asignaturas => {
                     const asignaturasList = document.getElementById('asignaturas-list');
